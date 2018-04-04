@@ -147,7 +147,7 @@ angular.module('mwFormBuilder').directive('mwQuestionOfferedAnswerListBuilder', 
                   reader.readAsText(files[0]);
                   setTimeout(function () {
                     ctrl.processData(reader.result);
-                  }, 0);               
+                  }, 100);               
                }                        
             });
         }

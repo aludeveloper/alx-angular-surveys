@@ -1,0 +1,24 @@
+<div class="mw-form-paragraph-builder-wrapper">
+	<div class="mw-form-paragraph-builder" ng-class="{'ng-submitted':ctrl.formSubmitted}">
+		<div class="paragraph-editor" ng-form="ctrl.form" ng-if="!ctrl.isPreview">
+			<md-input-container class="md-block">
+				<mw-label label-for="conditional-paragraph-true-textarea-{{ctrl.id}}" label-key="mwForm.conditionalParagraphTrue.placeholder"></mw-label>
+				<textarea  msd-elastic class="form-control mw-form-paragraph-textarea" ng-model="ctrl.conditionalParagraphTrue.html" required ng-attr-id="conditional-paragraph-true-textarea-{{ctrl.id}}" ng-readonly="ctrl.readOnly"></textarea>
+			</md-input-container>
+			<md-input-container class="md-block">
+				<mw-label label-for="conditional-paragraph-false-textarea-{{ctrl.id}}" label-key="mwForm.conditionalParagraphFalse.placeholder"></mw-label>
+				<textarea  msd-elastic class="form-control mw-form-paragraph-textarea" ng-model="ctrl.conditionalParagraphFalse.html" required ng-attr-id="conditional-paragraph-false-textarea-{{ctrl.id}}" ng-readonly="ctrl.readOnly"></textarea>
+			</md-input-container>
+			<div layout="row">
+				<br/>
+				<md-button class="md-primary md-raised" type="button" role="button" ng-click="ctrl.save()" translate="mwForm.buttons.questionReady">
+					Ready
+				</md-button>
+			</div>
+		</div>
+		<div class="mw-preview" ng-if="ctrl.isPreview">
+			<p ng-bind-html="ctrl.paragraph.html"></p>
+		</div>
+	</div>
+
+</div>

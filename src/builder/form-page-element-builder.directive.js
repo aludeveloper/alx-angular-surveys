@@ -46,6 +46,13 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
                             html: ''
                         };
                     }
+                }else if(ctrl.pageElement.type=='conditionalParagraph'){
+                    if(!ctrl.pageElement.conditionalParagraph){
+                        ctrl.pageElement.conditionalParagraph={
+                            id: mwFormUuid.get(),
+                            html: ''
+                        };
+                    }
                 }
             };
 

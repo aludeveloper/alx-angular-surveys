@@ -43,7 +43,8 @@
         "elements":{
             "question":"Question",
             "image":"Image",
-            "paragraph": "Paragraph"
+            "paragraph": "Paragraph",
+            "conditionalParagraph":"Conditional Paragraph"
         },
         "question":{
             "types":{
@@ -155,6 +156,12 @@
         },
         "paragraph":{
             "placeholder": "Enter paragraph text"
+        },
+        "conditionalParagraphTrue":{
+            "placeholder": "Enter paragraph text for true condition"
+        },
+        "conditionalParagraphFalse":{
+            "placeholder": "Enter paragraph text for false condition"
         },
         "confirmationPage":{
             "title": "Confirmation page",

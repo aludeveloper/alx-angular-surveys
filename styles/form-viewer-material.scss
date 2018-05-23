@@ -38,6 +38,7 @@
     position: relative;
     display: inline-block;
 }
+
 .decorated > span:before, .decorated > span:after {
     content: '';
     position: absolute;
@@ -47,24 +48,74 @@
     margin: 0 5px;
 }
 .decorated > span:before { 
-    right: 100%;
+  right: 100%;
 }
+
 .decorated > span:after {
     left: 100%;
 }
 
-@media only screen and (max-width: 960px){ 
-	.btn-next, .btn-next:hover {
-	    color: #fff !important;
-	    background-color: #af272a !important;
-	    padding: 0px;
-	    /* height: 8px; */
-	    min-height: 30px;
-	    min-width: 130px;
-	    border-radius: 7px;
-	    text-transform: capitalize;
-	    border-color: #af272a;
-	    font-style: italic;
-	    margin-top: 30px;
-	}
+.btn-next, .btn-next:hover {
+  color: #284f5f !important;
+  background-color: transparent !important;
+  min-height: 25px;
+  min-width: 110px;
+  border-radius: 7px;
+  font-style: italic;
+  border: 2px solid #284f5f;
+  font-weight: 600;
+  text-transform: initial;
+  margin-top: 30px;
+}
+
+md-input-container .md-placeholder, md-input-container label, md-input-container.md-default-theme .md-placeholder, md-input-container.md-default-theme label {
+  color: #e5e0e1!important;
+  font-size: 11px!important;
+  font-style: italic!important;
+  font-family: Open sans;
+  font-weight: initial;
+  letter-spacing: 0.5px;
+}
+
+md-input-container .md-input {
+  font-size: 12px;
+}
+
+.input-radio-label {
+  color: #e5e0e1;
+  font-size: 11px;
+  font-style: italic;
+  font-family: Open sans;
+  font-weight: initial;
+  letter-spacing: .5px;
+  padding-bottom: 10px;
+  display: block;
+}
+
+md-input-container {
+  margin: 0px;
+}
+
+md-radio-button .md-off, md-radio-button .md-on {
+  width: 13px;
+  height: 13px;
+  margin-top: 3px;
+}
+
+md-radio-button.md-default-theme .md-on, md-radio-button .md-on {
+    background-color: rgba(40, 79, 95, 0.87);
+}
+
+md-radio-button.md-default-theme.md-checked .md-off, md-radio-button.md-checked .md-off {
+    border-color: rgba(40, 79, 95, 0.87);
+}
+
+md-radio-button .md-label { 
+  color: #e5e0e1;
+  font-size: 12px;
+  font-style: italic;
+  font-family: Open sans;
+  font-weight: initial;
+  letter-spacing: .5px;
+  display: block;
 }

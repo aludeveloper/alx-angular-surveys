@@ -13,7 +13,7 @@
                 <textarea msd-elastic class="form-control" ng-model="ctrl.questionResponse.answer" placeholder="{{ctrl.question.text}}" ng-required="ctrl.question.required" ng-readonly="ctrl.readOnly"></textarea>
             </md-input-container>
         </div>
-        <div ng-switch-when="radio" style="margin-bottom: 20px; margin-top: 10px">
+        <div ng-switch-when="radio">
             <label class="input-radio-label">{{ctrl.question.text}} <span ng-if="ctrl.question.required">*</span></label>
             <md-radio-group md-no-ink ng-model="ctrl.questionResponse.selectedAnswer" ng-required="ctrl.question.required &&!ctrl.isOtherAnswer" ng-disabled="ctrl.readOnly" ng-change="ctrl.selectedAnswerChanged()" layout="row">
                 <md-radio-button   ng-repeat="answer in ctrl.question.offeredAnswers" aria-label="{{ answer.value }}"  ng-value="answer.id" name="answer-for-question-{{ctrl.question.id}}" ng-readonly="ctrl.readOnly">

@@ -8,7 +8,6 @@
 
             <md-button type="button"  ng-if="!ctrl.currentPage && !ctrl.formSubmitted" class="md-raised begin-response-button" ng-click="ctrl.beginResponse()" translate="mwForm.buttons.begin">Rozpocznij</md-button>
         </div>
-
         <div class="mw-form-page" ng-if="ctrl.currentPage">
             <h2 class="mw-page-title" ng-if="ctrl.currentPage.namedPage && ctrl.currentPage.name">{{ctrl.currentPage.name}}</h2>
             <div class="mw-form-page-element-list">
@@ -23,7 +22,14 @@
                     <div ng-switch-when="paragraph">
                         <p ng-bind-html="::ctrl.print(pageElement.paragraph.html)"></p>
                     </div>
-
+                    <div ng-switch-when="paragraphcondition">  <select ng-model="selected" ng-init="selected=''" label-for="selecteditem-textarea-{{ctrl.id}}" ng-attr-id="selecteditem-textarea-{{ctrl.id}}">
+            <option value="SFfiled1">SFfiled1</option>
+            <option value="SFfiled2">SFfiled2</option>
+        </select>   <div ng-disabled>
+                        <p ng-if="(selected==pageElement.selecteditem.value) && (selected!='')" ng-bind-html="::ctrl.print(pageElement.paragraphcondition.html)"></p>
+                        <p ng-if="(selected!=pageElement.selecteditem.value) && (selected!='')" ng-bind-html="::ctrl.print(pageElement.paragraphconditionfalse.html)">{{selected}}</p>
+                    </div>
+                    </div>
                 </div>
 
             </div>

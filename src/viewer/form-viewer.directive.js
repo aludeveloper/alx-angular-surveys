@@ -29,6 +29,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
             // Put initialization logic inside `$onInit()`
             // to make sure bindings have been initialized.
             ctrl.$onInit = function() {
+                ctrl.currentPage.elements.pra.selecteditem.value
                 ctrl.defaultOptions = {
                     nestedForm: false,
                     autoStart: false,
@@ -170,7 +171,6 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
             };
 
             ctrl.beginResponse=function(){
-
                 if(ctrl.formData.pages.length>0){
                     ctrl.setCurrentPage(ctrl.formData.pages[0]);
                     $rootScope.$broadcast("mwForm.pageEvents.pageCurrentChanged",{currentPage:ctrl.currentPage});

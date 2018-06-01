@@ -24,9 +24,11 @@
 }
 
 .task-description {
-    font-size: 10px;
-    font-weight: 600;
+    color: #00264e;
+    font-size: 24px;
+    font-weight: 800;
     letter-spacing: 0.5px;
+    font-family: "Montserrat";
 }
 
 .decorated {
@@ -56,20 +58,23 @@
 }
 
 .btn-next, .btn-next:hover {
-  color: #284f5f ! important;
-  background-color: transparent !important;
-  min-height: 30px;
-  min-width: 100px;
-  border-radius: 10px;
-  font-style: italic;
-  border: 2px solid #284f5f;
-  font-weight: 600;
-  text-transform: initial;
-  margin-top: 30px;
+    background-color: transparent !important;
+    color: #00264e !important; 
+    font-style: italic; 
+    font-size: 12px; 
+    font-family: Open sans;
+    font-weight: 800;
+    border-radius: 8px;
+    border: 2px solid #00264e;
+    min-height: 33px;
+    min-width: 80px;
+    text-transform: initial;
+    line-height: 30px;
+    margin-top: 20px;
 }
 
 md-input-container .md-placeholder, md-input-container label, md-input-container.md-default-theme .md-placeholder, md-input-container.md-default-theme label {
-  color: #bcbcbc;
+  color: #9e9e9c;
   font-size: 11px;
   font-style: italic;
   font-family: Open Sans;
@@ -82,7 +87,7 @@ md-input-container .md-input {
 }
 
 .input-radio-label {
-  color: #bcbcbc;
+  color: #9e9e9c;
   font-size: 11px;
   font-style: italic;
   font-family: Open Sans;
@@ -111,7 +116,7 @@ md-radio-button.md-default-theme.md-checked .md-off, md-radio-button.md-checked 
 }
 
 md-radio-button .md-label { 
-  color: #bcbcbc;
+  color: #9e9e9c;
   font-size: 12px;
   font-style: italic;
   font-family: Open Sans;
@@ -121,7 +126,7 @@ md-radio-button .md-label {
 }
 
 md-select.md-default-theme.ng-invalid.ng-touched .md-select-value, md-select.ng-invalid.ng-touched .md-select-value {
-  color: #bcbcbc;
+  color: #9e9e9c;
   font-size: 11px;
   font-style: italic;
   font-family: Open Sans;
@@ -130,7 +135,7 @@ md-select.md-default-theme.ng-invalid.ng-touched .md-select-value, md-select.ng-
 }
 
 .md-select-value>span:not(.md-select-icon) {
-  color: #bcbcbc;
+  color: #9e9e9c;
   font-size: 11px;
   font-style: italic;
   font-family: Open Sans;
@@ -145,4 +150,20 @@ md-select.md-default-theme.ng-invalid.ng-touched .md-select-value, md-select.ng-
 }
 .form-padding {
   padding-left:70px;
+}
+
+.paragraph-text {
+  color: #9e9e9c;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  font-family: "Montserrat";
+}
+
+.page-description {
+  color: #00264e;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  font-family: "Montserrat";
 }

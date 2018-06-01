@@ -1,16 +1,14 @@
 <div class="mw-form-viewer-content">
         <!-- <h1 class="decorated form-title"><span class="task-title">{{ctrl.formData.name}}</span></h1> -->
-        <div class="mw-title-page" ng-if="!ctrl.currentPage && !ctrl.formSubmitted">
-
+        <div class="mw-title-page">
             <div class="mw-form-description task-description">
                 {{ctrl.formData.description}}
             </div>
-
-            <md-button type="button" class="md-raised begin-response-button" ng-click="ctrl.beginResponse()" translate="mwForm.buttons.begin">Rozpocznij</md-button>
+            <md-button ng-if="!ctrl.currentPage && !ctrl.formSubmitted" type="button" class="md-raised begin-response-button" ng-click="ctrl.beginResponse()" translate="mwForm.buttons.begin">Rozpocznij</md-button>
         </div>
 
         <div class="mw-form-page" ng-if="ctrl.currentPage">
-            <h2 class="mw-page-title" ng-if="ctrl.currentPage.namedPage && ctrl.currentPage.name">{{ctrl.currentPage.name}}</h2>
+            <h2 class="mw-page-title page-description" ng-if="ctrl.currentPage.namedPage && ctrl.currentPage.name">{{ctrl.currentPage.name}}</h2>
             <div class="mw-form-page-element-list" >
                 <div class="mw-page-element" ng-repeat="pageElement in ctrl.currentPage.elements" ng-switch="pageElement.type">
                     <div flex="100" flex-gt-sm="70">
@@ -24,8 +22,8 @@
                             <figcaption ng-if="pageElement.image.caption">{{pageElement.image.caption}}</figcaption>
                         </figure>
                     </div>
-                    <div ng-switch-when="paragraph">
-                        <p ng-bind-html="::ctrl.print(pageElement.paragraph.html)"></p>
+                    <div ng-switch-when="paragraph" flex="100" flex-gt-sm="85">
+                        <p class="paragraph-text" ng-bind-html="::ctrl.print(pageElement.paragraph.html)"></p>
                     </div>
 
                 </div>

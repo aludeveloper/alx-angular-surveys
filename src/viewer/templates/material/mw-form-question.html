@@ -1,4 +1,4 @@
-<div class="mw-form-question">
+<div class="mw-form-question form-padding">
     <!-- <div class="mw-question-text">
         {{::ctrl.print(ctrl.question.text)}} <span ng-if="ctrl.question.required">*</span>
     </div> -->
@@ -56,7 +56,7 @@
             <input type="hidden" ng-model="ctrl.selectedAnswer" ng-required="ctrl.question.required &&!ctrl.isOtherAnswer"/>
         </div>
         <div ng-switch-when="select">
-            <md-input-container >
+            <md-input-container flex="100">
                 <md-select ng-disabled="ctrl.readOnly"  placeholder="{{ctrl.question.text}}" ng-required="ctrl.question.required" ng-model="ctrl.questionResponse.selectedAnswer">
                     <md-option ng-repeat="answer in ctrl.question.offeredAnswers" ng-value="answer.id">
                         {{::ctrl.print(answer.value)}}

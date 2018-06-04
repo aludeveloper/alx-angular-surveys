@@ -57,6 +57,7 @@
     left: 100%;
 }
 
+
 .btn-next, .btn-next:hover {
     background-color: transparent !important;
     color: #00264e !important; 
@@ -73,6 +74,18 @@
     margin-top: 20px;
 }
 
+
+
+md-input-container .md-input {
+  font-size: 12px;
+}
+
+md-input-container {
+  margin: 0px;
+}
+
+/* md - input default color with value */
+
 md-input-container .md-placeholder, md-input-container label, md-input-container.md-default-theme .md-placeholder, md-input-container.md-default-theme label {
   color: #9e9e9c;
   font-size: 11px;
@@ -82,12 +95,14 @@ md-input-container .md-placeholder, md-input-container label, md-input-container
   letter-spacing: 0.5px;
 }
 
-md-input-container .md-input {
-  font-size: 12px;
+md-input-container.md-default-theme:not(.md-input-invalid).md-input-has-value label, md-input-container:not(.md-input-invalid).md-input-has-value label {
+    color: #9e9e9c;
+    font-size: 12px;
 }
 
+/* md - radio button css */
 .input-radio-label {
-  color: #9e9e9c;
+  color: #00264e;
   font-size: 11px;
   font-style: italic;
   font-family: Open Sans;
@@ -95,10 +110,6 @@ md-input-container .md-input {
   letter-spacing: .5px;
   padding-bottom: 10px;
   display: block;
-}
-
-md-input-container {
-  margin: 0px;
 }
 
 md-radio-button .md-off, md-radio-button .md-on {
@@ -125,6 +136,7 @@ md-radio-button .md-label {
   display: block;
 }
 
+/* md -select css  */
 md-select.md-default-theme.ng-invalid.ng-touched .md-select-value, md-select.ng-invalid.ng-touched .md-select-value {
   color: #9e9e9c;
   font-size: 11px;
@@ -166,4 +178,33 @@ md-select.md-default-theme.ng-invalid.ng-touched .md-select-value, md-select.ng-
   font-weight: 800;
   letter-spacing: 0.5px;
   font-family: "Montserrat";
+}
+
+/* md - inactive border color  */
+md-input-container:not(.md-input-has-value) input:not(:focus) {
+    color: transparent;
+    Border-bottom: 1px solid #00264e;
+}
+
+/* md - raised or focused deafult border and lable */
+md-input-container:not(.md-input-invalid).md-input-focused .md-input {
+    border-bottom: 1px solid #dbe3e5;
+}
+
+md-input-container:not(.md-input-invalid).md-input-focused label {
+    color: #9e9e9c;
+    font-size: 12px;
+}
+
+/* md - invalid border and lable */
+md-input-container.md-input-focused .md-input, md-input-container.md-input-resized .md-input, md-input-container .md-input.ng-invalid.ng-dirty {
+    border-bottom: 1px solid #ec1c24;
+}
+
+md-input-container.md-default-theme.md-input-invalid .md-char-counter, md-input-container.md-input-invalid .md-char-counter, md-input-container.md-default-theme.md-input-invalid .md-input-message-animation, md-input-container.md-input-invalid .md-input-message-animation, md-input-container.md-default-theme.md-input-invalid label, md-input-container.md-input-invalid label {
+    color: #ec1c24;
+}
+
+md-input-container.md-default-theme.md-input-invalid .md-input, md-input-container.md-input-invalid .md-input {
+    border-color: #ec1c24 !important;
 }

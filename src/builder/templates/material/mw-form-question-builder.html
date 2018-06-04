@@ -43,7 +43,7 @@
                     </div>
                     <div ng-switch-when="textarea">
                         <md-input-container class="md-block">
-                            <textarea class="form-control" maxlength="150" rows="5" disabled>{{'mwForm.question.preview.textarea'|translate}}</textarea>
+                            <textarea class="form-control" maxlength="150" rows="5" maxlength="131072" disabled>{{'mwForm.question.preview.textarea'|translate}}</textarea>
                         </md-input-container>
                     </div>
                     <div ng-switch-when="radio">
@@ -178,7 +178,7 @@
 
                 <div ng-switch-when="textarea">
                     <md-input-container class="md-block">
-                        <textarea class="form-control" type="text" disabled>{{'mwForm.question.preview.textarea'|translate}}</textarea>
+                        <textarea class="form-control" type="text" maxlength="131072" disabled>{{'mwForm.question.preview.textarea'|translate}}</textarea>
                     </md-input-container>
                 </div>
                 <div ng-switch-when="radio">

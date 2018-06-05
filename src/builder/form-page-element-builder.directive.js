@@ -47,7 +47,7 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
                         };
                     }
                 }else if(ctrl.pageElement.type=='paragraphcondition'){
-                    debugger;
+                    // debugger;
                     if(!ctrl.pageElement.paragraphcondition){
                         ctrl.pageElement.paragraphcondition={
                             id: mwFormUuid.get(),

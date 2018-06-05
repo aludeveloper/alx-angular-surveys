@@ -1,18 +1,35 @@
 <div class="mw-form-paragraphcondition-builder-wrapper">
     <div class="mw-form-paragraphcondition-builder" ng-class="{'ng-submitted':ctrl.formSubmitted}">
         <div class="paragraphConditionTrue-editor" ng-form="ctrl.form" ng-if="!ctrl.isPreview">
-            <div class="input-group"> <select ng-model="ctrl.selecteditem.value" ng-init="selected=''" label-for="selecteditem-textarea-{{ctrl.id}}" ng-change="ctrl.test()" ng-attr-id="selecteditem-textarea-{{ctrl.id}}">
-            <option value="SFfiled1">SFfiled1</option>
-            <option value="SFfiled2">SFfiled2</option>
-        </select>{{ctrl.selecteditem.html}} </div>
+            <!-- <div class="input-group"> 
+                <select ng-model="ctrl.selecteditem.value" ng-init="selected=''" label-for="selecteditem-textarea-{{ctrl.id}}" ng-change="ctrl.test()" ng-attr-id="selecteditem-textarea-{{ctrl.id}}">
+                    <option value="SFfiled1">SFfiled1</option>
+                    <option value="SFfiled2">SFfiled2</option>
+                </select>{{ctrl.selecteditem.html}}
+            </div> -->
+
             <md-input-container class="md-block">
                 <mw-label label-for="paragraphConditionTrue-textarea-{{ctrl.id}}" label-key="Enter Text for True Condition"></mw-label>
-                <textarea msd-elastic class="form-control mw-form-paragraphConditionTrue-textarea" ng-change="ctrl.test()" ng-model="ctrl.paragraphcondition.html" required ng-attr-id="paragraphConditionTrue-textarea-{{ctrl.id}}" ng-readonly="ctrl.readOnly"></textarea>
+                <textarea msd-elastic class="form-control mw-form-paragraphConditionTrue-textarea"  ng-model="ctrl.paragraphcondition.html" required ng-attr-id="paragraphConditionTrue-textarea-{{ctrl.id}}" ng-readonly="ctrl.readOnly"></textarea>
             </md-input-container>
             <md-input-container class="md-block">
                 <mw-label label-for="paragraphConditionFalse-textarea-{{ctrl.id}}" label-key="Enter Text for False Condition"></mw-label>
                 <textarea msd-elastic class="form-control mw-form-paragraphConditionFalse-textarea" ng-model="ctrl.paragraphconditionfalse.html" required ng-attr-id="paragraphConditionFalse-textarea-{{ctrl.id}}" ng-readonly="ctrl.readOnly"></textarea>
             </md-input-container>
+
+            <div class="form-group mw-question-type" ng-repeat="select in ctrl.options.customQuestionSelects">
+                <mw-label label-for="question-{{select.key}}-{{ctrl.id}}" label-class="control-label"  label-key="{{select.label}}"></mw-label>
+                <div class="form-inline">
+                    <select 
+                        ng-attr-id="question-{{opt.key}}-{{ctrl.id}}" 
+                        ng-options="opt.label for opt in select.options track by opt.key" 
+                        ng-model="ctrl.question[select.key]"  
+                        class="form-control" 
+                        ng-disabled="ctrl.readOnly" 
+                        ng-required="select.required">
+                    </select>
+                </div>
+            </div>
             <div layout="row">
                 <br/>
                 <md-button class="md-primary md-raised" type="button" role="button" ng-click="ctrl.save()" translate="mwForm.buttons.questionReady">
@@ -21,7 +38,6 @@
             </div>
         </div>
         <div class="mw-preview" ng-if="ctrl.isPreview">
-            <p ng-bind-html="ctrl.selecteditem.value"></p>
             <p ng-bind-html="ctrl.paragraphcondition.html"></p>
             <p ng-bind-html="ctrl.paragraphconditionfalse.html"></p>
         </div>

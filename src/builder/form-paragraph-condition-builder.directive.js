@@ -28,26 +28,26 @@ angular.module('mwFormBuilder').factory("FormParagraphConditionBuilderId", funct
         controller: ["$timeout", "FormParagraphConditionBuilderId", function($timeout,FormParagraphConditionBuilderId){
             var ctrl = this;
             
-            debugger
+            // debugger
             // Put initialization logic inside `$onInit()`
             // to make sure bindings have been initialized.
             ctrl.$onInit = function() {
-                debugger
+                // debugger
                 ctrl.id = FormParagraphConditionBuilderId.next();
                 ctrl.formSubmitted=false;
             };
 
             ctrl.save=function(){
-                debugger;
+                // debugger;
                 ctrl.formSubmitted=true;
-                if(ctrl.form.$valid){
+                // if(ctrl.form.$valid){
                     ctrl.onReady();
-                }
+                // }
             };
 
             ctrl.test=function()
             {
-                debugger
+                // debugger
                 ctrl.selecteditem
                 console.log("--"+ctrl.paragraphcondition.html);
                 console.log("--"+ctrl.paragraphconditionfalse.html);
@@ -63,6 +63,7 @@ angular.module('mwFormBuilder').factory("FormParagraphConditionBuilderId", funct
         }],
         link: function (scope, ele, attrs, formPageElementBuilder){
             var ctrl = scope.ctrl;
+            ctrl.options = formPageElementBuilder.options;
         }
     };
 });

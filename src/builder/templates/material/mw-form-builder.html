@@ -1,22 +1,15 @@
 <div class="mw-form-builder">
     <form name="ctrl.form" role="form" novalidate>
         <div class="mw-title-page">
-
-
             <md-input-container class="md-block">
                 <mw-label label-for="formName" label-key="mwForm.form.name"></mw-label>
                 <input type="text" class="form-control" name="formName" id="formName" ng-model="ctrl.formData.name" ng-readonly="ctrl.readOnly" required>
             </md-input-container>
-
-
             <md-input-container class="md-block">
                 <mw-label label-for="formDescription" label-key="mwForm.form.description"></mw-label>
-                <textarea msd-elastic class="form-control" name="formDescription" ng-model="ctrl.formData.description" id="formDescription" ng-readonly="ctrl.readOnly" maxlength="131072"/>
+                <textarea msd-elastic class="form-control" name="formDescription" ng-model="ctrl.formData.description" id="formDescription" ng-readonly="ctrl.readOnly"/>
             </md-input-container>
-
         </div>
-
-
         <div class="form-page-list">
             <mw-form-page-builder ng-repeat="page in ctrl.formData.pages| mwStartFrom:ctrl.currentPage * ctrl.options.pageSize | limitTo:ctrl.options.pageSize" form-page="page" form-object="ctrl.formData"
                                   is-first="$first" is-last="$last" read-only="ctrl.readOnly"></mw-form-page-builder>
@@ -47,7 +40,6 @@
                         </md-input-container>
                     </div>
                 </div>
-
             </div>
             <div flex>
                     <div layout="row" layout-align="end">
@@ -60,5 +52,4 @@
         </div>
         <mw-form-confirmation-page-builder form-object="ctrl.formData" read-only="ctrl.readOnly"></mw-form-confirmation-page-builder>
     </form>
-
 </div>

@@ -1,9 +1,10 @@
 <div class="mw-form-paragraph-builder-wrapper">
     <div class="mw-form-paragraph-builder" ng-class="{'ng-submitted':ctrl.formSubmitted}">
         <div class="paragraph-editor" ng-form="ctrl.form" ng-if="!ctrl.isPreview">
-            <md-input-container class="md-block">
+            <md-input-container class="md-block" ng-form name="myParagraphText">
                 <mw-label label-for="paragraph-textarea-{{ctrl.id}}" label-key="mwForm.paragraph.placeholder"></mw-label>
-                <textarea  msd-elastic class="form-control mw-form-paragraph-textarea" ng-model="ctrl.paragraph.html" required ng-attr-id="paragraph-textarea-{{ctrl.id}}" ng-readonly="ctrl.readOnly" maxlength="131072"></textarea>
+                <textarea name="errorCheck" msd-elastic class="form-control mw-form-paragraph-textarea" ng-model="ctrl.paragraph.html" required ng-attr-id="paragraph-textarea-{{ctrl.id}}" ng-readonly="ctrl.readOnly" ng-maxlength="131072" maxlength="131073"></textarea>
+                <span style="color:red; font-size:13px;" ng-show= "myParagraphText.errorCheck.$error.maxlength">You have exceeded the maximum entry limit of 131072 characters.</span>
             </md-input-container>
             <div layout="row">
                 <br/>

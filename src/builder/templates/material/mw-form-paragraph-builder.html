@@ -3,7 +3,7 @@
         <div class="paragraph-editor" ng-form="ctrl.form" ng-if="!ctrl.isPreview">
             <md-input-container class="md-block">
                 <mw-label label-for="paragraph-textarea-{{ctrl.id}}" label-key="mwForm.paragraph.placeholder"></mw-label>
-                <textarea  msd-elastic class="form-control mw-form-paragraph-textarea" ng-model="ctrl.paragraph.html" required ng-attr-id="paragraph-textarea-{{ctrl.id}}" ng-readonly="ctrl.readOnly"></textarea>
+                <textarea  msd-elastic class="form-control mw-form-paragraph-textarea" ng-model="ctrl.paragraph.html" required ng-attr-id="paragraph-textarea-{{ctrl.id}}" ng-readonly="ctrl.readOnly" maxlength="131072"></textarea>
             </md-input-container>
             <div layout="row">
                 <br/>

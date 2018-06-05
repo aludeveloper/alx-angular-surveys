@@ -10,7 +10,7 @@
         </div>
         <div ng-switch-when="textarea">
             <md-input-container class="md-block">
-                <textarea msd-elastic class="form-control" ng-model="ctrl.questionResponse.answer" placeholder="{{ctrl.question.text}}" ng-required="ctrl.question.required" ng-readonly="ctrl.readOnly"></textarea>
+                <textarea msd-elastic class="form-control" ng-model="ctrl.questionResponse.answer" placeholder="{{ctrl.question.text}}" ng-required="ctrl.question.required" ng-readonly="ctrl.readOnly" maxlength="131072"></textarea>
             </md-input-container>
         </div>
         <div ng-switch-when="radio">

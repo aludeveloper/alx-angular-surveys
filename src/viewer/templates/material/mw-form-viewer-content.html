@@ -22,15 +22,10 @@
                 <div ng-switch-when="paragraph">
                     <p ng-bind-html="::ctrl.print(pageElement.paragraph.html)"></p>
                 </div>
-                <div ng-switch-when="paragraphcondition">  
-                    <!-- <select ng-model="selected" ng-init="selected=''" label-for="selecteditem-textarea-{{ctrl.id}}" ng-attr-id="selecteditem-textarea-{{ctrl.id}}">
-                        <option value="SFfiled1">SFfiled1</option>
-                        <option value="SFfiled2">SFfiled2</option>
-                    </select>
-                    <div ng-disabled> -->
-
-                    <p ng-if="ctrl.getSfFlagValue()" ng-bind-html="::ctrl.print(pageElement.paragraphcondition.html)"></p>
-                    <p ng-if="!ctrl.getSfFlagValue()" ng-bind-html="::ctrl.print(pageElement.paragraphconditionfalse.html)"></p>
+                <div ng-switch-when="paragraphcondition">
+                    <p ng-if="ctrl.getSfFlagValue() == 'true'" ng-bind-html="::ctrl.print(pageElement.paragraphcondition.html)"></p>
+                    <p ng-if="ctrl.getSfFlagValue() == 'false'" ng-bind-html="::ctrl.print(pageElement.paragraphconditionfalse.html)"></p>
+                    <p ng-if="ctrl.getSfFlagValue() == 'undefined'" ng-bind-html="::ctrl.print(pageElement.paragraphconditionunset.html)"></p>
                 </div>
             </div>
         </div>

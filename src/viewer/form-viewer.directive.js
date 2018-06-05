@@ -87,7 +87,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 
             ctrl.getSfFlagValue = function(){
                 console.log("Geting value");
-                return true;
+                return "undefined";
             }
 
             ctrl.submitForm = function() {
@@ -103,7 +103,6 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
                 }).catch(function(){
                     ctrl.submitStatus='ERROR';
                 });
-
             };
 
             ctrl.setCurrentPage = function (page) {

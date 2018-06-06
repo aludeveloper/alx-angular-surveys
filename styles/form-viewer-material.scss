@@ -208,3 +208,18 @@ md-input-container.md-default-theme.md-input-invalid .md-char-counter, md-input-
 md-input-container.md-default-theme.md-input-invalid .md-input, md-input-container.md-input-invalid .md-input {
     border-color: #ec1c24 !important;
 }
+
+input[type=file]::-webkit-file-upload-button {
+  background : transparent;
+  color: #00264e;
+  border: 2px solid #00264e;
+  border-radius: 8px;
+  font-weight: 800;
+  float: right;
+  margin: 0 0 0 10px;
+  font-size: 12px;
+  font-style: italic;
+  font-family: Open Sans;
+  min-width: 80px;
+  text-transform: capitalize;
+}

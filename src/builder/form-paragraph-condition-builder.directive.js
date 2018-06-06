@@ -7,7 +7,7 @@ angular.module('mwFormBuilder').factory("FormParagraphConditionBuilderId", funct
         }
     })
 
-    .directive('mwFormParagraphConditionBuilder', function () {
+    .directive('mwFormParagraphConditionBuilder', function ($rootScope) {
 
     return {
         replace: true,
@@ -45,6 +45,11 @@ angular.module('mwFormBuilder').factory("FormParagraphConditionBuilderId", funct
                     ctrl.onReady();
                 // }
             };
+
+            ctrl.saveKey = function(SfData){
+                console.log("SELECTED KEY",SfData);
+                $rootScope.selectedSfKey = SfData.key;
+            }
 
             ctrl.test=function()
             {

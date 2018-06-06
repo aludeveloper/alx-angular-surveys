@@ -1,12 +1,6 @@
 <div class="mw-form-paragraphcondition-builder-wrapper">
     <div class="mw-form-paragraphcondition-builder" ng-class="{'ng-submitted':ctrl.formSubmitted}">
         <div class="paragraphConditionTrue-editor" ng-form="ctrl.form" ng-if="!ctrl.isPreview">
-            <!-- <div class="input-group"> 
-                <select ng-model="ctrl.selecteditem.value" ng-init="selected=''" label-for="selecteditem-textarea-{{ctrl.id}}" ng-change="ctrl.test()" ng-attr-id="selecteditem-textarea-{{ctrl.id}}">
-                    <option value="SFfiled1">SFfiled1</option>
-                    <option value="SFfiled2">SFfiled2</option>
-                </select>{{ctrl.selecteditem.html}}
-            </div> -->
 
             <md-input-container class="md-block">
                 <mw-label label-for="paragraphConditionTrue-textarea-{{ctrl.id}}" label-key="Enter Text for True Condition"></mw-label>
@@ -27,10 +21,11 @@
                     <select 
                         ng-attr-id="question-{{opt.key}}-{{ctrl.id}}" 
                         ng-options="opt.label for opt in select.options track by opt.key" 
-                        ng-model="ctrl.question[select.key]"  
+                        ng-model="ctrl.question[select.key]"
                         class="form-control" 
                         ng-disabled="ctrl.readOnly" 
-                        ng-required="select.required">
+                        ng-required="select.required"
+                        ng-change="ctrl.saveKey(ctrl.question[select.key])">
                     </select>
                 </div>
             </div>

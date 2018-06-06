@@ -80,14 +80,24 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
                         ctrl.buttons.nextPage.visible=false;
                         ctrl.currentPage=null;
                         $timeout(ctrl.resetPages, 0);
-
                     }
                 }
             };
 
             ctrl.getSfFlagValue = function(){
-                console.log("Geting value");
-                return "undefined";
+                console.log("SFKEY",$rootScope.selectedSfKey);
+                var key = $rootScope.selectedSfKey.key
+                // return "true";
+                var response;
+                $.ajax({
+                        async: false,
+                        url: "http://localhost:9000/definition/conditionalpara/"+key,                     
+                        success: function(result){
+                        console.log("Geting value",result);
+                        response = result;
+                    }
+                });
+                return response;
             }
 
             ctrl.submitForm = function() {

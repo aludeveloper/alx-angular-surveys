@@ -62,8 +62,8 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
                             html: ''
                         };
                         ctrl.pageElement.selecteditem={
-                            id: mwFormUuid.get(),
-                            value: "null"
+                            id: mwFormUuid.get(),                            
+                            sfkey: ''
                         };
                     }
                 }

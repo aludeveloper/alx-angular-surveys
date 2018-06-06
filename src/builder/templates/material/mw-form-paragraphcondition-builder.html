@@ -21,7 +21,7 @@
                     <select 
                         ng-attr-id="question-{{opt.key}}-{{ctrl.id}}" 
                         ng-options="opt.label for opt in select.options track by opt.key" 
-                        ng-model="ctrl.question[select.key]"
+                        ng-model="ctrl.selecteditem.sfkey"
                         class="form-control" 
                         ng-disabled="ctrl.readOnly" 
                         ng-required="select.required"

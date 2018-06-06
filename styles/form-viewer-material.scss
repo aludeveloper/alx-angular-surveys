@@ -210,14 +210,16 @@ md-input-container.md-default-theme.md-input-invalid .md-input, md-input-contain
 }
 
 input[type=file]::-webkit-file-upload-button {
-  border: 1px solid #00264e;
   background : transparent;
-  border-radius: 4px;
+  color: #00264e;
+  border: 2px solid #00264e;
+  border-radius: 8px;
+  font-weight: 800;
   float: right;
   margin: 0 0 0 10px;
-  font-size: 11px;
+  font-size: 12px;
   font-style: italic;
   font-family: Open Sans;
-  color: #00264e;
-  letter-spacing: 0.5px;
+  min-width: 80px;
+  text-transform: capitalize;
 }

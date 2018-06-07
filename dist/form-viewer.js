@@ -132,7 +132,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
         templateUrl: 'mw-form-viewer.html',
         controllerAs: 'ctrl',
         bindToController: true,
-        controller: ["$timeout", "$interpolate", function($timeout, $interpolate){
+        controller: ["$timeout", "$interpolate", "$localStorage", function($timeout, $interpolate, $localStorage){
             var ctrl = this;
             var rootScope = $rootScope;
             ctrl.largeFileFlag = false;
@@ -143,6 +143,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
             // Put initialization logic inside `$onInit()`
             // to make sure bindings have been initialized.
             ctrl.$onInit = function() {
+                // ctrl.currentPage.elements.pra.selecteditem.value
                 ctrl.defaultOptions = {
                     nestedForm: false,
                     autoStart: false,
@@ -193,10 +194,37 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
                         ctrl.buttons.nextPage.visible=false;
                         ctrl.currentPage=null;
                         $timeout(ctrl.resetPages, 0);
-
                     }
                 }
             };
+
+            ctrl.getSfFlagValue = function(){
+                var conditionalParaSfKey;
+                angular.forEach(ctrl.formData.pages, function(obj, key) {
+                    angular.forEach(obj.elements, function(obj1, key1) {
+                        if (obj1.selecteditem && obj1.selecteditem.sfkey && obj1.type === "paragraphcondition") {
+                            conditionalParaSfKey = obj1.selecteditem.sfkey.key;
+                        }                           
+                    })
+                });
+                
+                var response;
+                var auth_token = $localStorage.get('auth_token');
+                var baseURL = "http://localhost:9000/" //Change when deploying
+                $.ajax({
+                        async: false,
+                        headers: {
+                            'X-AUTH-TOKEN': auth_token,
+                            'content-Type': 'Application/Json'
+                        },
+                        url: baseURL + "salesforce/conditionalpara/" + conditionalParaSfKey,                     
+                        success: function(result){
+                        console.log("Geting value",result);
+                        response = result;
+                    }
+                });
+                return response;
+            }
 
             ctrl.submitForm = function() {
                 ctrl.formSubmitted=true;
@@ -211,7 +239,6 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
                 }).catch(function(){
                     ctrl.submitStatus='ERROR';
                 });
-
             };
 
             ctrl.setCurrentPage = function (page) {
@@ -284,7 +311,6 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
             };
 
             ctrl.beginResponse=function(){
-
                 if(ctrl.formData.pages.length>0){
                     ctrl.setCurrentPage(ctrl.formData.pages[0]);
                     $rootScope.$broadcast("mwForm.pageEvents.pageCurrentChanged",{currentPage:ctrl.currentPage});

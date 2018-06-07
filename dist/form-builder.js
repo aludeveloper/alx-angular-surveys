@@ -701,6 +701,82 @@ angular.module('mwFormBuilder').factory("FormQuestionBuilderId", function(){
     };
 });
 
+angular.module('mwFormBuilder').factory("FormParagraphConditionBuilderId", function(){
+    var id = 0;
+        return {
+            next: function(){
+                return ++id;
+            }
+        }
+    })
+
+    .directive('mwFormParagraphConditionBuilder', ["$rootScope", function ($rootScope) {
+
+    return {
+        replace: true,
+        restrict: 'AE',
+        require: '^mwFormPageElementBuilder',
+        scope: {
+            paragraphcondition: '=',
+            paragraphconditionfalse: '=',
+            paragraphconditionunset: '=',
+            selecteditem: '=',
+            formObject: '=',
+            onReady: '&',
+            isPreview: '=?',
+            readOnly: '=?'
+        },
+        templateUrl: 'mw-form-paragraphcondition-builder.html',
+        controllerAs: 'ctrl',
+        bindToController: true,
+        controller: ["$timeout", "FormParagraphConditionBuilderId", function($timeout,FormParagraphConditionBuilderId){
+            var ctrl = this;
+            
+            // debugger
+            // Put initialization logic inside `$onInit()`
+            // to make sure bindings have been initialized.
+            ctrl.$onInit = function() {
+                // debugger
+                ctrl.id = FormParagraphConditionBuilderId.next();
+                ctrl.formSubmitted=false;
+            };
+
+            ctrl.save=function(){
+                // debugger;
+                ctrl.formSubmitted=true;
+                // if(ctrl.form.$valid){
+                    ctrl.onReady();
+                // }
+            };
+
+            ctrl.saveKey = function(SfData){
+                console.log("SELECTED KEY",SfData);
+                $rootScope.selectedSfKey = SfData.key;
+            }
+
+            ctrl.test=function()
+            {
+                // debugger
+                ctrl.selecteditem
+                console.log("--"+ctrl.paragraphcondition.html);
+                console.log("--"+ctrl.paragraphconditionfalse.html);
+                //debugger;
+            }
+
+            // Prior to v1.5, we need to call `$onInit()` manually.
+            // (Bindings will always be pre-assigned in these versions.)
+            if (angular.version.major === 1 && angular.version.minor < 5) {
+                ctrl.$onInit();
+            }
+
+        }],
+        link: function (scope, ele, attrs, formPageElementBuilder){
+            var ctrl = scope.ctrl;
+            ctrl.options = formPageElementBuilder.options;
+        }
+    };
+}]);
+
 angular.module('mwFormBuilder').factory("FormParagraphBuilderId", function(){
     var id = 0;
         return {
@@ -802,6 +878,26 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
                         ctrl.pageElement.paragraph={
                             id: mwFormUuid.get(),
                             html: ''
+                        };
+                    }
+                }else if(ctrl.pageElement.type=='paragraphcondition'){
+                    // debugger;
+                    if(!ctrl.pageElement.paragraphcondition){
+                        ctrl.pageElement.paragraphcondition={
+                            id: mwFormUuid.get(),
+                            html: ''
+                        };
+                        ctrl.pageElement.paragraphconditionfalse={
+                            id: mwFormUuid.get(),
+                            html: ''
+                        };
+                        ctrl.pageElement.paragraphconditionunset={
+                            id: mwFormUuid.get(),
+                            html: ''
+                        };
+                        ctrl.pageElement.selecteditem={
+                            id: mwFormUuid.get(),                            
+                            sfkey: ''
                         };
                     }
                 }
@@ -999,6 +1095,10 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
                 ctrl.addElement('paragraph');
             };
 
+            ctrl.addParagraphCondition= function(){
+                ctrl.addElement('paragraphcondition');
+            };
+            
             ctrl.isElementActive= function(element){
                 return ctrl.activeElement==element;
             };
@@ -1399,7 +1499,7 @@ angular.module('mwFormBuilder').filter('mwStartFrom', function() {
 });
 angular.module('mwFormBuilder')
     .constant('MW_QUESTION_TYPES', ['text', 'textarea', 'radio', 'checkbox', 'select', 'grid', 'priority', 'division', 'number', 'date', 'time', 'email', 'range', 'url', 'file'])
-    .constant('MW_ELEMENT_TYPES', ['question', 'image', 'paragraph'])
+    .constant('MW_ELEMENT_TYPES', ['question', 'image', 'paragraph', 'paragraphConditionTrue'])
     .constant('MW_GRID_CELL_INPUT_TYPES', ['radio', 'checkbox', 'text', 'number', 'date', 'time'])
     .factory('mwFormBuilderOptions', ["MW_ELEMENT_TYPES", "MW_QUESTION_TYPES", function mwFormBuilderOptionsFactory(MW_ELEMENT_TYPES, MW_QUESTION_TYPES){
 

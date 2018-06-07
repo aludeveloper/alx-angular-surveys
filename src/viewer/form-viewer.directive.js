@@ -18,7 +18,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
         templateUrl: 'mw-form-viewer.html',
         controllerAs: 'ctrl',
         bindToController: true,
-        controller: ["$timeout", "$interpolate", function($timeout, $interpolate){
+        controller: ["$timeout", "$interpolate", "$localStorage", function($timeout, $interpolate, $localStorage){
             var ctrl = this;
             var rootScope = $rootScope;
             ctrl.largeFileFlag = false;
@@ -85,13 +85,25 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
             };
 
             ctrl.getSfFlagValue = function(){
-                console.log("SFKEY",$rootScope.selectedSfKey);
-                var key = $rootScope.selectedSfKey.key
-                // return "true";
+                var conditionalParaSfKey;
+                angular.forEach(ctrl.formData.pages, function(obj, key) {
+                    angular.forEach(obj.elements, function(obj1, key1) {
+                        if (obj1.selecteditem && obj1.selecteditem.sfkey && obj1.type === "paragraphcondition") {
+                            conditionalParaSfKey = obj1.selecteditem.sfkey.key;
+                        }                           
+                    })
+                });
+                
                 var response;
+                var auth_token = $localStorage.get('auth_token');
+                var baseURL = "http://localhost:9000/" //Change when deploying
                 $.ajax({
                         async: false,
-                        url: "http://localhost:9000/definition/conditionalpara/"+key,                     
+                        headers: {
+                            'X-AUTH-TOKEN': auth_token,
+                            'content-Type': 'Application/Json'
+                        },
+                        url: baseURL + "salesforce/conditionalpara/" + conditionalParaSfKey,                     
                         success: function(result){
                         console.log("Geting value",result);
                         response = result;

@@ -23,9 +23,11 @@
                     <p ng-bind-html="::ctrl.print(pageElement.paragraph.html)"></p>
                 </div>
                 <div ng-switch-when="paragraphcondition">
-                    <p ng-if="ctrl.getSfFlagValue() == 'true'" ng-bind-html="::ctrl.print(pageElement.paragraphcondition.html)"></p>
-                    <p ng-if="ctrl.getSfFlagValue() == 'false'" ng-bind-html="::ctrl.print(pageElement.paragraphconditionfalse.html)"></p>
-                    <p ng-if="ctrl.getSfFlagValue() == 'undefined'" ng-bind-html="::ctrl.print(pageElement.paragraphconditionunset.html)"></p>
+                    <div ng-init="ctrl.getSfFlagValue()">
+                        <p ng-if="ctrl.sfFlag == 'true'" ng-bind-html="::ctrl.print(pageElement.paragraphcondition.html)"></p>
+                        <p ng-if="ctrl.sfFlag == 'false'" ng-bind-html="::ctrl.print(pageElement.paragraphconditionfalse.html)"></p>
+                        <p ng-if="ctrl.sfFlag == 'undefined'" ng-bind-html="::ctrl.print(pageElement.paragraphconditionunset.html)"></p>
+                    </div>
                 </div>
             </div>
         </div>

@@ -109,7 +109,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
                         response = result;
                     }
                 });
-                return response;
+                ctrl.sfFlag = response;
             }
 
             ctrl.submitForm = function() {

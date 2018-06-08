@@ -23,12 +23,12 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
             var ctrl = this;
             var rootScope = $rootScope;
             ctrl.largeFileFlag = false;
-            ctrl.saveFlag = false;
+            ctrl.hideSaveButton = false;
             $rootScope.$on("fileRequiredFlag", function(event, flag) {
                 ctrl.largeFileFlag = flag;
             });
-            $rootScope.$on("saveFlag", function(event, flag) {
-                ctrl.saveFlag = flag.saveFlag;
+            $rootScope.$on("hideSaveButton", function(event, flag) {
+                ctrl.hideSaveButton = flag.hideSaveButton;
             });
             // Put initialization logic inside `$onInit()`
             // to make sure bindings have been initialized.

@@ -36,6 +36,6 @@
         <div class="mw-form-action-list form-padding" >
             <md-button type="button"  ng-if="ctrl.buttons.prevPage.visible" class="prev-page-button btn-next" ng-click="ctrl.goToPrevPage()"><span translate="mwForm.buttons.back">Wstecz</span></md-button>
             <md-button type="button" ng-disabled="ctrl.form.$invalid || ctrl.largeFileFlag" ng-if="ctrl.buttons.nextPage.visible" class="next-page-button btn-next" ng-click="ctrl.goToNextPage()"><span translate="mwForm.buttons.next">Dalej</span></md-button>
-            <md-button type="submit" ng-disabled="ctrl.options.disableSubmit || ctrl.form.$invalid || ctrl.largeFileFlag" ng-if="ctrl.buttons.submitForm.visible && !ctrl.readOnly && !ctrl.saveFlag" class="next-page-button btn-next" ng-click="ctrl.submitForm()"> <span translate="mwForm.buttons.submit">Submit</span></md-button>
+            <md-button type="submit" ng-disabled="ctrl.options.disableSubmit || ctrl.form.$invalid || ctrl.largeFileFlag" ng-if="ctrl.buttons.submitForm.visible && !ctrl.readOnly && !ctrl.hideSaveButton" class="next-page-button btn-next" ng-click="ctrl.submitForm()"> <span translate="mwForm.buttons.submit">Submit</span></md-button>
         </div>
 </div>

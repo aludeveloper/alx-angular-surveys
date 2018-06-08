@@ -166,12 +166,12 @@
         </div>
         <div ng-switch-when="file" class="form-inline">
             <md-input-container>
-                <input class="form-control"  placeholder="{{ctrl.question.text}}" ng-class="ctrl.questionResponse.answer == 'undefined' ? 'fileupload-text' : 'fileupload-text-black'" ng-model="ctrl.questionResponse.fileName" type="file" accept=".png, .tif, .jpg, .jpeg, .pdf" fileread="ctrl.questionResponse.answer"  ng-readonly="ctrl.readOnly" ng-required="ctrl.question.required" placeholder="&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Max file size 1MB">
+                <input class="form-control" placeholder="{{ctrl.question.text}}" ng-class="ctrl.fileSelectedEvent ? 'fileupload-text-black' : 'fileupload-text'" ng-model="ctrl.questionResponse.fileName" type="file" accept=".png, .tif, .jpg, .jpeg, .pdf" fileread="ctrl.questionResponse.answer"  ng-readonly="ctrl.readOnly" ng-required="ctrl.question.required && ctrl.questionResponse.fileName == undefined">
             </md-input-container>
-            <span ng-if="ctrl.largeFileFlag" style="color:red;">
+            <span ng-if="ctrl.largeFileFlag" style="color:red; margin-left: 10px;">
                 *File size is large
             </span>
-            <md-input-container style="width: 200px; vertical-align: text-top; margin-left: 20px;">
+            <md-input-container style="width: 200px; vertical-align: text-top; margin-left: 250px;">
                 <label class="form-control">{{ctrl.questionResponse.fileName_1}}</label>
             </md-input-container>
         </div>

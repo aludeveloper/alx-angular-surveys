@@ -24,9 +24,11 @@
 }
 
 .task-description {
-    font-size: 10px;
-    font-weight: 600;
+    color: #00264e;
+    font-size: 24px;
+    font-weight: 800;
     letter-spacing: 0.5px;
+    font-family: "Montserrat";
 }
 
 .decorated {
@@ -38,6 +40,7 @@
     position: relative;
     display: inline-block;
 }
+
 .decorated > span:before, .decorated > span:after {
     content: '';
     position: absolute;
@@ -47,24 +50,176 @@
     margin: 0 5px;
 }
 .decorated > span:before { 
-    right: 100%;
+  right: 100%;
 }
+
 .decorated > span:after {
     left: 100%;
 }
 
-@media only screen and (max-width: 960px){ 
-	.btn-next, .btn-next:hover {
-	    color: #fff !important;
-	    background-color: #af272a !important;
-	    padding: 0px;
-	    /* height: 8px; */
-	    min-height: 30px;
-	    min-width: 130px;
-	    border-radius: 7px;
-	    text-transform: capitalize;
-	    border-color: #af272a;
-	    font-style: italic;
-	    margin-top: 30px;
-	}
+
+.btn-next, .btn-next:hover {
+    background-color: transparent !important;
+    color: #00264e !important; 
+    font-style: italic; 
+    font-size: 12px; 
+    font-family: Open sans;
+    font-weight: 800;
+    border-radius: 8px;
+    border: 2px solid #00264e;
+    min-height: 33px;
+    min-width: 80px;
+    text-transform: initial;
+    line-height: 30px;
+    margin-top: 20px;
+}
+
+
+
+md-input-container .md-input {
+  font-size: 12px;
+}
+
+md-input-container {
+  margin: 0px;
+}
+
+/* md - input default color with value */
+
+md-input-container .md-placeholder, md-input-container label, md-input-container.md-default-theme .md-placeholder, md-input-container.md-default-theme label {
+  color: #9e9e9c;
+  font-size: 11px;
+  font-style: italic;
+  font-family: Open Sans;
+  font-weight: normal;
+  letter-spacing: 0.5px;
+}
+
+md-input-container.md-default-theme:not(.md-input-invalid).md-input-has-value label, md-input-container:not(.md-input-invalid).md-input-has-value label {
+    color: #9e9e9c;
+    font-size: 12px;
+}
+
+/* md - radio button css */
+.input-radio-label {
+  color: #00264e;
+  font-size: 11px;
+  font-style: italic;
+  font-family: Open Sans;
+  font-weight: normal;
+  letter-spacing: .5px;
+  padding-bottom: 10px;
+  display: block;
+}
+
+md-radio-button .md-off, md-radio-button .md-on {
+  width: 13px;
+  height: 13px;
+  margin-top: 3px;
+}
+
+md-radio-button.md-default-theme .md-on, md-radio-button .md-on {
+    background-color: rgba(40, 79, 95, 0.87);
+}
+
+md-radio-button.md-default-theme.md-checked .md-off, md-radio-button.md-checked .md-off {
+    border-color: rgba(40, 79, 95, 0.87);
+}
+
+md-radio-button .md-label { 
+  color: #9e9e9c;
+  font-size: 12px;
+  font-style: italic;
+  font-family: Open Sans;
+  font-weight: normal;
+  letter-spacing: .5px;
+  display: block;
+}
+
+/* md -select css  */
+md-select.md-default-theme.ng-invalid.ng-touched .md-select-value, md-select.ng-invalid.ng-touched .md-select-value {
+  color: #9e9e9c;
+  font-size: 11px;
+  font-style: italic;
+  font-family: Open Sans;
+  font-weight: normal;
+  letter-spacing: 0.5px;
+}
+
+.md-select-value>span:not(.md-select-icon) {
+  color: #9e9e9c;
+  font-size: 11px;
+  font-style: italic;
+  font-family: Open Sans;
+  font-weight: normal;
+  letter-spacing: 0.5px;
+}
+
+@media only screen and (max-width: 960px) {
+  .form-padding {
+      padding-left:0px !important;
+  }
+}
+.form-padding {
+  padding-left:70px;
+}
+
+.paragraph-text {
+  color: #9e9e9c;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  font-family: "Montserrat";
+}
+
+.page-description {
+  color: #00264e;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  font-family: "Montserrat";
+}
+
+/* md - inactive border color  */
+md-input-container:not(.md-input-has-value) input:not(:focus) {
+    color: transparent;
+    Border-bottom: 1px solid #00264e;
+}
+
+/* md - raised or focused deafult border and lable */
+md-input-container:not(.md-input-invalid).md-input-focused .md-input {
+    border-bottom: 1px solid #dbe3e5;
+}
+
+md-input-container:not(.md-input-invalid).md-input-focused label {
+    color: #9e9e9c;
+    font-size: 12px;
+}
+
+/* md - invalid border and lable */
+md-input-container.md-input-focused .md-input, md-input-container.md-input-resized .md-input, md-input-container .md-input.ng-invalid.ng-dirty {
+    border-bottom: 1px solid #ec1c24;
+}
+
+md-input-container.md-default-theme.md-input-invalid .md-char-counter, md-input-container.md-input-invalid .md-char-counter, md-input-container.md-default-theme.md-input-invalid .md-input-message-animation, md-input-container.md-input-invalid .md-input-message-animation, md-input-container.md-default-theme.md-input-invalid label, md-input-container.md-input-invalid label {
+    color: #ec1c24;
+}
+
+md-input-container.md-default-theme.md-input-invalid .md-input, md-input-container.md-input-invalid .md-input {
+    border-color: #ec1c24 !important;
+}
+
+input[type=file]::-webkit-file-upload-button {
+  background : transparent;
+  color: #00264e;
+  border: 2px solid #00264e;
+  border-radius: 8px;
+  font-weight: 800;
+  float: right;
+  margin: 0 0 0 10px;
+  font-size: 12px;
+  font-style: italic;
+  font-family: Open Sans;
+  min-width: 80px;
+  text-transform: capitalize;
 }

@@ -2,15 +2,16 @@
     background-color: #ffffff;
     padding: 15px;
     .mw-form-page{
-        margin: 15px 0;
+        margin: 0 0 15px 0;
 
         .mw-page-title{
-            margin-top: 20px;
-            margin-bottom: 25px;
+            margin-top: 10px;
+            margin-bottom: 10px;
         }
 
         .mw-page-element{
-            margin-bottom: 20px;
+            padding-bottom: 15px;
+            padding-top: 15px;
 
             .mw-question-text{
                 margin-bottom: 4px;
@@ -82,7 +83,7 @@
     }
 
     .mw-form-description{
-        margin-bottom: 25px;
+        margin-bottom: 15px;
     }
 
     .no-drag{

@@ -17,6 +17,7 @@ angular.module('mwFormBuilder').factory("FormParagraphConditionBuilderId", funct
             paragraphcondition: '=',
             paragraphconditionfalse: '=',
             paragraphconditionunset: '=',
+            paragraphconditionsubtext: '=',
             selecteditem: '=',
             formObject: '=',
             onReady: '&',

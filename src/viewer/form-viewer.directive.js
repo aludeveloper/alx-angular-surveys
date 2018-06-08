@@ -30,6 +30,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
             // to make sure bindings have been initialized.
             ctrl.$onInit = function() {
                 // ctrl.currentPage.elements.pra.selecteditem.value
+                ctrl.condtionalParaFlag = true;
                 ctrl.defaultOptions = {
                     nestedForm: false,
                     autoStart: false,
@@ -110,6 +111,13 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
                     }
                 });
                 ctrl.sfFlag = response;
+                if (ctrl.sfFlag == "true") {
+                    ctrl.condtionalParaFlag = true;
+                }else if(ctrl.sfFlag == "false"){
+                    ctrl.condtionalParaFlag = false;
+                }else if(ctrl.sfFlag == "unset"){
+                    ctrl.condtionalParaFlag = false;
+                }
             }
 
             ctrl.submitForm = function() {

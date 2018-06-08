@@ -14,6 +14,10 @@
                 <mw-label label-for="paragraphConditionUnset-textarea-{{ctrl.id}}" label-key="Enter Text for Unset Condition"></mw-label>
                 <textarea msd-elastic class="form-control mw-form-paragraphConditionFalse-textarea" ng-model="ctrl.paragraphconditionunset.html" required ng-attr-id="paragraphConditionUnset-textarea-{{ctrl.id}}" ng-readonly="ctrl.readOnly"></textarea>
             </md-input-container>
+            <md-input-container class="md-block">
+                <mw-label label-for="paragraphConditionSubtext-textarea-{{ctrl.id}}" label-key="Enter Text for Unset Condition"></mw-label>
+                <textarea msd-elastic class="form-control mw-form-paragraphConditionSubtext-textarea" ng-model="ctrl.paragraphconditionsubtext.html" required ng-attr-id="paragraphConditionSubtext-textarea-{{ctrl.id}}" ng-readonly="ctrl.readOnly"></textarea>
+            </md-input-container>
 
             <div class="form-group mw-question-type" ng-repeat="select in ctrl.options.customQuestionSelects">
                 <mw-label label-for="question-{{select.key}}-{{ctrl.id}}" label-class="control-label"  label-key="{{select.label}}"></mw-label>
@@ -40,6 +44,7 @@
             <p ng-bind-html="ctrl.paragraphcondition.html"></p>
             <p ng-bind-html="ctrl.paragraphconditionfalse.html"></p>
             <p ng-bind-html="ctrl.paragraphconditionunset.html"></p>
+            <p ng-bind-html="ctrl.paragraphconditionsubtext.html"></p>
         </div>
     </div>
 </div>

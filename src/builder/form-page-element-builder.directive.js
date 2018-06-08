@@ -61,6 +61,10 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
                             id: mwFormUuid.get(),
                             html: ''
                         };
+                        ctrl.pageElement.paragraphconditionsubtext={
+                            id: mwFormUuid.get(),
+                            html: ''
+                        };
                         ctrl.pageElement.selecteditem={
                             id: mwFormUuid.get(),                            
                             sfkey: ''

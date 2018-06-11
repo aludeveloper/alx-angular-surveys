@@ -126,20 +126,27 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
             formStatus: '=?', //wrapper for internal angular form object
             onSubmit: '&',
             onSave: '&',
+            onBack: '&',
             api: '=?'
 
         },
         templateUrl: 'mw-form-viewer.html',
         controllerAs: 'ctrl',
         bindToController: true,
-        controller: ["$timeout", "$interpolate", "$localStorage", function($timeout, $interpolate, $localStorage){
+        controller: ["$timeout", "$interpolate", "$localStorage" , "$cookies", function($timeout, $interpolate, $localStorage, $cookies){
             var ctrl = this;
             var rootScope = $rootScope;
             ctrl.largeFileFlag = false;
+            ctrl.hideSaveButton = localStorage.getItem('hideSaveButton');
+            if(ctrl.hideSaveButton==undefined || ctrl.hideSaveButton==''){
+                ctrl.hideSaveButton=false;
+            }
             $rootScope.$on("fileRequiredFlag", function(event, flag) {
                 ctrl.largeFileFlag = flag;
             });
-
+            $rootScope.$on("hideSaveButton", function(event, flag) {
+                ctrl.hideSaveButton = flag.hideSaveButton;
+            });
             // Put initialization logic inside `$onInit()`
             // to make sure bindings have been initialized.
             ctrl.$onInit = function() {
@@ -206,24 +213,41 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
                         if (obj1.selecteditem && obj1.selecteditem.sfkey && obj1.type === "paragraphcondition") {
                             conditionalParaSfKey = obj1.selecteditem.sfkey.key;
                         }                           
-                    })
+                    });
                 });
                 
                 var response;
                 var auth_token = $localStorage.get('auth_token');
                 var baseURL = "http://localhost:9000/" //Change when deploying
-                $.ajax({
-                        async: false,
-                        headers: {
-                            'X-AUTH-TOKEN': auth_token,
-                            'content-Type': 'Application/Json'
-                        },
-                        url: baseURL + "salesforce/conditionalpara/" + conditionalParaSfKey,                     
-                        success: function(result){
-                        console.log("Geting value",result);
-                        response = result;
-                    }
+                var userInfo = JSON.parse($cookies.get("userInfo"));
+                console.log("hhhhhhhhhhhh",userInfo)
+                var applicationData = userInfo.applicationIdMap;
+                var sfAppId;
+                var appName = $localStorage.get('applicationName');
+                angular.forEach(applicationData, function(value, key) {         
+                    appName = key;
+                    sfAppId = value;
+                    console.log("hhhhhhhhhhhh",appName)
                 });
+
+
+
+                 if(conditionalParaSfKey != "" && conditionalParaSfKey != undefined && appName != "" && appName != undefined){
+                    $.ajax({
+                            async: false,
+                            headers: {
+                                'X-AUTH-TOKEN': auth_token,
+                                'content-Type': 'Application/Json'
+                            },
+                            url: baseURL + "salesforce/conditionalpara/" + conditionalParaSfKey + "/" + appName + "/" + userInfo.email,                     
+                            success: function(result){
+                            console.log("Geting value",result);
+                            response = result;
+                        }
+                    });
+                 }
+                
+
                 ctrl.sfFlag = response;
                 if (ctrl.sfFlag == "true") {
                     ctrl.condtionalParaFlag = true;
@@ -340,6 +364,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 
             ctrl.goToPrevPage= function(){
                 window.scrollTo(0,0);
+                ctrl.onBack();
                 var prevPage = ctrl.prevPages.pop();
                 ctrl.setCurrentPage(prevPage);
                 ctrl.updateNextPageBasedOnAllAnswers();

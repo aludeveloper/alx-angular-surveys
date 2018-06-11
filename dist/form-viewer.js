@@ -437,6 +437,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
             controller: ["$timeout", "FormQuestionId", function($timeout, FormQuestionId) {
                 var ctrl = this;
                 ctrl.largeFileFlag = false;
+                ctrl.fileSelectedEvent = false;
                 // Put initialization logic inside `$onInit()`
                 // to make sure bindings have been initialized.
                 this.$onInit = function() {
@@ -558,6 +559,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                     console.log("file size.....................",fileSize);
                     if (fileSize <= 1024) {
                         ctrl.largeFileFlag = false;
+                        ctrl.fileSelectedEvent = true;
                         $rootScope.$broadcast('fileRequiredFlag', ctrl.largeFileFlag);
                         var reader = new FileReader();
                         var fileName = changeEvent.target.files[0];

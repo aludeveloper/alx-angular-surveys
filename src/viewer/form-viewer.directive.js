@@ -92,7 +92,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
                         if (obj1.selecteditem && obj1.selecteditem.sfkey && obj1.type === "paragraphcondition") {
                             conditionalParaSfKey = obj1.selecteditem.sfkey.key;
                         }                           
-                    })
+                    });
                 });
                 
                 var response;
@@ -100,7 +100,8 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
                 var baseURL = "http://localhost:9000/" //Change when deploying
                 var userInfo = JSON.parse($cookies.get("userInfo"));
                 var applicationData = userInfo.applicationIdMap;
-                var sfAppId, appname;
+                var sfAppId;
+                var appName = $localStorage.get('applicationName');
                 angular.forEach(applicationData, function(value, key) {         
                     appName = key;
                     sfAppId = value;
@@ -108,7 +109,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 
                 
 
-                if(conditionalParaSfKey != "" && conditionalParaSfKey != undefined && appName != "" && appName != undefined){
+                 if(conditionalParaSfKey != "" && conditionalParaSfKey != undefined && appName != "" && appName != undefined){
                     $.ajax({
                             async: false,
                             headers: {
@@ -121,7 +122,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
                             response = result;
                         }
                     });
-                }
+                 }
                 
 
                 ctrl.sfFlag = response;

@@ -18,7 +18,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
         templateUrl: 'mw-form-viewer.html',
         controllerAs: 'ctrl',
         bindToController: true,
-        controller: ["$timeout", "$interpolate", "$localStorage", function($timeout, $interpolate, $localStorage){
+        controller: ["$timeout", "$interpolate", "$localStorage" , "$cookies", function($timeout, $interpolate, $localStorage, $cookies){
             var ctrl = this;
             var rootScope = $rootScope;
             ctrl.largeFileFlag = false;
@@ -98,18 +98,32 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
                 var response;
                 var auth_token = $localStorage.get('auth_token');
                 var baseURL = "http://localhost:9000/" //Change when deploying
-                $.ajax({
-                        async: false,
-                        headers: {
-                            'X-AUTH-TOKEN': auth_token,
-                            'content-Type': 'Application/Json'
-                        },
-                        url: baseURL + "salesforce/conditionalpara/" + conditionalParaSfKey,                     
-                        success: function(result){
-                        console.log("Geting value",result);
-                        response = result;
-                    }
+                var userInfo = JSON.parse($cookies.get("userInfo"));
+                var applicationData = userInfo.applicationIdMap;
+                var sfAppId, appname;
+                angular.forEach(applicationData, function(value, key) {         
+                    appName = key;
+                    sfAppId = value;
                 });
+
+                
+
+                if(conditionalParaSfKey != "" && conditionalParaSfKey != undefined && appName != "" && appName != undefined){
+                    $.ajax({
+                            async: false,
+                            headers: {
+                                'X-AUTH-TOKEN': auth_token,
+                                'content-Type': 'Application/Json'
+                            },
+                            url: baseURL + "salesforce/conditionalpara/" + conditionalParaSfKey + "/" + appName + "/" + userInfo.email,                     
+                            success: function(result){
+                            console.log("Geting value",result);
+                            response = result;
+                        }
+                    });
+                }
+                
+
                 ctrl.sfFlag = response;
                 if (ctrl.sfFlag == "true") {
                     ctrl.condtionalParaFlag = true;

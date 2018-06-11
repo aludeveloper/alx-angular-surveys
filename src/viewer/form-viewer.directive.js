@@ -12,6 +12,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
             formStatus: '=?', //wrapper for internal angular form object
             onSubmit: '&',
             onSave: '&',
+            onBack: '&',
             api: '=?'
 
         },
@@ -22,10 +23,16 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
             var ctrl = this;
             var rootScope = $rootScope;
             ctrl.largeFileFlag = false;
+            ctrl.hideSaveButton = localStorage.getItem('hideSaveButton');
+            if(ctrl.hideSaveButton==undefined || ctrl.hideSaveButton==''){
+                ctrl.hideSaveButton=false;
+            }
             $rootScope.$on("fileRequiredFlag", function(event, flag) {
                 ctrl.largeFileFlag = flag;
             });
-
+            $rootScope.$on("hideSaveButton", function(event, flag) {
+                ctrl.hideSaveButton = flag.hideSaveButton;
+            });
             // Put initialization logic inside `$onInit()`
             // to make sure bindings have been initialized.
             ctrl.$onInit = function() {
@@ -192,6 +199,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 
             ctrl.goToPrevPage= function(){
                 window.scrollTo(0,0);
+                ctrl.onBack();
                 var prevPage = ctrl.prevPages.pop();
                 ctrl.setCurrentPage(prevPage);
                 ctrl.updateNextPageBasedOnAllAnswers();

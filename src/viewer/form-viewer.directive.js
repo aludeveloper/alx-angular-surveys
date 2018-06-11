@@ -23,7 +23,10 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
             var ctrl = this;
             var rootScope = $rootScope;
             ctrl.largeFileFlag = false;
-            ctrl.hideSaveButton = false;
+            ctrl.hideSaveButton = localStorage.getItem('hideSaveButton');
+            if(ctrl.hideSaveButton==undefined || ctrl.hideSaveButton==''){
+                ctrl.hideSaveButton=false;
+            }
             $rootScope.$on("fileRequiredFlag", function(event, flag) {
                 ctrl.largeFileFlag = flag;
             });

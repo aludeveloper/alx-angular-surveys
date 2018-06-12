@@ -156,6 +156,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                             scope.$apply(function() {
                                 ctrl.questionResponse.answer = loadEvent.target.result;
                                 ctrl.questionResponse.fileName = changeEvent.target.files[0].name;
+                                ctrl.questionResponse.fileName_1 = changeEvent.target.files[0].name;
                             });
                         }
                         

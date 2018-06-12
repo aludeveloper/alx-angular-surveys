@@ -71,7 +71,7 @@
     min-width: 80px;
     text-transform: initial;
     line-height: 30px;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 
@@ -170,6 +170,22 @@ md-select.md-default-theme.ng-invalid.ng-touched .md-select-value, md-select.ng-
   font-weight: 800;
   letter-spacing: 0.5px;
   font-family: "Montserrat";
+}
+
+.cpara-false-text{
+  color: #9e9e9c;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  font-family: "Montserrat";
+}
+
+.subtext{
+  color: #ddd;
+  font-size: 10px;
+  font-family:"Montserrat";
+  font-style: italic;
+  font-weight: 600;
 }
 
 .page-description {

@@ -124,6 +124,10 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
                 ctrl.addElement('paragraph');
             };
 
+            ctrl.addParagraphCondition= function(){
+                ctrl.addElement('paragraphcondition');
+            };
+            
             ctrl.isElementActive= function(element){
                 return ctrl.activeElement==element;
             };

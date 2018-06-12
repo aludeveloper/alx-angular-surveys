@@ -226,14 +226,12 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
                 var auth_token = localStorage.getItem('auth_token');
                 var baseURL = "http://localhost:9000/" //Change when deploying
                 var userInfo = JSON.parse($cookies.get("userInfo"));
-                console.log("hhhhhhhhhhhh",userInfo)
                 var applicationData = userInfo.applicationIdMap;
                 var sfAppId;
                 var appName = localStorage.getItem('applicationName');
                 angular.forEach(applicationData, function(value, key) {         
                     appName = key;
                     sfAppId = value;
-                    console.log("hhhhhhhhhhhh",appName)
                 });
 
                 

@@ -1,4 +1,10 @@
-angular.module('mwFormViewer', ['ngSanitize', 'ui.bootstrap','ng-sortable', 'pascalprecht.translate']);
+angular.module('mwFormViewer', 
+					['ngSanitize', 
+					'ui.bootstrap',
+					'ng-sortable', 
+					'pascalprecht.translate',
+					'ngCookies'
+					]);
 
 
 
@@ -133,7 +139,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
         templateUrl: 'mw-form-viewer.html',
         controllerAs: 'ctrl',
         bindToController: true,
-        controller: ["$timeout", "$interpolate", "$localStorage" , "$cookies", function($timeout, $interpolate, $localStorage, $cookies){
+        controller: ["$timeout", "$interpolate", "$cookies", function($timeout, $interpolate, $cookies){
             var ctrl = this;
             var rootScope = $rootScope;
             ctrl.largeFileFlag = false;
@@ -217,20 +223,18 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
                 });
                 
                 var response;
-                var auth_token = $localStorage.get('auth_token');
+                var auth_token = localStorage.getItem('auth_token');
                 var baseURL = "http://localhost:9000/" //Change when deploying
                 var userInfo = JSON.parse($cookies.get("userInfo"));
-                console.log("hhhhhhhhhhhh",userInfo)
                 var applicationData = userInfo.applicationIdMap;
                 var sfAppId;
-                var appName = $localStorage.get('applicationName');
+                var appName = localStorage.getItem('applicationName');
                 angular.forEach(applicationData, function(value, key) {         
                     appName = key;
                     sfAppId = value;
-                    console.log("hhhhhhhhhhhh",appName)
                 });
 
-
+                
 
                  if(conditionalParaSfKey != "" && conditionalParaSfKey != undefined && appName != "" && appName != undefined){
                     $.ajax({

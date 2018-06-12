@@ -73,6 +73,11 @@
                             <span translate="mwForm.elements.paragraph">Obraz</span><i class="fa fa-paragraph  fa-lg fa-fw" style="margin-left: 10px;"></i>
                         </md-button>
                     </md-menu-item>
+                    <md-menu-item ng-if="ctrl.isElementTypeEnabled('paragraphConditionTrue')">
+                        <md-button type="button" ng-click="ctrl.addParagraphCondition()">
+                            <span>Conditional Paragraph</span><i class="fa fa-paragraph  fa-lg fa-fw" style="margin-left: 10px;"></i>
+                        </md-button>
+                    </md-menu-item>
                 </md-menu-content>
             </md-menu>
 

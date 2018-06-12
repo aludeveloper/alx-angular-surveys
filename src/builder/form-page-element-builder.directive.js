@@ -46,6 +46,30 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
                             html: ''
                         };
                     }
+                }else if(ctrl.pageElement.type=='paragraphcondition'){
+                    // debugger;
+                    if(!ctrl.pageElement.paragraphcondition){
+                        ctrl.pageElement.paragraphcondition={
+                            id: mwFormUuid.get(),
+                            html: ''
+                        };
+                        ctrl.pageElement.paragraphconditionfalse={
+                            id: mwFormUuid.get(),
+                            html: ''
+                        };
+                        ctrl.pageElement.paragraphconditionunset={
+                            id: mwFormUuid.get(),
+                            html: ''
+                        };
+                        ctrl.pageElement.paragraphconditionsubtext={
+                            id: mwFormUuid.get(),
+                            html: ''
+                        };
+                        ctrl.pageElement.selecteditem={
+                            id: mwFormUuid.get(),                            
+                            sfkey: ''
+                        };
+                    }
                 }
             };
 

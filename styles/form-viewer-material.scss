@@ -71,7 +71,7 @@
     min-width: 80px;
     text-transform: initial;
     line-height: 30px;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 
@@ -172,6 +172,22 @@ md-select.md-default-theme.ng-invalid.ng-touched .md-select-value, md-select.ng-
   font-family: "Montserrat";
 }
 
+.cpara-false-text{
+  color: #9e9e9c;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  font-family: "Montserrat";
+}
+
+.subtext{
+  color: #ddd;
+  font-size: 10px;
+  font-family:"Montserrat";
+  font-style: italic;
+  font-weight: 600;
+}
+
 .page-description {
   color: #00264e;
   font-size: 22px;
@@ -209,6 +225,12 @@ md-input-container.md-default-theme.md-input-invalid .md-input, md-input-contain
     border-color: #ec1c24 !important;
 }
 
+input[type=file] {
+    width: 350px !important;
+    max-width: 350px !important;
+    min-width: 350px !important;
+}
+
 input[type=file]::-webkit-file-upload-button {
   background : transparent;
   color: #00264e;
@@ -223,3 +245,21 @@ input[type=file]::-webkit-file-upload-button {
   min-width: 80px;
   text-transform: capitalize;
 }
+
+@media only screen and (max-width: 960px) {
+  input[type=file] {
+      width: 300px !important;
+      max-width: 300px !important;
+      min-width: 300px !important;
+  }    
+}
+
+@media (max-width: 1024px) and (max-height: 1366px) {
+  input[type=file] {
+      width: 250px !important;
+      max-width: 250px !important;
+      min-width: 250px !important;
+  }  
+}
+
+

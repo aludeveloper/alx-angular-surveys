@@ -1,0 +1,50 @@
+<div class="mw-form-paragraphcondition-builder-wrapper">
+    <div class="mw-form-paragraphcondition-builder" ng-class="{'ng-submitted':ctrl.formSubmitted}">
+        <div class="paragraphConditionTrue-editor" ng-form="ctrl.form" ng-if="!ctrl.isPreview">
+
+            <md-input-container class="md-block">
+                <mw-label label-for="paragraphConditionTrue-textarea-{{ctrl.id}}" label-key="Enter text for true condition"></mw-label>
+                <textarea msd-elastic class="form-control mw-form-paragraphConditionTrue-textarea"  ng-model="ctrl.paragraphcondition.html" required ng-attr-id="paragraphConditionTrue-textarea-{{ctrl.id}}" ng-readonly="ctrl.readOnly"></textarea>
+            </md-input-container>
+            <md-input-container class="md-block">
+                <mw-label label-for="paragraphConditionFalse-textarea-{{ctrl.id}}" label-key="Enter text for false condition"></mw-label>
+                <textarea msd-elastic class="form-control mw-form-paragraphConditionFalse-textarea" ng-model="ctrl.paragraphconditionfalse.html" required ng-attr-id="paragraphConditionFalse-textarea-{{ctrl.id}}" ng-readonly="ctrl.readOnly"></textarea>
+            </md-input-container>
+            <md-input-container class="md-block">
+                <mw-label label-for="paragraphConditionUnset-textarea-{{ctrl.id}}" label-key="Enter text for unset condition"></mw-label>
+                <textarea msd-elastic class="form-control mw-form-paragraphConditionFalse-textarea" ng-model="ctrl.paragraphconditionunset.html" required ng-attr-id="paragraphConditionUnset-textarea-{{ctrl.id}}" ng-readonly="ctrl.readOnly"></textarea>
+            </md-input-container>
+            <md-input-container class="md-block">
+                <mw-label label-for="paragraphConditionSubtext-textarea-{{ctrl.id}}" label-key="Enter subtext to show on false condition"></mw-label>
+                <textarea msd-elastic class="form-control mw-form-paragraphConditionSubtext-textarea" ng-model="ctrl.paragraphconditionsubtext.html" required ng-attr-id="paragraphConditionSubtext-textarea-{{ctrl.id}}" ng-readonly="ctrl.readOnly"></textarea>
+            </md-input-container>
+
+            <div class="form-group mw-question-type" ng-repeat="select in ctrl.options.customQuestionSelects">
+                <mw-label label-for="question-{{select.key}}-{{ctrl.id}}" label-class="control-label"  label-key="{{select.label}}"></mw-label>
+                <div class="form-inline">
+                    <select 
+                        ng-attr-id="question-{{opt.key}}-{{ctrl.id}}" 
+                        ng-options="opt.label for opt in select.options track by opt.key" 
+                        ng-model="ctrl.selecteditem.sfkey"
+                        class="form-control" 
+                        ng-disabled="ctrl.readOnly" 
+                        ng-required="select.required"
+                        ng-change="ctrl.saveKey(ctrl.question[select.key])">
+                    </select>
+                </div>
+            </div>
+            <div layout="row">
+                <br/>
+                <md-button class="md-primary md-raised" type="button" role="button" ng-click="ctrl.save()" translate="mwForm.buttons.questionReady">
+                    Ready
+                </md-button>
+            </div>
+        </div>
+        <div class="mw-preview" ng-if="ctrl.isPreview">
+            <p ng-bind-html="ctrl.paragraphcondition.html"></p>
+            <p ng-bind-html="ctrl.paragraphconditionfalse.html"></p>
+            <p ng-bind-html="ctrl.paragraphconditionunset.html"></p>
+            <p ng-bind-html="ctrl.paragraphconditionsubtext.html"></p>
+        </div>
+    </div>
+</div>

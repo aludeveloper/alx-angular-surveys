@@ -252,14 +252,12 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 				}
 
 				ctrl.sfFlag = response;
-				if (ctrl.sfFlag == "true") {
+				if (ctrl.sfFlag == "Pass") {
 					ctrl.condtionalParaFlag = true;
-				} else if (ctrl.sfFlag == "false") {
-					ctrl.condtionalParaFlag = false;
-				} else if (ctrl.sfFlag == "unset") {
+				} else{
 					ctrl.condtionalParaFlag = false;
 				}
-			}
+			};
 
 			ctrl.submitForm = function() {
 				ctrl.formSubmitted = true;

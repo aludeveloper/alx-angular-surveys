@@ -166,20 +166,20 @@
         </div>
         <div ng-switch-when="file" class="form-inline">
             <div layout="row">
-                <div flex="80">
+                <div flex="60">
                     <md-input-container>
-                        <input class="form-control" placeholder="{{ctrl.question.text}}" ng-class="ctrl.fileSelectedEvent ? 'fileupload-text-black' : 'fileupload-text'" ng-model="ctrl.questionResponse.fileName" type="file" accept=".png, .tif, .jpg, .jpeg, .pdf" fileread="ctrl.questionResponse.answer"  ng-readonly="ctrl.readOnly" ng-required="ctrl.question.required && ctrl.questionResponse.fileName == undefined">
-                        <span ng-if="ctrl.largeFileFlag" style="color:red; margin-left: 10px; font-size: 12px; margin-top: 20px;">
+                        <input  id='inputFile' class="form-control" placeholder="{{ctrl.question.text}}" ng-class="ctrl.fileSelectedEvent ? 'fileupload-text-black' : 'fileupload-text'" ng-model="ctrl.questionResponse.fileName" type="file" accept=".png, .tif, .jpg, .jpeg, .pdf" fileread="ctrl.questionResponse.answer"  ng-readonly="ctrl.readOnly" ng-required="ctrl.question.required && ctrl.questionResponse.fileName == undefined">
+                        <span ng-if="ctrl.largeFileFlag" style="color:red;position: absolute; left: 0px; font-size: 12px; top: 60px;">
                             *File size is large
                         </span>
                     </md-input-container>
                 </div>
-                <div hide-xs hide-sm flex="20">
-                    <label class="form-control" style="position: relative;left: 50px;">{{ctrl.questionResponse.fileName}}</label>
+                <div hide-xs hide-sm flex="40" align="start">
+                    <label class="form-control label-truncate" style="position:relative;top:15px;font-size:12px;font-family: Open Sans;width:90%;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">{{ctrl.questionResponse.fileName}}</label>
                 </div>
             </div>
-            <div hide-gt-sm flex="50" layout="row" style="margin-top: 25px">
-                <label class="form-control">{{ctrl.questionResponse.fileName}}</label>
+            <div hide-gt-sm flex="60" layout="row" style="margin-top: 25px;">
+                <label class="form-control label-truncate" style="font-size:12px;font-family:Open Sans;">{{ctrl.questionResponse.fileName}}</label>
             </div>
         </div>
 

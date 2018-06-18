@@ -104,7 +104,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 
 				var response;
 				var auth_token = localStorage.getItem('auth_token');
-				var baseURL = __env.apiUrl 
+				var baseURL = __env.apiUrl
 				var userInfo = JSON.parse($cookies.get("userInfo"));
 				var applicationData = userInfo.applicationIdMap;
 				var sfAppId;

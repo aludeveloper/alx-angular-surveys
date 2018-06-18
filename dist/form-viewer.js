@@ -224,7 +224,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 
 				var response;
 				var auth_token = localStorage.getItem('auth_token');
-				var baseURL = "https://apiapplyrcx.alueducation.com" //Change when deploying
+				var baseURL = __env.apiUrl
 				var userInfo = JSON.parse($cookies.get("userInfo"));
 				var applicationData = userInfo.applicationIdMap;
 				var sfAppId;
@@ -243,7 +243,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 							'X-AUTH-TOKEN': auth_token,
 							'content-Type': 'Application/Json'
 						},
-						url: baseURL + "salesforce/conditionalpara/" + conditionalParaSfKey + "/" + appName + "/" + userInfo.email,
+						url: baseURL + "/" + "salesforce/conditionalpara/" + conditionalParaSfKey + "/" + appName + "/" + userInfo.email,
 						success: function(result) {
 							console.log("Geting value", result);
 							response = result;

@@ -104,7 +104,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 
 				var response;
 				var auth_token = localStorage.getItem('auth_token');
-				var baseURL = "https://apiapplyrcx.alueducation.com/" //Change when deploying
+				var baseURL = "https://apiapplyrcx.alueducation.com" //Change when deploying
 				var userInfo = JSON.parse($cookies.get("userInfo"));
 				var applicationData = userInfo.applicationIdMap;
 				var sfAppId;

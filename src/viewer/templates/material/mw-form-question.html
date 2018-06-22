@@ -10,7 +10,7 @@
         </div>
         <div ng-switch-when="textarea" ng-form name="myText">
             <md-input-container class="md-block">
-                <textarea name="errorCheck" msd-elastic class="form-control" ng-model="ctrl.questionResponse.answer" placeholder="{{ctrl.question.text}}" ng-required="ctrl.question.required" ng-readonly="ctrl.readOnly" ng-maxlength="131072" maxlength="131073"></textarea>
+                <textarea name="errorCheck" msd-elastic class="form-control" ng-model="ctrl.questionResponse.answer" placeholder="{{ctrl.question.text}}" ng-required="ctrl.question.required" ng-readonly="ctrl.readOnly" ng-maxlength="131072" maxlength="131073" rows="3"></textarea>
                 <span style="color:red; font-size:13px;" ng-show= "myText.errorCheck.$error.maxlength">You have exceeded the maximum entry limit of 131072 characters.</span>
             </md-input-container>
         </div>

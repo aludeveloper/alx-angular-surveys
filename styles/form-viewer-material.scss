@@ -98,6 +98,7 @@ md-input-container .md-placeholder, md-input-container label, md-input-container
   font-family: Open Sans;
   font-weight: normal;
   letter-spacing: 0.5px;
+  white-space: pre-wrap !important;
 }
 
 md-input-container.md-default-theme:not(.md-input-invalid).md-input-has-value label, md-input-container:not(.md-input-invalid).md-input-has-value label {
@@ -230,61 +231,74 @@ md-input-container.md-default-theme.md-input-invalid .md-input, md-input-contain
     border-color: #ec1c24 !important;
 }
 
-input[type=file] {
-    width: 320px !important;
-    max-width: 320px !important;
-    min-width: 320px !important;
-    height: 58px;
+input[type=file]::-webkit-file-upload-button {
+  width : 0px;
+  padding: 0;
+  border:0px;
+  visibility: hidden;
 }
 
-input[type=file]::-webkit-file-upload-button {
+input[type=file] {
+     height: 58px;
+}
+
+.custome-upload-btn {
   background : transparent;
   color: #00264e;
   border: 2px solid #00264e;
   border-radius: 8px;
   font-weight: 800;
-  float: left;
   font-size: 13px;
   font-style: italic;
   font-family: Open Sans;
   min-width: 80px;
   text-transform: capitalize;
-  margin-top: 25px;
-
+  height : 23px;
+  position: absolute;
+  left: 3px;
+  bottom: 30px;
+  width: 30px;
 }
 
-
-
-
-@media (max-width: 1024px) and (max-height: 1366px) {
+@media only screen and (max-width: 960px) {
+  
   input[type=file] {
-      width: 250px !important;
-      max-width: 250px !important;
-      min-width: 250px !important;
+      height: 58px;
   }
 
-@media only screen and (max-width: 960px) {
-  input[type=file] {
-      width: 300px !important;
-      max-width: 300px !important;
-      min-width: 300px !important;
+  .custome-upload-btn {
+    background : transparent;
+    color: #00264e;
+    border: 2px solid #00264e;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 13px;
+    font-style: italic;
+    font-family: Open Sans;
+    min-width: 80px;
+    text-transform: capitalize;
+    height : 23px;
+    position: absolute;
+    left: 3px;
+    bottom:30px;
+    width: 30px;
   }    
 }
 
-@media (min-width: 320px) and (max-width:350px) {
-  input[type=file] {
-      width: 260px !important;
-      max-width: 260px !important;
-      min-width: 260px !important;
+@media (min-width: 768px){
+  #inputFile{
+    width: 100% !important;
   }
-}  
+  
+  .set-size {
+    width: 100% !important;
+  }
+}
 
 .label-truncate {
   width:100%;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-}
-
 }
 

@@ -70,6 +70,14 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
                             sfkey: ''
                         };
                     }
+                }else if(ctrl.pageElement.type=='videolink'){
+                    console.log("videolink");
+                    if(!ctrl.pageElement.videolink){
+                        ctrl.pageElement.videolink={
+                            id: mwFormUuid.get(),
+                            html: ''
+                        };
+                    }
                 }
             };
 

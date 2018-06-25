@@ -127,6 +127,10 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
             ctrl.addParagraphCondition= function(){
                 ctrl.addElement('paragraphcondition');
             };
+
+            ctrl.addVideoLink= function(){
+                ctrl.addElement('videolink');
+            };
             
             ctrl.isElementActive= function(element){
                 return ctrl.activeElement==element;

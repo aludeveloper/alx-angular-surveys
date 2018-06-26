@@ -45,6 +45,15 @@
             <span translate="mwForm.question.orLabel">or </span>
             <md-button role="button" ng-click="ctrl.addCustomAnswer()" translate="mwForm.question.buttons.addOther">Dodaj "Inne"</md-button>
         </span>
+        <div>
+            <md-input-container ng-if="ctrl.question.type=='select'" >
+                    <input class="form-control" type="file" ng-model="ctrl.questionResponse.fileName" accept=".csv" id="csvfile" fileread="ctrl.questionResponse.answer"  ng-readonly="ctrl.readOnly" placeholder="&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Choose CSV File">
+            </md-input-container>
+
+            <md-input-container style="width: 200px;vertical-align: bottom;margin-left:20px">
+               <label class="form-control">{{ctrl.questionResponse.fileName_1}}</label>
+            </md-input-container>
+        </div>
     </div>
     <div class="mw-question-offered-answer custom-answer" ng-if="ctrl.question.otherAnswer">
         <div class="drag-handle"  ng-if="!ctrl.readOnly">

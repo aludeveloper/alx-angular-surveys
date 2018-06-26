@@ -9,7 +9,8 @@ angular.module('mwFormBuilder').directive('mwQuestionOfferedAnswerListBuilder', 
             formObject: '=',
             readOnly: '=?',
             options: '=?',
-            disableOtherAnswer: '=?'
+            disableOtherAnswer: '=?',
+            fileReader:'='
         },
         templateUrl: 'mw-question-offered-answer-list-builder.html',
         controllerAs: 'ctrl',
@@ -88,6 +89,33 @@ angular.module('mwFormBuilder').directive('mwQuestionOfferedAnswerListBuilder', 
                 ctrl.question.otherAnswer=false;
             };
 
+
+            ctrl.processData = function(allText) {
+                // split content based on new line
+                var allTextLines = allText.split(/\r\n|\n/);
+                var headers = allTextLines[0].split(',');
+                var lines = [];
+                var defaultPageFlow = ctrl.possiblePageFlow[0];
+                
+                for ( var i = 0; i < allTextLines.length; i++) {
+                    var answer ;
+                    // split content based on comma
+                    var data = allTextLines[i].split(',');
+                    if (data.length == headers.length) {
+                        for ( var j = 0; j < headers.length; j++) {
+                            answer = { 
+                                id: mwFormUuid.get(),
+                                orderNo: ctrl.question.offeredAnswers.length + 1,
+                                value: data[j],
+                                pageFlow:defaultPageFlow
+                            };
+                            ctrl.question.offeredAnswers.push(answer);
+                            ctrl.isNewAnswer[answer.id]=true;
+                        }
+                    }
+                }
+            };
+
             ctrl.keyPressedOnInput= function(keyEvent, answer){
                 delete ctrl.isNewAnswer[answer.id];
                 if (keyEvent.which === 13){
@@ -105,6 +133,23 @@ angular.module('mwFormBuilder').directive('mwQuestionOfferedAnswerListBuilder', 
         link: function (scope, ele, attrs, formQuestionBuilderCtrl){
             var ctrl = scope.ctrl;
             ctrl.possiblePageFlow = formQuestionBuilderCtrl.possiblePageFlow;
+            
+            //file uploads
+            ele.bind("change", function(changeEvent) {
+                
+                var files = changeEvent.target.files;
+                var reader = new FileReader();
+                if (files.length > 0) {
+                  
+                  reader.onload = function(e) {
+                      var contents = e.target.result;
+                  };
+                  reader.readAsText(files[0]);
+                  setTimeout(function () {
+                    ctrl.processData(reader.result);
+                  }, 100);               
+               }                        
+            });
         }
     };
 });

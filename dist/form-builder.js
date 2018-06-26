@@ -806,6 +806,11 @@ angular.module('mwFormBuilder').factory("FormParagraphBuilderId", function(){
         controller: ["$timeout", "FormParagraphBuilderId", function($timeout,FormParagraphBuilderId){
             var ctrl = this;
 
+            ctrl.number = 100; 
+            ctrl.getNumber = function(num)
+            {
+                return new Array(num);
+            }
             // Put initialization logic inside `$onInit()`
             // to make sure bindings have been initialized.
             ctrl.$onInit = function() {

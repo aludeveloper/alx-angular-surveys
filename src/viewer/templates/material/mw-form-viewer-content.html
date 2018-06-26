@@ -33,6 +33,9 @@
                         
                     </div>
                 </div>
+                <div ng-switch-when="videolink">
+                    <div ng-init="ctrl.getVideoUrl()" ng-bind-html="ctrl.videourl"></div>
+                </div>
             </div>
         </div>
     </div>

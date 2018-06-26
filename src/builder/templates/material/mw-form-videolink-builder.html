@@ -1,0 +1,18 @@
+<div class="mw-form-videolink-builder-wrapper">
+	<div class="mw-form-videolink-builder" ng-class="{'ng-submitted':ctrl.formSubmitted}">
+		<div class="videolink-editor" ng-form="ctrl.form" ng-if="!ctrl.isPreview">
+			<md-input-container class="md-block" ng-form>
+				<mw-label label-for="videolink-textarea-{{ctrl.id}}" label-key="mwForm.videolink.placeholder"></mw-label>
+				<input type="text" ng-model="ctrl.videolink.html" required ng-attr-id="videolink-textarea-{{ctrl.id}}" ng-readonly="ctrl.readOnly">
+			</md-input-container>
+			<div layout="row">
+				<md-button class="md-primary md-raised" type="button" role="button" ng-click="ctrl.save()" translate="mwForm.buttons.questionReady">
+					Ready
+				</md-button>
+			</div>
+		</div>
+		<div class="mw-preview" ng-if="ctrl.isPreview">
+			<p ng-bind-html="ctrl.videolink.html"></p>
+		</div>
+	</div>
+</div>

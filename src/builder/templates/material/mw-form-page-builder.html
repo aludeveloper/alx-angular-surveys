@@ -78,6 +78,12 @@
                             <span>Conditional Paragraph</span><i class="fa fa-paragraph  fa-lg fa-fw" style="margin-left: 10px;"></i>
                         </md-button>
                     </md-menu-item>
+
+                    <md-menu-item ng-if="ctrl.isElementTypeEnabled('videolink')">
+                        <md-button type="button" ng-click="ctrl.addVideoLink()">
+                            <span>Video Link</span>
+                        </md-button>
+                    </md-menu-item>
                 </md-menu-content>
             </md-menu>
 

@@ -25,6 +25,11 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
             bindToController: true,
             controller: ["$timeout", "FormQuestionId", function($timeout, FormQuestionId) {
                 var ctrl = this;
+                console.log($rootScope.linkedquestionList);
+                if($rootScope.linkedquestionList == undefined){
+                    $rootScope.linkedquestionList = [];
+                }
+                
                 ctrl.largeFileFlag = false;
                 ctrl.fileSelectedEvent = false;
                 // Put initialization logic inside `$onInit()`
@@ -96,34 +101,22 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                     ctrl.initialized = true;
                 };
 
-                ctrl.linkedquestionList = [];
+                
                 ctrl.hideLinked = function(qdata){
                     ctrl.question['isWorking'] = true;
-                    console.log("ctrl.linkedquestionList",ctrl.linkedquestionList);
+                    console.log("$rootScope.linkedquestionList",$rootScope.linkedquestionList);
                     console.log("qdata",qdata);
 
-                    if (ctrl.linkedquestionList.includes(qdata.id)) {
+                    if ($rootScope.linkedquestionList.includes(qdata.id)) {
                         ctrl.question['isLinked'] = true;
                     }
 
-                    /*angular.forEach(qdata, function(obj1, key1) {
-                        if (ctrl.linkedquestionList.includes(obj1.id)) {
-                            obj1['isLinked'] = true;
-                        }
-                    });*/                    
-
-                    // angular.forEach(ctrl.formData.pages, function(obj, key) {
-                        // angular.forEach(qdata, function(obj1, key1) {
-                            if (qdata.type == "radio") {
-                                angular.forEach(qdata.offeredAnswers, function(offans, key1) {
-                                    ctrl.linkedquestionList.push(offans.linkedquestion);
-                                });                         
-                            }
-                        // });
-                    // });
-
-                    
-                }
+                    if (qdata.type == "radio") {
+                        angular.forEach(qdata.offeredAnswers, function(offans, key1) {
+                            $rootScope.linkedquestionList.push(offans.linkedquestion);
+                        });                         
+                    }
+                };
 
                 ctrl.selectedAnswerChanged = function() {
                     delete ctrl.questionResponse.other;

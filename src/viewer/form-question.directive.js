@@ -96,6 +96,35 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                     ctrl.initialized = true;
                 };
 
+                ctrl.linkedquestionList = [];
+                ctrl.hideLinked = function(qdata){
+                    ctrl.question['isWorking'] = true;
+                    console.log("ctrl.linkedquestionList",ctrl.linkedquestionList);
+                    console.log("qdata",qdata);
+
+                    if (ctrl.linkedquestionList.includes(qdata.id)) {
+                        ctrl.question['isLinked'] = true;
+                    }
+
+                    /*angular.forEach(qdata, function(obj1, key1) {
+                        if (ctrl.linkedquestionList.includes(obj1.id)) {
+                            obj1['isLinked'] = true;
+                        }
+                    });*/                    
+
+                    // angular.forEach(ctrl.formData.pages, function(obj, key) {
+                        // angular.forEach(qdata, function(obj1, key1) {
+                            if (qdata.type == "radio") {
+                                angular.forEach(qdata.offeredAnswers, function(offans, key1) {
+                                    ctrl.linkedquestionList.push(offans.linkedquestion);
+                                });                         
+                            }
+                        // });
+                    // });
+
+                    
+                }
+
                 ctrl.selectedAnswerChanged = function() {
                     delete ctrl.questionResponse.other;
                     ctrl.isOtherAnswer = false;

@@ -103,22 +103,47 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
 
                 
                 ctrl.hideLinked = function(qdata){
-                    ctrl.question['isWorking'] = true;
-                    console.log("$rootScope.linkedquestionList",$rootScope.linkedquestionList);
-                    console.log("qdata",qdata);
+                    $timeout(function() {
+                        console.log("$rootScope.linkedquestionList",$rootScope.linkedquestionList);
+                        console.log("qdata",qdata);
 
-                    if ($rootScope.linkedquestionList.includes(qdata.id)) {
-                        ctrl.question['isLinked'] = true;
-                    }
+                        if ($rootScope.linkedquestionList.includes(qdata.id)) {
+                            // ctrl.question['isLinked'] = true;
+                            document.getElementById(qdata.id).style.display = "none";
+                        }
+                        /*else{
+                            ctrl.question['isLinked'] = false;
+                        }*/
 
-                    if (qdata.type == "radio") {
-                        angular.forEach(qdata.offeredAnswers, function(offans, key1) {
-                            $rootScope.linkedquestionList.push(offans.linkedquestion);
-                        });                         
-                    }
+
+
+                        if (qdata.type == "radio") {
+                            angular.forEach(qdata.offeredAnswers, function(offans, key1) {
+                                if(!$rootScope.linkedquestionList.includes(offans.linkedquestion)){
+                                    $rootScope.linkedquestionList.push(offans.linkedquestion);
+                                }
+                            });                         
+                        }
+                    }, 300);
+                    
                 };
 
                 ctrl.selectedAnswerChanged = function() {
+                    if(ctrl.selectedLinkQ === undefined){
+                        ctrl.selectedLinkQ = ctrl.questionResponse.selectedAnswer.linkedquestion;
+                        document.getElementById(ctrl.selectedLinkQ).style.display = "block";
+                    }else{
+                        document.getElementById(ctrl.selectedLinkQ).style.display = "none";
+                        ctrl.selectedLinkQ = ctrl.questionResponse.selectedAnswer.linkedquestion;
+                        document.getElementById(ctrl.selectedLinkQ).style.display = "block";
+                    }
+                    
+                    // console.log("ctrl",ctrl);
+                    console.log("ctrl.questionResponse.selectedAnswer",ctrl.questionResponse.selectedAnswer);
+                    // console.log(ctrl.question.isLinked);
+                    // console.log(ctrl.questionResponse.selectedAnswer.linkedquestion);
+                    console.log(ctrl.selectedLinkQ);
+                    
                     delete ctrl.questionResponse.other;
                     ctrl.isOtherAnswer = false;
                     ctrl.answerChanged();

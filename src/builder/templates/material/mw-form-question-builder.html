@@ -43,7 +43,11 @@
                     </div>
                     <div ng-switch-when="textarea">
                         <md-input-container class="md-block">
-                            <textarea class="form-control" maxlength="150" rows="5" disabled>{{'mwForm.question.preview.textarea'|translate}}</textarea>
+                            <textarea class="form-control" maxlength="{{ctrl.question.charLimit}}" rows="5" disabled>{{'mwForm.question.preview.textarea'|translate}}</textarea>
+                        </md-input-container>
+                        <md-input-container>
+                            <label>Character Limit</label>
+                            <input type="number" ng-model="ctrl.question.charLimit" onKeyPress="if(this.value.length==131072) return false;" onKeyUp="if(this.value>131072){this.value='131072';}else if(this.value<1){this.value='1';}" ng-required="true">
                         </md-input-container>
                     </div>
                     <div ng-switch-when="radio">

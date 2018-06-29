@@ -29,6 +29,11 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                 ctrl.fileSelectedEvent = false;
                 // Put initialization logic inside `$onInit()`
                 // to make sure bindings have been initialized.
+
+                ctrl.functionclick = function()
+                {
+                    document.getElementById('inputFile').click();
+                }
                 this.$onInit = function() {
                     ctrl.id = FormQuestionId.next();
 
@@ -162,7 +167,9 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                         
                         reader.readAsDataURL(changeEvent.target.files[0]); 
                     } else {
-                        ctrl.largeFileFlag = true; 
+                        scope.$apply(function() {
+                            ctrl.largeFileFlag = true; 
+                        });
                         $rootScope.$broadcast('fileRequiredFlag', ctrl.largeFileFlag);
                         alert("File size is larze; maximum file size 1 MB");           
                     }

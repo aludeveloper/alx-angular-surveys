@@ -1,48 +1,43 @@
-angular.module('mwFormBuilder').factory("FormParagraphBuilderId", function(){
+angular.module('mwFormBuilder').factory("FormVideoLinkBuilderId", function(){
     var id = 0;
         return {
             next: function(){
                 return ++id;
             }
-        }
+        };
     })
 
-    .directive('mwFormParagraphBuilder', function () {
+    .directive('mwFormVideolinkBuilder', function () {
 
     return {
         replace: true,
         restrict: 'AE',
         require: '^mwFormPageElementBuilder',
         scope: {
-            paragraph: '=',
+            videolink: '=',
             formObject: '=',
             onReady: '&',
             isPreview: '=?',
             readOnly: '=?'
         },
-        templateUrl: 'mw-form-paragraph-builder.html',
+        templateUrl: 'mw-form-videolink-builder.html',
         controllerAs: 'ctrl',
         bindToController: true,
-        controller: ["$timeout", "FormParagraphBuilderId", function($timeout,FormParagraphBuilderId){
+        controller: ["$timeout", "FormVideoLinkBuilderId", function($timeout,FormVideoLinkBuilderId){
             var ctrl = this;
-
-            ctrl.number = 100; 
-            ctrl.getNumber = function(num)
-            {
-                return new Array(num);
-            }
+            console.log(ctrl);
             // Put initialization logic inside `$onInit()`
             // to make sure bindings have been initialized.
             ctrl.$onInit = function() {
-                ctrl.id = FormParagraphBuilderId.next();
+                ctrl.id = FormVideoLinkBuilderId.next();
                 ctrl.formSubmitted=false;
             };
 
             ctrl.save=function(){
                 ctrl.formSubmitted=true;
-                if(ctrl.form.$valid){
+                // if(ctrl.form.$valid){
                     ctrl.onReady();
-                }
+                // }
             };
 
             // Prior to v1.5, we need to call `$onInit()` manually.

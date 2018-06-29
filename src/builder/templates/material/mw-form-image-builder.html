@@ -1,11 +1,13 @@
 <div class="mw-form-image-builder-wrapper">
     <div class="mw-form-image-builder" ng-class="{'ng-submitted':ctrl.formSubmitted}">
         <div class="image-editor" ng-form="ctrl.form" ng-if="!ctrl.isPreview">
-            <button ng-if="!ctrl.image.src" ng-click="ctrl.selectImageButtonClicked()" type="button" class="btn btn-default" translate="mwForm.image.selectImageButton">Select image</button>
+        
+
+            <input type="file" id="fileName" accept=".png, .tif, .jpg, .jpeg" onchange="angular.element(this).scope().ctrl.selectImage(this)">
 
             <div class="image-edition row" ng-if="ctrl.image.src" >
                 <div class="col-md-12" ng-class="'align-'+ctrl.image.align">
-                    <img  ng-src="{{ctrl.image.src}}">
+                     <img id="myImage" ng-src="{{ctrl.image.src}}">
                 </div>
                 <div class="col-md-12 image-align-control">
                     <div class="btn-group" role="group" aria-label="Image align">

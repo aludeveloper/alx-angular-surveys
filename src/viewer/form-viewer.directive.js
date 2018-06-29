@@ -19,7 +19,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 		templateUrl: 'mw-form-viewer.html',
 		controllerAs: 'ctrl',
 		bindToController: true,
-		controller: ["$timeout", "$interpolate", "$cookies", function($timeout, $interpolate, $cookies) {
+		controller: ["$timeout", "$interpolate", "$cookies", "$sce", function($timeout, $interpolate, $cookies, $sce) {
 			var ctrl = this;
 			var rootScope = $rootScope;
 			ctrl.largeFileFlag = false;
@@ -90,6 +90,16 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 						$timeout(ctrl.resetPages, 0);
 					}
 				}
+			};
+
+			ctrl.getVideoUrl = function(){
+				angular.forEach(ctrl.formData.pages, function(obj, key) {
+					angular.forEach(obj.elements, function(obj1, key1) {
+						if (obj1.type === "videolink") {
+							ctrl.videourl = $sce.trustAsHtml(obj1.videolink.html);
+						}
+					});
+				});
 			};
 
 			ctrl.getSfFlagValue = function() {

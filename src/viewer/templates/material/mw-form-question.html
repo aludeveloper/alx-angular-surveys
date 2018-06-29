@@ -10,7 +10,8 @@
         </div>
         <div ng-switch-when="textarea" ng-form name="myText">
             <md-input-container class="md-block">
-                <textarea name="errorCheck" msd-elastic class="form-control" ng-model="ctrl.questionResponse.answer" placeholder="{{ctrl.question.text}}" ng-required="ctrl.question.required" ng-readonly="ctrl.readOnly" ng-maxlength="131072" maxlength="131073" rows="3"></textarea>
+                <textarea id = "txtlimit" name="errorCheck" msd-elastic class="form-control" ng-model="ctrl.questionResponse.answer" placeholder="{{ctrl.question.text}}" ng-required="ctrl.question.required" ng-readonly="ctrl.readOnly" rows="3" maxlength="{{ctrl.question.charLimit}}" ></textarea>
+                <span style="color: red; font-size: 13px;font-family: Open Sans;font-style: italic;float: right;padding-top: 3px;">{{ctrl.question.charLimit-ctrl.questionResponse.answer.length}} characters remaining.</span> 
                 <span style="color:red; font-size:13px;" ng-show= "myText.errorCheck.$error.maxlength">You have exceeded the maximum entry limit of 131072 characters.</span>
             </md-input-container>
         </div>
@@ -136,6 +137,7 @@
             </md-input-container>
         </div>
         <div ng-switch-when="date" class="form-inline">
+
             <md-input-container>
                 <input class="form-control" type="date" ng-model-options = "{timezone:'UTC'}" placeholder="{{ctrl.question.text}}" ng-model="ctrl.questionResponse.answer" ng-required="ctrl.question.required" ng-readonly="ctrl.readOnly">
             </md-input-container>
@@ -166,20 +168,19 @@
         </div>
         <div ng-switch-when="file" class="form-inline">
             <div layout="row">
-                <div flex="60">
-                    <md-input-container>
-                        <input  id='inputFile' class="form-control" placeholder="{{ctrl.question.text}}" ng-class="ctrl.fileSelectedEvent ? 'fileupload-text-black' : 'fileupload-text'" ng-model="ctrl.questionResponse.fileName" type="file" accept=".png, .tif, .jpg, .jpeg, .pdf" fileread="ctrl.questionResponse.answer"  ng-readonly="ctrl.readOnly" ng-required="ctrl.question.required && ctrl.questionResponse.fileName == undefined">
-                        <span ng-if="ctrl.largeFileFlag" style="color:red;position: absolute; left: 0px; font-size: 12px; top: 60px;">
+                <div flex="100">
+                    <md-input-container style="width: 100%;">
+                        <input id='inputFile' class="form-control file-style" placeholder="{{ctrl.question.text}}" ng-class="ctrl.fileSelectedEvent ? 'fileupload-text-black' : 'fileupload-text'" ng-model="ctrl.questionResponse.fileName" type="file" accept=".png, .tif, .jpg, .jpeg, .pdf" fileread="ctrl.questionResponse.answer"  ng-readonly="ctrl.readOnly" ng-required="ctrl.question.required && ctrl.questionResponse.fileName == undefined">
+                        <span class="custome-upload-btn" ng-click="ctrl.functionclick()"> Choose File 
+                        </span>
+                        <span ng-if="ctrl.largeFileFlag" style="color:red;position: absolute;left: 0px;font-size: 12px; top: 60px;">
                             *File size is large
                         </span>
                     </md-input-container>
                 </div>
-                <div hide-xs hide-sm flex="40" align="start">
-                    <label class="form-control label-truncate" style="position:relative;top:15px;font-size:12px;font-family: Open Sans;width:90%;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">{{ctrl.questionResponse.fileName}}</label>
-                </div>
             </div>
-            <div hide-gt-sm flex="60" layout="row" style="margin-top: 25px;">
-                <label class="form-control label-truncate" style="font-size:12px;font-family:Open Sans;">{{ctrl.questionResponse.fileName}}</label>
+            <div flex="95" layout="row" style="margin-top: 10px;">
+                    <label class="form-control label-truncate set-size" style="font-size:12px;font-family:Open Sans;position: relative;left: 4px;">{{ctrl.questionResponse.fileName}}</label>
             </div>
         </div>
 

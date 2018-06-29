@@ -1233,6 +1233,27 @@ angular.module('mwFormBuilder').factory("FormImageBuilderId", function(){
                 });
             };
 
+            ctrl.selectImage= function(input) {
+                var imgType = input.files[0].type;
+                if(imgType=="image/jpeg" || imgType=="image/jpg" || imgType=="image/png" || imgType=="image/tif" )
+                {
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $('#myImage')
+                                .attr('src', e.target.result)
+                                .width(150)
+                                .height(200);
+                            ctrl.image.src=e.target.result;
+                        };
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+                else {
+                    alert("Only jpg/jpeg and png files are allowed!");
+                }
+            }
+
             ctrl.setAlign = function(align){
                 ctrl.image.align = align;
             }

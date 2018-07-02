@@ -90,7 +90,6 @@ angular.module('mwFormBuilder').directive('mwQuestionOfferedAnswerListBuilder', 
 			};
 
 			ctrl.processData = function(allText) {
-				console.log("WWWWWWWWWWWWW", allText);
 				// split content based on new line
 				var allTextLines = allText.split(/\r\n|\n/);
 				var headers = allTextLines[0].split(',');
@@ -134,7 +133,6 @@ angular.module('mwFormBuilder').directive('mwQuestionOfferedAnswerListBuilder', 
 		link: function(scope, ele, attrs, formQuestionBuilderCtrl) {
 			var ctrl = scope.ctrl;
 			ctrl.possiblePageFlow = formQuestionBuilderCtrl.possiblePageFlow;
-			console.log("VVVVVVVVVVVVVVVVVVVVVVVVVVVVV", formQuestionBuilderCtrl.formObject.pages[0].elements);
 
 			ctrl.elements = formQuestionBuilderCtrl.formObject.pages[0].elements;
 			//file uploads

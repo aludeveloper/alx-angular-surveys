@@ -191,7 +191,8 @@ angular.module('mwFormBuilder').directive('mwQuestionOfferedAnswerListBuilder', 
             formObject: '=',
             readOnly: '=?',
             options: '=?',
-            disableOtherAnswer: '=?'
+            disableOtherAnswer: '=?',
+            fileReader:'='
         },
         templateUrl: 'mw-question-offered-answer-list-builder.html',
         controllerAs: 'ctrl',
@@ -270,6 +271,33 @@ angular.module('mwFormBuilder').directive('mwQuestionOfferedAnswerListBuilder', 
                 ctrl.question.otherAnswer=false;
             };
 
+
+            ctrl.processData = function(allText) {
+                // split content based on new line
+                var allTextLines = allText.split(/\r\n|\n/);
+                var headers = allTextLines[0].split(',');
+                var lines = [];
+                var defaultPageFlow = ctrl.possiblePageFlow[0];
+                
+                for ( var i = 0; i < allTextLines.length; i++) {
+                    var answer ;
+                    // split content based on comma
+                    var data = allTextLines[i].split(',');
+                    if (data.length == headers.length) {
+                        for ( var j = 0; j < headers.length; j++) {
+                            answer = { 
+                                id: mwFormUuid.get(),
+                                orderNo: ctrl.question.offeredAnswers.length + 1,
+                                value: data[j],
+                                pageFlow:defaultPageFlow
+                            };
+                            ctrl.question.offeredAnswers.push(answer);
+                            ctrl.isNewAnswer[answer.id]=true;
+                        }
+                    }
+                }
+            };
+
             ctrl.keyPressedOnInput= function(keyEvent, answer){
                 delete ctrl.isNewAnswer[answer.id];
                 if (keyEvent.which === 13){
@@ -287,6 +315,23 @@ angular.module('mwFormBuilder').directive('mwQuestionOfferedAnswerListBuilder', 
         link: function (scope, ele, attrs, formQuestionBuilderCtrl){
             var ctrl = scope.ctrl;
             ctrl.possiblePageFlow = formQuestionBuilderCtrl.possiblePageFlow;
+            
+            //file uploads
+            ele.bind("change", function(changeEvent) {
+                
+                var files = changeEvent.target.files;
+                var reader = new FileReader();
+                if (files.length > 0) {
+                  
+                  reader.onload = function(e) {
+                      var contents = e.target.result;
+                  };
+                  reader.readAsText(files[0]);
+                  setTimeout(function () {
+                    ctrl.processData(reader.result);
+                  }, 100);               
+               }                        
+            });
         }
     };
 });
@@ -556,6 +601,61 @@ angular.module('mwFormBuilder').directive('mwLabel', function () {
         }],
         link: function (scope, ele, attrs){
 
+        }
+    };
+});
+
+angular.module('mwFormBuilder').factory("FormVideoLinkBuilderId", function(){
+    var id = 0;
+        return {
+            next: function(){
+                return ++id;
+            }
+        };
+    })
+
+    .directive('mwFormVideolinkBuilder', function () {
+
+    return {
+        replace: true,
+        restrict: 'AE',
+        require: '^mwFormPageElementBuilder',
+        scope: {
+            videolink: '=',
+            formObject: '=',
+            onReady: '&',
+            isPreview: '=?',
+            readOnly: '=?'
+        },
+        templateUrl: 'mw-form-videolink-builder.html',
+        controllerAs: 'ctrl',
+        bindToController: true,
+        controller: ["$timeout", "FormVideoLinkBuilderId", function($timeout,FormVideoLinkBuilderId){
+            var ctrl = this;
+            console.log(ctrl);
+            // Put initialization logic inside `$onInit()`
+            // to make sure bindings have been initialized.
+            ctrl.$onInit = function() {
+                ctrl.id = FormVideoLinkBuilderId.next();
+                ctrl.formSubmitted=false;
+            };
+
+            ctrl.save=function(){
+                ctrl.formSubmitted=true;
+                // if(ctrl.form.$valid){
+                    ctrl.onReady();
+                // }
+            };
+
+            // Prior to v1.5, we need to call `$onInit()` manually.
+            // (Bindings will always be pre-assigned in these versions.)
+            if (angular.version.major === 1 && angular.version.minor < 5) {
+                ctrl.$onInit();
+            }
+
+        }],
+        link: function (scope, ele, attrs, formPageElementBuilder){
+            var ctrl = scope.ctrl;
         }
     };
 });
@@ -910,6 +1010,14 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
                             sfkey: ''
                         };
                     }
+                }else if(ctrl.pageElement.type=='videolink'){
+                    console.log("videolink");
+                    if(!ctrl.pageElement.videolink){
+                        ctrl.pageElement.videolink={
+                            id: mwFormUuid.get(),
+                            html: ''
+                        };
+                    }
                 }
             };
 
@@ -1107,6 +1215,10 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
 
             ctrl.addParagraphCondition= function(){
                 ctrl.addElement('paragraphcondition');
+            };
+
+            ctrl.addVideoLink= function(){
+                ctrl.addElement('videolink');
             };
             
             ctrl.isElementActive= function(element){
@@ -1530,7 +1642,7 @@ angular.module('mwFormBuilder').filter('mwStartFrom', function() {
 });
 angular.module('mwFormBuilder')
     .constant('MW_QUESTION_TYPES', ['text', 'textarea', 'radio', 'checkbox', 'select', 'grid', 'priority', 'division', 'number', 'date', 'time', 'email', 'range', 'url', 'file'])
-    .constant('MW_ELEMENT_TYPES', ['question', 'image', 'paragraph', 'paragraphConditionTrue'])
+    .constant('MW_ELEMENT_TYPES', ['question', 'image', 'paragraph', 'paragraphConditionTrue', 'videolink'])
     .constant('MW_GRID_CELL_INPUT_TYPES', ['radio', 'checkbox', 'text', 'number', 'date', 'time'])
     .factory('mwFormBuilderOptions', ["MW_ELEMENT_TYPES", "MW_QUESTION_TYPES", function mwFormBuilderOptionsFactory(MW_ELEMENT_TYPES, MW_QUESTION_TYPES){
 

@@ -139,7 +139,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 		templateUrl: 'mw-form-viewer.html',
 		controllerAs: 'ctrl',
 		bindToController: true,
-		controller: ["$timeout", "$interpolate", "$cookies", function($timeout, $interpolate, $cookies) {
+		controller: ["$timeout", "$interpolate", "$cookies", "$sce", function($timeout, $interpolate, $cookies, $sce) {
 			var ctrl = this;
 			var rootScope = $rootScope;
 			ctrl.largeFileFlag = false;
@@ -153,6 +153,10 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 			$rootScope.$on("hideSaveButton", function(event, flag) {
 				ctrl.hideSaveButton = flag.hideSaveButton;
 			});
+
+			ctrl.stageNo = localStorage.getItem('stageIndexNo');
+
+
 			// Put initialization logic inside `$onInit()`
 			// to make sure bindings have been initialized.
 			ctrl.$onInit = function() {
@@ -212,11 +216,21 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 				}
 			};
 
+			ctrl.getVideoUrl = function(){
+				angular.forEach(ctrl.formData.pages, function(obj, key) {
+					angular.forEach(obj.elements, function(obj1, key1) {
+						if (obj1.type === "videolink") {
+							ctrl.videourl = $sce.trustAsHtml(obj1.videolink.html);
+						}
+					});
+				});
+			};
+
 			ctrl.getSfFlagValue = function() {
 				var conditionalParaSfKey;
 				angular.forEach(ctrl.formData.pages, function(obj, key) {
 					angular.forEach(obj.elements, function(obj1, key1) {
-						if (obj1.selecteditem && obj1.selecteditem.sfkey && obj1.type === "paragraphcondition") {
+						if (obj1.selecteditem && obj1.selecteditem.sfkey && obj1.type == "paragraphcondition") {
 							conditionalParaSfKey = obj1.selecteditem.sfkey.key;
 						}
 					});
@@ -224,7 +238,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 
 				var response;
 				var auth_token = localStorage.getItem('auth_token');
-				var baseURL = __env.apiUrl
+				var baseURL = "http://localhost:9000/" //Change when deploying
 				var userInfo = JSON.parse($cookies.get("userInfo"));
 				var applicationData = userInfo.applicationIdMap;
 				var sfAppId;
@@ -276,6 +290,35 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 
 			ctrl.setCurrentPage = function(page) {
 				ctrl.currentPage = page;
+				
+				/*ctrl.linkedquestionList = [];
+				console.log("currentPage",ctrl.currentPage);
+				console.log("ctrl.formData.pages",ctrl.formData.pages);
+
+				angular.forEach(ctrl.formData.pages, function(obj, key) {
+					angular.forEach(obj.elements, function(obj1, key1) {
+						if (obj1.type == "question" && obj1.question.type == "radio") {
+							angular.forEach(obj1.question.offeredAnswers, function(offans, key1) {
+								ctrl.linkedquestionList.push(offans.linkedquestion);
+							});
+						}
+					});
+				});
+
+				angular.forEach(ctrl.formData.pages, function(obj, key) {
+					angular.forEach(obj.elements, function(obj1, key1) {
+						if (obj1.type == "question" && ctrl.linkedquestionList.includes(obj1.question.id)) {
+							obj1['isLinked'] = true;
+						}
+					});
+				});*/
+
+				console.log("ctrl.formData.pages",ctrl.formData.pages);
+
+
+
+
+
 				if (!page) {
 
 					ctrl.buttons.submitForm.visible = false;
@@ -496,6 +539,11 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
             bindToController: true,
             controller: ["$timeout", "FormQuestionId", function($timeout, FormQuestionId) {
                 var ctrl = this;
+                console.log($rootScope.linkedquestionList);
+                if($rootScope.linkedquestionList == undefined){
+                    $rootScope.linkedquestionList = [];
+                }
+                
                 ctrl.largeFileFlag = false;
                 ctrl.fileSelectedEvent = false;
                 // Put initialization logic inside `$onInit()`
@@ -567,7 +615,49 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                     ctrl.initialized = true;
                 };
 
+                
+                ctrl.hideLinked = function(qdata){
+                    $timeout(function() {
+                        console.log("$rootScope.linkedquestionList",$rootScope.linkedquestionList);
+                        console.log("qdata",qdata);
+
+                        if ($rootScope.linkedquestionList.includes(qdata.id)) {
+                            // ctrl.question['isLinked'] = true;
+                            document.getElementById(qdata.id).style.display = "none";
+                        }
+                        /*else{
+                            ctrl.question['isLinked'] = false;
+                        }*/
+
+
+
+                        if (qdata.type == "radio") {
+                            angular.forEach(qdata.offeredAnswers, function(offans, key1) {
+                                if(!$rootScope.linkedquestionList.includes(offans.linkedquestion)){
+                                    $rootScope.linkedquestionList.push(offans.linkedquestion);
+                                }
+                            });                         
+                        }
+                    }, 300);
+                    
+                };
+
                 ctrl.selectedAnswerChanged = function() {
+                    if(ctrl.selectedLinkQ === undefined){
+                        ctrl.selectedLinkQ = ctrl.questionResponse.selectedAnswer.linkedquestion;
+                        document.getElementById(ctrl.selectedLinkQ).style.display = "block";
+                    }else{
+                        document.getElementById(ctrl.selectedLinkQ).style.display = "none";
+                        ctrl.selectedLinkQ = ctrl.questionResponse.selectedAnswer.linkedquestion;
+                        document.getElementById(ctrl.selectedLinkQ).style.display = "block";
+                    }
+                    
+                    // console.log("ctrl",ctrl);
+                    console.log("ctrl.questionResponse.selectedAnswer",ctrl.questionResponse.selectedAnswer);
+                    // console.log(ctrl.question.isLinked);
+                    // console.log(ctrl.questionResponse.selectedAnswer.linkedquestion);
+                    console.log(ctrl.selectedLinkQ);
+                    
                     delete ctrl.questionResponse.other;
                     ctrl.isOtherAnswer = false;
                     ctrl.answerChanged();

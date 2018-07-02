@@ -5,6 +5,12 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                 return ++id;
             }
         }
+    })
+    .config(function($mdDateLocaleProvider){
+        $mdDateLocaleProvider.formatDate = function(date) {
+            console.log("DATE!",date ? moment(date).startOf('day').format('DD-MM-YYYY') : '');
+            return date ? moment(date).startOf('day').format('DD-MM-YYYY') : '';
+        };
     });
 
     angular.module('mwFormViewer').directive('mwFormQuestion', ['$parse','$rootScope', function($parse, $rootScope) {
@@ -96,6 +102,9 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                     ctrl.initialized = true;
                 };
 
+                ctrl.dateChanged = function(date){
+                    ctrl.questionResponse.answer = date ? moment(date).startOf('day').format('DD-MM-YYYY') : '';                    
+                };
                 ctrl.selectedAnswerChanged = function() {
                     delete ctrl.questionResponse.other;
                     ctrl.isOtherAnswer = false;

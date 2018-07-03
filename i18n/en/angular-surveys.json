@@ -22,7 +22,8 @@
             "edit": "Edit",
             "clone": "Clone",
             "view": "View",
-            "understand": "I understand"
+            "understand": "I understand",
+            "saveProceed" : "Save & Proceed"
         },
         "page":{
             "tab":{

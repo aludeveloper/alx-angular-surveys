@@ -118,11 +118,14 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
 
                         if (qdata.type == "radio") {
                             angular.forEach(qdata.offeredAnswers, function(offans, key1) {
-                                if(!$rootScope.linkedquestionList.includes(offans.linkedquestion)){
-                                    $rootScope.linkedquestionList.push(offans.linkedquestion);
+                                for(var i=0; i<offans.linkedquestion.length; i++){
+                                    if(!$rootScope.linkedquestionList.includes(offans.linkedquestion[i])){
+                                        $rootScope.linkedquestionList.push(offans.linkedquestion[i]);
+                                    }                                    
                                 }
                             });                         
                         }
+
                     }, 300);
                 };
 
@@ -133,18 +136,18 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                 ctrl.selectedAnswerChanged = function() {
                     if(ctrl.selectedLinkQ === undefined){
                         ctrl.selectedLinkQ = ctrl.questionResponse.selectedAnswer.linkedquestion;
-                        document.getElementById(ctrl.selectedLinkQ).style.display = "block";
+                        for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
+                            document.getElementById(ctrl.selectedLinkQ[i]).style.display = "block";
+                        }
                     }else{
-                        document.getElementById(ctrl.selectedLinkQ).style.display = "none";
+                        for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
+                            document.getElementById(ctrl.selectedLinkQ[i]).style.display = "none";
+                        }
                         ctrl.selectedLinkQ = ctrl.questionResponse.selectedAnswer.linkedquestion;
-                        document.getElementById(ctrl.selectedLinkQ).style.display = "block";
+                        for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
+                            document.getElementById(ctrl.selectedLinkQ[i]).style.display = "block";
+                        }
                     }
-                    
-                    // console.log("ctrl",ctrl);
-                    console.log("ctrl.questionResponse.selectedAnswer",ctrl.questionResponse.selectedAnswer);
-                    // console.log(ctrl.question.isLinked);
-                    // console.log(ctrl.questionResponse.selectedAnswer.linkedquestion);
-                    console.log(ctrl.selectedLinkQ);
                     
                     delete ctrl.questionResponse.other;
                     ctrl.isOtherAnswer = false;

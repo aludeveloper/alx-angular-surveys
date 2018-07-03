@@ -334,7 +334,6 @@ angular.module('mwFormBuilder').directive('mwQuestionOfferedAnswerListBuilder', 
 		}
 	};
 });
-
 angular.module('mwFormBuilder').directive('mwQuestionGridBuilder', function () {
 
     return {

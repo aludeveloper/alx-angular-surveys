@@ -21,7 +21,6 @@
 				</div>
 
 				<md-input-container style="width:220px"ng-if="ctrl.question.type == 'radio'">
-					{{ctrl.question.type}}
 					<label>Select linked question</label>
 					<md-select ng-model="answer.linkedquestion" md-on-close="clearSearchTerm()" data-md-container-class="selectdemoSelectHeader" multiple>						
 						<md-optgroup label="questions">

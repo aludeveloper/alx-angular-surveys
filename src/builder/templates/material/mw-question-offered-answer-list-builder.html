@@ -22,10 +22,13 @@
 				
 				<md-input-container style="width:220px">
 					<label>Select linked question</label>
-					<md-select ng-model="answer.linkedquestion" ng-change="ctrl.linkquestion(question.question.id)">
-						<md-option ng-repeat="question in ctrl.elements" ng-value="question.question.id">
-							{{question.question.text}}
-						</md-option>
+					<md-select ng-model="answer.linkedquestion" md-on-close="clearSearchTerm()" data-md-container-class="selectdemoSelectHeader" multiple>
+						<md-select-header class="demo-select-header">
+							<input ng-model="searchTerm" type="search" placeholder="Search for a question" class="demo-header-searchbox md-text">
+						</md-select-header>
+						<md-optgroup label="questions">
+							<md-option ng-value="question.question.id" ng-repeat="question in ctrl.elements | filter:searchTerm">{{question.question.text}}</md-option>
+						</md-optgroup>
 					</md-select>
 				</md-input-container>
 				

@@ -5,6 +5,12 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                 return ++id;
             }
         }
+    })
+    .config(function($mdDateLocaleProvider){
+        $mdDateLocaleProvider.formatDate = function(date) {
+            console.log("DATE!",date ? moment(date).startOf('day').format('DD-MM-YYYY') : '');
+            return date ? moment(date).startOf('day').format('DD-MM-YYYY') : '';
+        };
     });
 
     angular.module('mwFormViewer').directive('mwFormQuestion', ['$parse','$rootScope', function($parse, $rootScope) {
@@ -100,7 +106,6 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                     ctrl.isAnswerSelected = false;
                     ctrl.initialized = true;
                 };
-
                 
                 ctrl.hideLinked = function(qdata){
                     $timeout(function() {
@@ -108,14 +113,8 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                         console.log("qdata",qdata);
 
                         if ($rootScope.linkedquestionList.includes(qdata.id)) {
-                            // ctrl.question['isLinked'] = true;
                             document.getElementById(qdata.id).style.display = "none";
                         }
-                        /*else{
-                            ctrl.question['isLinked'] = false;
-                        }*/
-
-
 
                         if (qdata.type == "radio") {
                             angular.forEach(qdata.offeredAnswers, function(offans, key1) {
@@ -125,7 +124,10 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                             });                         
                         }
                     }, 300);
-                    
+                };
+
+                ctrl.dateChanged = function(date){
+                    ctrl.questionResponse.answer = date ? moment(date).startOf('day').format('DD-MM-YYYY') : '';                    
                 };
 
                 ctrl.selectedAnswerChanged = function() {

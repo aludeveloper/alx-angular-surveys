@@ -140,9 +140,7 @@
         </div>
 
         <div ng-switch-when="date" class="form-inline">
-            <md-input-container>
-                <input class="form-control" type="date" ng-model-options = "{timezone:'UTC'}" placeholder="{{ctrl.question.text}}" ng-model="ctrl.questionResponse.answer" ng-required="ctrl.question.required" ng-readonly="ctrl.readOnly">
-            </md-input-container>
+             <md-datepicker md-placeholder="{{ctrl.question.text}}" ng-model="ctrl.questionResponse.answer" ng-change="ctrl.dateChanged(ctrl.questionResponse.answer)" ng-required="ctrl.question.required" ng-readonly="ctrl.readOnly"></md-datepicker>
         </div>
 
         <div ng-switch-when="datetime" class="form-inline">

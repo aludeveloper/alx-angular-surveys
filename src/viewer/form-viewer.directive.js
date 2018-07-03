@@ -33,6 +33,10 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 			$rootScope.$on("hideSaveButton", function(event, flag) {
 				ctrl.hideSaveButton = flag.hideSaveButton;
 			});
+
+			ctrl.stageNo = localStorage.getItem('stageIndexNo');
+
+
 			// Put initialization logic inside `$onInit()`
 			// to make sure bindings have been initialized.
 			ctrl.$onInit = function() {

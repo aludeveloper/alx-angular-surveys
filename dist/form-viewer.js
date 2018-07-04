@@ -290,35 +290,6 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 
 			ctrl.setCurrentPage = function(page) {
 				ctrl.currentPage = page;
-				
-				/*ctrl.linkedquestionList = [];
-				console.log("currentPage",ctrl.currentPage);
-				console.log("ctrl.formData.pages",ctrl.formData.pages);
-
-				angular.forEach(ctrl.formData.pages, function(obj, key) {
-					angular.forEach(obj.elements, function(obj1, key1) {
-						if (obj1.type == "question" && obj1.question.type == "radio") {
-							angular.forEach(obj1.question.offeredAnswers, function(offans, key1) {
-								ctrl.linkedquestionList.push(offans.linkedquestion);
-							});
-						}
-					});
-				});
-
-				angular.forEach(ctrl.formData.pages, function(obj, key) {
-					angular.forEach(obj.elements, function(obj1, key1) {
-						if (obj1.type == "question" && ctrl.linkedquestionList.includes(obj1.question.id)) {
-							obj1['isLinked'] = true;
-						}
-					});
-				});*/
-
-				console.log("ctrl.formData.pages",ctrl.formData.pages);
-
-
-
-
-
 				if (!page) {
 
 					ctrl.buttons.submitForm.visible = false;
@@ -545,11 +516,6 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
             bindToController: true,
             controller: ["$timeout", "FormQuestionId", function($timeout, FormQuestionId) {
                 var ctrl = this;
-                console.log($rootScope.linkedquestionList);
-                if($rootScope.linkedquestionList == undefined){
-                    $rootScope.linkedquestionList = [];
-                }
-                
                 ctrl.largeFileFlag = false;
                 ctrl.fileSelectedEvent = false;
                 // Put initialization logic inside `$onInit()`
@@ -620,49 +586,8 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                     ctrl.isAnswerSelected = false;
                     ctrl.initialized = true;
                 };
-                
-                ctrl.hideLinked = function(qdata){
-                    $timeout(function() {
-                        console.log("$rootScope.linkedquestionList",$rootScope.linkedquestionList);
-                        console.log("qdata",qdata);
-
-                        if ($rootScope.linkedquestionList.includes(qdata.id)) {
-                            document.getElementById(qdata.id).style.display = "none";
-                        }
-
-                        if (qdata.type == "radio") {
-                            angular.forEach(qdata.offeredAnswers, function(offans, key1) {
-                                for(var i=0; i<offans.linkedquestion.length; i++){
-                                    if(!$rootScope.linkedquestionList.includes(offans.linkedquestion[i])){
-                                        $rootScope.linkedquestionList.push(offans.linkedquestion[i]);
-                                    }                                    
-                                }
-                            });                         
-                        }
-
-                    }, 300);
-                };
-
-                ctrl.dateChanged = function(date){
-                    ctrl.questionResponse.answer = date ? moment(date).startOf('day').format('DD-MM-YYYY') : '';                    
-                };
 
                 ctrl.selectedAnswerChanged = function() {
-                    if(ctrl.selectedLinkQ === undefined){
-                        ctrl.selectedLinkQ = ctrl.questionResponse.selectedAnswer.linkedquestion;
-                        for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
-                            document.getElementById(ctrl.selectedLinkQ[i]).style.display = "block";
-                        }
-                    }else{
-                        for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
-                            document.getElementById(ctrl.selectedLinkQ[i]).style.display = "none";
-                        }
-                        ctrl.selectedLinkQ = ctrl.questionResponse.selectedAnswer.linkedquestion;
-                        for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
-                            document.getElementById(ctrl.selectedLinkQ[i]).style.display = "block";
-                        }
-                    }
-                    
                     delete ctrl.questionResponse.other;
                     ctrl.isOtherAnswer = false;
                     ctrl.answerChanged();

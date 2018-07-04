@@ -170,35 +170,6 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 
 			ctrl.setCurrentPage = function(page) {
 				ctrl.currentPage = page;
-				
-				/*ctrl.linkedquestionList = [];
-				console.log("currentPage",ctrl.currentPage);
-				console.log("ctrl.formData.pages",ctrl.formData.pages);
-
-				angular.forEach(ctrl.formData.pages, function(obj, key) {
-					angular.forEach(obj.elements, function(obj1, key1) {
-						if (obj1.type == "question" && obj1.question.type == "radio") {
-							angular.forEach(obj1.question.offeredAnswers, function(offans, key1) {
-								ctrl.linkedquestionList.push(offans.linkedquestion);
-							});
-						}
-					});
-				});
-
-				angular.forEach(ctrl.formData.pages, function(obj, key) {
-					angular.forEach(obj.elements, function(obj1, key1) {
-						if (obj1.type == "question" && ctrl.linkedquestionList.includes(obj1.question.id)) {
-							obj1['isLinked'] = true;
-						}
-					});
-				});*/
-
-				console.log("ctrl.formData.pages",ctrl.formData.pages);
-
-
-
-
-
 				if (!page) {
 
 					ctrl.buttons.submitForm.visible = false;

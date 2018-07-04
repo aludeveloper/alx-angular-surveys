@@ -61,7 +61,8 @@
 
         <div ng-switch-when="select" id="{{ctrl.question.id}}">
             <md-input-container flex="100">
-                <md-select ng-disabled="ctrl.readOnly"  placeholder="{{ctrl.question.text}}" ng-required="ctrl.question.required" ng-model="ctrl.questionResponse.selectedAnswer">
+                <label>{{ctrl.question.text}}</label>
+                <md-select ng-disabled="ctrl.readOnly" ng-required="ctrl.question.required" ng-model="ctrl.questionResponse.selectedAnswer" style="min-width: 200px;">
                     <md-option ng-repeat="answer in ctrl.question.offeredAnswers" ng-value="answer.id">
                         {{::ctrl.print(answer.value)}}
                     </md-option>

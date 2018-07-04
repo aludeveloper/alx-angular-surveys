@@ -26,7 +26,7 @@
                         <p class="task-description" ng-if="ctrl.sfFlag == 'Pass'" ng-bind-html="::ctrl.print(pageElement.paragraphcondition.html)"></p>
                         <p class="cpara-false-text" ng-if="ctrl.sfFlag == 'Fail'" ng-bind-html="::ctrl.print(pageElement.paragraphconditionfalse.html)" style="padding-bottom: 40px"></p>
                         <p class="cpara-false-text" ng-if="ctrl.sfFlag == 'unset'" ng-bind-html="::ctrl.print(pageElement.paragraphconditionunset.html)"></p>
-                        <div ng-if="ctrl.sfFlag == 'false'">
+                        <div ng-if="ctrl.sfFlag == 'Fail'">
                             <hr>
                             <span class="subtext" ng-bind-html="::ctrl.print(pageElement.paragraphconditionsubtext.html)"></span>
                         </div>

@@ -11,10 +11,15 @@
 
         <div ng-switch-when="textarea" ng-form name="myText" id="{{ctrl.question.id}}">
             <md-input-container class="md-block">
-                <textarea id = "txtlimit" name="errorCheck" msd-elastic class="form-control" ng-model="ctrl.questionResponse.answer" placeholder="{{ctrl.question.text}}" ng-required="ctrl.question.required" ng-readonly="ctrl.readOnly" rows="3" maxlength="{{ctrl.question.charLimit}}" ></textarea>
-                <span style="color: red; font-size: 13px;font-family: Open Sans;font-style: italic;float: right;padding-top: 3px;">{{ctrl.question.charLimit-ctrl.questionResponse.answer.length}} characters remaining.</span> 
-                <span style="color:red; font-size:13px;" ng-show= "myText.errorCheck.$error.maxlength">You have exceeded the maximum entry limit of 131072 characters.</span>
+                <textarea id="txtlimit" name="errorCheck" msd-elastic class="form-control" ng-model="ctrl.questionResponse.answer" placeholder="{{ctrl.question.text}}" ng-required="ctrl.question.required" ng-readonly="ctrl.readOnly" rows="3" ></textarea>                
             </md-input-container>
+            <div class="word-count" layout="column" layout-align="end end">
+                <div>
+                    <span>Words remaining:</span>
+                    <span class="word-count" ng-bind="ctrl.question.charLimit - ctrl.questionResponse.answer.split(' ').length"></span>
+                </div>                
+                <span ng-show="ctrl.question.charLimit < ctrl.questionResponse.answer.split(' ').length" >You have exceeded the maximum word limit.</span>
+            </div>
         </div>
 
         <div ng-switch-when="radio" id="{{ctrl.question.id}}">

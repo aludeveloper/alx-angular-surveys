@@ -7,9 +7,14 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
         }
     })
     .config(function($mdDateLocaleProvider){
-        $mdDateLocaleProvider.formatDate = function(date) {
-            console.log("DATE!",date ? moment(date).startOf('day').format('DD-MM-YYYY') : '');
-            return date ? moment(date).startOf('day').format('DD-MM-YYYY') : '';
+        $mdDateLocaleProvider.formatDate = function (date) {
+            console.log("calling this for formatting..");
+            return date ? moment(date).format('DD/MM/YYYY') : '';
+        };
+        $mdDateLocaleProvider.parseDate = function (dateString) {
+            console.log("is failing here...");
+            var m = moment(dateString, 'DD/MM/YYYY', true);
+            return m.isValid() ? m.toDate() : new Date(NaN);
         };
     });
 
@@ -130,7 +135,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                 };
 
                 ctrl.dateChanged = function(date){
-                    ctrl.questionResponse.answer = date ? moment(date).startOf('day').format('DD-MM-YYYY') : '';                    
+                    ctrl.questionResponse.answer = moment(date).startOf('day').format('MM/DD/YYYY');                    
                 };
 
                 ctrl.selectedAnswerChanged = function() {

@@ -197,10 +197,20 @@
             </div>
         </div>
 
-        <div ng-switch-when="phone" class="form-inline" id="{{ctrl.question.id}}">
-            <md-input-container>
-                <input class="form-control" type="tel">
-            </md-input-container>
+        <div ng-switch-when="telephone" class="form-inline" id="{{ctrl.question.id}}">            
+            
+            <div layout="row" layout-align="start center">
+                <md-input-container class="md-block" md-no-float>
+                    <!-- <label>{{ctrl.question.text}}</label> -->
+                    <input class="form-control" id="phone" type="tel" ng-model="ctrl.questionResponse.answer" ng-required="ctrl.question.required" ng-readonly="ctrl.readOnly">
+                </md-input-container>
+
+                <div>
+                    <span id="valid-msg" class="hide">✓ Valid</span>
+                    <span id="error-msg" class="hide">Invalid number</span>
+                </div>
+            </div>
+            
         </div>
     </div>
 </div>

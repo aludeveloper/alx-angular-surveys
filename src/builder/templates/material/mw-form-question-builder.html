@@ -323,6 +323,20 @@
 
                     </div>
 
+                <div ng-switch-when="telephone" class="form-inline" layout="row">
+                    <md-input-container>
+                        <label>Country code</label>
+                        <md-select ng-model="ctrl.questionResponse.countryCode" disabled>
+                            <md-option ng-repeat="country in ctrl.countryList" ng-value="{{country.dial_code}}">
+                                {{country.name}} {{country.dial_code}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+
+                    <md-input-container>
+                        <label>Phone number</label>
+                        <input type="text" maxlength="10" ng-model="ctrl.questionResponse.phone" ng-keypress="ctrl.validate($event)" disabled>
+                    </md-input-container>
                 </div>
             </div>
 

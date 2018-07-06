@@ -23,6 +23,9 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 			var ctrl = this;
 			var rootScope = $rootScope;
 			ctrl.largeFileFlag = false;
+
+			ctrl.currentPageNumber;
+
 			ctrl.hideSaveButton = localStorage.getItem('hideSaveButton');
 			if (ctrl.hideSaveButton == undefined || ctrl.hideSaveButton == '') {
 				ctrl.hideSaveButton = false;
@@ -194,8 +197,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 				});*/
 
 				console.log("ctrl.formData.pages",ctrl.formData.pages);
-
-
+				ctrl.totalPageLength = ctrl.formData.pages.length;
 
 
 
@@ -255,6 +257,8 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 					$rootScope.formValid = ctrl.form;
 					ctrl.buttons.nextPage.visible = !formSubmit;
 				}
+				ctrl.currentPageNumber = index+1;
+				
 			};
 
 			ctrl.initResponsesForCurrentPage = function() {

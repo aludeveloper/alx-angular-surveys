@@ -63,24 +63,30 @@
 }
 
 
-.btn-next, .btn-next:hover {
-    background-color: transparent !important;
-    color: #00264e !important; 
-    font-style: italic; 
-    font-size: 12px; 
-    font-family: Open sans;
-    font-weight: 800;
-    border-radius: 8px;
-    border: 2px solid #00264e;
-    min-height: 33px;
-    min-width: 80px;
-    text-transform: initial;
-    line-height: 30px;
-    margin-top: 10px;
+
+.btn-next:hover {
+  background-color: #dbe3e5 !important;
 }
 
-
-
+.btn-next { 
+    background-color: #ec1c24 !important; 
+    color: white !important;
+    font-style: initial; 
+    letter-spacing: 1.5px;
+    font-size: 6pt;
+    font-family: Montserrat;
+    font-weight: 800;
+    border-radius: 0px;
+    border: 1px solid transparent;
+    min-height: 30px;
+    min-width: 140px;
+    text-transform: uppercase;
+    line-height: 30px;
+    margin-top: 10px;
+    -webkit-box-align: center;
+    font-variant: inherit;
+}
+    
 md-input-container .md-input {
   font-size: 12px;
 }

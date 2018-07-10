@@ -49,12 +49,12 @@
 
 <div class="mw-form-action-list form-padding">
     <md-button type="button"  ng-if="ctrl.buttons.prevPage.visible" class="prev-page-button btn-next" ng-click="ctrl.goToPrevPage()"><span translate="mwForm.buttons.back">Wstecz</span></md-button>
-    <md-button type="button" ng-disabled="ctrl.form.$invalid || ctrl.largeFileFlag" ng-if="ctrl.buttons.nextPage.visible && ctrl.condtionalParaFlag" class="md-raised next-page-button btn-next" ng-click="ctrl.goToNextPage()">
+    <md-button type="button" ng-disabled="ctrl.form.$invalid || ctrl.largeFileFlag || ctrl.invalidPhone" ng-if="ctrl.buttons.nextPage.visible && ctrl.condtionalParaFlag" class="md-raised next-page-button btn-next" ng-click="ctrl.goToNextPage()">
     
     <span ng-if="ctrl.stageNo == 0 && ctrl.totalPageLength - ctrl.currentPageNumber == 1" translate="mwForm.buttons.understand">Dalej</span>
     <span ng-if="ctrl.stageNo == 0 && ctrl.totalPageLength - ctrl.currentPageNumber != 1" translate="mwForm.buttons.saveProceed">Dalej</span>
     <span ng-if="ctrl.stageNo != 0" translate="mwForm.buttons.saveProceed">Dalej</span> </md-button>
     
-    <md-button type="submit" ng-disabled="ctrl.options.disableSubmit || ctrl.form.$invalid || ctrl.largeFileFlag" ng-if="ctrl.buttons.submitForm.visible && !ctrl.readOnly && !ctrl.hideSaveButton && ctrl.condtionalParaFlag" class="next-page-button btn-next" ng-click="ctrl.submitForm()"> 
+    <md-button type="submit" ng-disabled="ctrl.options.disableSubmit || ctrl.form.$invalid || ctrl.largeFileFlag || ctrl.invalidPhone" ng-if="ctrl.buttons.submitForm.visible && !ctrl.readOnly && !ctrl.hideSaveButton && ctrl.condtionalParaFlag" class="next-page-button btn-next" ng-click="ctrl.submitForm()"> 
     <span translate="mwForm.buttons.saveProceed">Submit</span></md-button>
 </div>

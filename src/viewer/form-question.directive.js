@@ -38,6 +38,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                 
                 ctrl.largeFileFlag = false;
                 ctrl.fileSelectedEvent = false;
+                ctrl.invalidPhone = false;
                 // Put initialization logic inside `$onInit()`
                 // to make sure bindings have been initialized.
 
@@ -126,8 +127,55 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                             });                         
                         }
 
-                    }, 300);
+                        if(qdata.type == "telephone"){
+                            var telInput = $("#phone"),
+                              errorMsg = $("#error-msg"),
+                              validMsg = $("#valid-msg");
+
+                              console.log(telInput);
+                            // initialise plugin
+                            telInput.intlTelInput({
+                              utilsScript: "../bower_components/intl-tel-input/build/js/utils.js"
+                            });
+
+                            var reset = function() {
+                              telInput.removeClass("error");
+                              errorMsg.addClass("hide");
+                              validMsg.addClass("hide");
+                            };
+
+                            // on blur: validate
+                            telInput.blur(function() {
+                              reset();
+                              if ($.trim(telInput.val())) {
+                                if (telInput.intlTelInput("isValidNumber")) {
+                                    ctrl.invalidPhone = false;
+                                    $rootScope.$broadcast('invalidPhoneFlag', ctrl.invalidPhone);
+                                  validMsg.removeClass("hide");
+                                } else {
+                                    ctrl.invalidPhone = true;
+                                    $rootScope.$broadcast('invalidPhoneFlag', ctrl.invalidPhone);
+                                  telInput.addClass("error");
+                                  errorMsg.removeClass("hide");
+                                }
+                              }
+                            });
+
+                            // on keyup / change flag: reset
+                            telInput.on("keyup change", reset);
+                        }
+
+                    }, 3000);                    
                 };
+
+                $timeout(function() {
+                    $("#phone").on("countrychange", function(e, countryData) {
+                        console.log(countryData);
+                        ctrl.questionResponse.countryCode = countryData.dialCode;
+                    });
+                }, 500);
+
+                
 
                 ctrl.dateChanged = function(date){
                     ctrl.questionResponse.answer = date ? moment(date).startOf('day').format('DD-MM-YYYY') : '';                    
@@ -201,30 +249,38 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                 //file uploads
 
                 ele.bind("change", function(changeEvent) {
-                    var fileSize = changeEvent.target.files[0].size / 1024;
-                    console.log("file size.....................",fileSize);
-                    if (fileSize <= 1024) {
-                        ctrl.largeFileFlag = false;
-                        ctrl.fileSelectedEvent = true;
-                        $rootScope.$broadcast('fileRequiredFlag', ctrl.largeFileFlag);
-                        var reader = new FileReader();
-                        var fileName = changeEvent.target.files[0];
-                        reader.onload = function(loadEvent) {
-                            scope.$apply(function() {
-                                ctrl.questionResponse.answer = loadEvent.target.result;
-                                ctrl.questionResponse.fileName = changeEvent.target.files[0].name;
-                                ctrl.questionResponse.fileName_1 = changeEvent.target.files[0].name;
-                            });
-                        }
-                        
-                        reader.readAsDataURL(changeEvent.target.files[0]); 
-                    } else {
-                        scope.$apply(function() {
-                            ctrl.largeFileFlag = true; 
-                        });
-                        $rootScope.$broadcast('fileRequiredFlag', ctrl.largeFileFlag);
-                        alert("File size is larze; maximum file size 1 MB");           
+                    var fileSize;
+                    if(changeEvent.target.files != null){
+                        fileSize = changeEvent.target.files[0].size / 1024;
                     }
+                    
+                    console.log("file size.....................",fileSize);
+                    if(fileSize == undefined){
+
+                    }else{
+                        if (fileSize <= 1024) {
+                            ctrl.largeFileFlag = false;
+                            ctrl.fileSelectedEvent = true;
+                            $rootScope.$broadcast('fileRequiredFlag', ctrl.largeFileFlag);
+                            var reader = new FileReader();
+                            var fileName = changeEvent.target.files[0];
+                            reader.onload = function(loadEvent) {
+                                scope.$apply(function() {
+                                    ctrl.questionResponse.answer = loadEvent.target.result;
+                                    ctrl.questionResponse.fileName = changeEvent.target.files[0].name;
+                                    ctrl.questionResponse.fileName_1 = changeEvent.target.files[0].name;
+                                });
+                            }
+                            
+                            reader.readAsDataURL(changeEvent.target.files[0]); 
+                        } else {
+                            scope.$apply(function() {
+                                ctrl.largeFileFlag = true; 
+                            });
+                            $rootScope.$broadcast('fileRequiredFlag', ctrl.largeFileFlag);
+                            alert("File size is large; maximum file size 1 MB");           
+                        }
+                    }                    
                 });
             }
         };

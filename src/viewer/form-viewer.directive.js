@@ -24,18 +24,23 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 			var ctrl = this;
 			var rootScope = $rootScope;
 			ctrl.largeFileFlag = false;
-
-			ctrl.currentPageNumber;
-
+			ctrl.invalidPhone = false;
+      ctrl.currentPageNumber;
 			ctrl.hideSaveButton = localStorage.getItem('hideSaveButton');
 			if (ctrl.hideSaveButton == undefined || ctrl.hideSaveButton == '') {
 				ctrl.hideSaveButton = false;
 			}
+
 			$rootScope.$on("fileRequiredFlag", function(event, flag) {
 				ctrl.largeFileFlag = flag;
 			});
+
 			$rootScope.$on("hideSaveButton", function(event, flag) {
 				ctrl.hideSaveButton = flag.hideSaveButton;
+			});
+
+			$rootScope.$on("invalidPhoneFlag", function(event, flag) {
+				ctrl.invalidPhone = flag;
 			});
 
 			ctrl.stageNo = localStorage.getItem('stageIndexNo');

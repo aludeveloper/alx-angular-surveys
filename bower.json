@@ -34,7 +34,8 @@
     "angular-bootstrap": "^1.2.4",
     "Sortable": "dev",
     "angular-cookies": "1.5.8",
-    "moment": "^2.22.2"
+    "moment": "^2.22.2",
+    "intl-tel-input": "^12.4.0"
   },
   "devDependencies": {
     "bootstrap-sass": "3.x",

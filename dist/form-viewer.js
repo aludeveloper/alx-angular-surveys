@@ -126,6 +126,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 		scope: {
 			formData: '=',
 			responseData: '=',
+			currentPageIndex: '=',
 			templateData: '=?',
 			readOnly: '=?',
 			options: '=?',
@@ -378,6 +379,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 					ctrl.buttons.nextPage.visible = !formSubmit;
 				}
 				ctrl.currentPageNumber = index+1;
+				ctrl.currentPageIndex = index+1;
 				
 			};
 

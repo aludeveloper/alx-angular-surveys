@@ -167,6 +167,27 @@ md-select.md-default-theme.ng-invalid.ng-touched .md-select-value, md-select.ng-
   letter-spacing: 0.5px;
 }
 
+.input-select-label {
+  color: #00264e;
+  font-size: 13px;
+  font-style: italic;
+  font-family: Open Sans;
+  font-weight: normal;
+  letter-spacing: .5px;
+  display: block;
+}
+
+.input-checkbox-label {
+  color: #00264e;
+  font-size: 13px;
+  font-style: italic;
+  font-family: Open Sans;
+  font-weight: normal;
+  letter-spacing: .5px;
+  padding-bottom: 10px;
+  display: block;
+}
+
 @media only screen and (max-width: 960px) {
   .form-padding {
       padding-left:0px !important;

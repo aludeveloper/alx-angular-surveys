@@ -187,8 +187,11 @@ angular.module('mwFormUtils.responseUtils', [])
             if (questionTypesWithDefaultAnswer.indexOf(question.type) !== -1) {
                 return questionResponse.answer;
             } else {
-                if (question.type == 'radio' || question.type == 'checkbox' || question.type == 'select') {
+                if (question.type == 'checkbox' || question.type == 'select') {
                     return service.$extractResponseForQuestionWithOfferedAnswers(question, questionResponse);
+                }
+                if (question.type == 'radio') {
+                    return service.$extractResponseForQuestionWithOfferedAnswersForRadio(question, questionResponse);
                 }
                 if (question.type == 'grid') {
                     return service.$extractResponseForGridQuestion(question, questionResponse);
@@ -260,6 +263,12 @@ angular.module('mwFormUtils.responseUtils', [])
                     question.response = service.extractResponse(question, questionResponse);
                     if (question.type == "file") {
                         question.fileName = questionResponse.fileName;
+                    }
+                    if (question.type == 'radio') {
+                        //assign linked question list to question
+                        if (questionResponse.selectedAnswer.linkedquestion) {
+                            question.linkedquestion = questionResponse.selectedAnswer.linkedquestion;
+                        }
                     }
                 } else {
                     question.response = null;

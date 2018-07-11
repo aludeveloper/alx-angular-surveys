@@ -114,7 +114,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                         console.log("qdata",qdata);
 
                         if ($rootScope.linkedquestionList.includes(qdata.id)) {
-                            document.getElementById(qdata.id).style.display = "none";
+                            document.getElementById(qdata.id).parentElement.parentElement.parentElement.style.display = "none";
                         }
 
                         if (qdata.type == "radio") {
@@ -182,20 +182,23 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                 };
 
                 ctrl.selectedAnswerChanged = function() {
-                    if(ctrl.selectedLinkQ === undefined){
-                        ctrl.selectedLinkQ = ctrl.questionResponse.selectedAnswer.linkedquestion;
-                        for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
-                            document.getElementById(ctrl.selectedLinkQ[i]).style.display = "block";
+                    $timeout(function() {
+                        if(ctrl.selectedLinkQ === undefined){
+                            ctrl.selectedLinkQ = ctrl.questionResponse.selectedAnswer.linkedquestion;
+                            for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
+                                document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "block";
+                            }
+                        }else{
+                            for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
+                                document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "none";
+                            }
+                            ctrl.selectedLinkQ = ctrl.questionResponse.selectedAnswer.linkedquestion;
+                            for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
+                                document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "block";
+                            }
                         }
-                    }else{
-                        for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
-                            document.getElementById(ctrl.selectedLinkQ[i]).style.display = "none";
-                        }
-                        ctrl.selectedLinkQ = ctrl.questionResponse.selectedAnswer.linkedquestion;
-                        for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
-                            document.getElementById(ctrl.selectedLinkQ[i]).style.display = "block";
-                        }
-                    }
+                    }, 1000);
+                    
                     
                     delete ctrl.questionResponse.other;
                     ctrl.isOtherAnswer = false;

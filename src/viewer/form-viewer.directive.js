@@ -43,8 +43,32 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 				ctrl.invalidPhone = flag;
 			});
 
-			ctrl.stageNo = localStorage.getItem('stageIndexNo');
+			//watch for required and unrequired linked questions
+      		$rootScope.$on("changeAllData", function(event, data) {
+				console.log("required data", data.requiredQuestionList);
+				console.log("unrequired data", data.unrequiredQuestionList);
 
+                angular.forEach(data.requiredQuestionList,function(obj,key){
+                	angular.forEach(ctrl.currentPage.elements,function(item,index) {
+                	 	if (item.question && item.question.id == obj) {
+							//ctrl.currentPage.elements[index1].hideElement = true;
+	                    	item.question.required = true;
+	                    }
+                	})
+                })
+                angular.forEach(data.unrequiredQuestionList,function(obj1,key1){
+                	 angular.forEach(ctrl.currentPage.elements,function(item1,index1) {
+                	 	if (item1.question && item1.question.id == obj1) {
+							//ctrl.currentPage.elements[index1].hideElement = true;
+	                    	item1.question.required = false;
+	                    }
+                	 })
+                })
+	            console.log("currentPage element....", ctrl.currentPage.elements);
+			});
+
+      		//getting current stage index form alx-apply-frontend
+      		ctrl.stageNo = localStorage.getItem('stageIndexNo');
 
 			// Put initialization logic inside `$onInit()`
 			// to make sure bindings have been initialized.

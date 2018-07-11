@@ -6,6 +6,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 		scope: {
 			formData: '=',
 			responseData: '=',
+			currentPageIndex: '=',
 			templateData: '=?',
 			readOnly: '=?',
 			options: '=?',
@@ -23,19 +24,51 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 			var ctrl = this;
 			var rootScope = $rootScope;
 			ctrl.largeFileFlag = false;
+			ctrl.invalidPhone = false;
+      ctrl.currentPageNumber;
 			ctrl.hideSaveButton = localStorage.getItem('hideSaveButton');
 			if (ctrl.hideSaveButton == undefined || ctrl.hideSaveButton == '') {
 				ctrl.hideSaveButton = false;
 			}
+
 			$rootScope.$on("fileRequiredFlag", function(event, flag) {
 				ctrl.largeFileFlag = flag;
 			});
+
 			$rootScope.$on("hideSaveButton", function(event, flag) {
 				ctrl.hideSaveButton = flag.hideSaveButton;
 			});
 
-			ctrl.stageNo = localStorage.getItem('stageIndexNo');
+			$rootScope.$on("invalidPhoneFlag", function(event, flag) {
+				ctrl.invalidPhone = flag;
+			});
 
+			//watch for required and unrequired linked questions
+      		$rootScope.$on("changeAllData", function(event, data) {
+				console.log("required data", data.requiredQuestionList);
+				console.log("unrequired data", data.unrequiredQuestionList);
+
+                angular.forEach(data.requiredQuestionList,function(obj,key){
+                	angular.forEach(ctrl.currentPage.elements,function(item,index) {
+                	 	if (item.question && item.question.id == obj) {
+							//ctrl.currentPage.elements[index1].hideElement = true;
+	                    	item.question.required = true;
+	                    }
+                	})
+                })
+                angular.forEach(data.unrequiredQuestionList,function(obj1,key1){
+                	 angular.forEach(ctrl.currentPage.elements,function(item1,index1) {
+                	 	if (item1.question && item1.question.id == obj1) {
+							//ctrl.currentPage.elements[index1].hideElement = true;
+	                    	item1.question.required = false;
+	                    }
+                	 })
+                })
+	            console.log("currentPage element....", ctrl.currentPage.elements);
+			});
+
+      		//getting current stage index form alx-apply-frontend
+      		ctrl.stageNo = localStorage.getItem('stageIndexNo');
 
 			// Put initialization logic inside `$onInit()`
 			// to make sure bindings have been initialized.
@@ -194,8 +227,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 				});*/
 
 				console.log("ctrl.formData.pages",ctrl.formData.pages);
-
-
+				ctrl.totalPageLength = ctrl.formData.pages.length;
 
 
 
@@ -255,6 +287,9 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 					$rootScope.formValid = ctrl.form;
 					ctrl.buttons.nextPage.visible = !formSubmit;
 				}
+				ctrl.currentPageNumber = index+1;
+				ctrl.currentPageIndex = index+1;
+				
 			};
 
 			ctrl.initResponsesForCurrentPage = function() {

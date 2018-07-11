@@ -24,6 +24,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                 questionResponse: '=',
                 readOnly: '=?',
                 options: '=?',
+                currentIndex:'=',
             onResponseChanged: '&?'
             },
             templateUrl: 'mw-form-question.html',
@@ -31,21 +32,21 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
             bindToController: true,
             controller: ["$timeout", "FormQuestionId", function($timeout, FormQuestionId) {
                 var ctrl = this;
-                console.log($rootScope.linkedquestionList);
                 if($rootScope.linkedquestionList == undefined){
                     $rootScope.linkedquestionList = [];
                 }
-                
                 ctrl.largeFileFlag = false;
                 ctrl.fileSelectedEvent = false;
+                ctrl.invalidPhone = false;
                 // Put initialization logic inside `$onInit()`
                 // to make sure bindings have been initialized.
 
-                ctrl.functionclick = function()
-                {
+                ctrl.functionclick = function() {
                     document.getElementById('inputFile').click();
                 }
+                
                 this.$onInit = function() {
+                    console.log("Current Question Index", ctrl.currentIndex);
                     ctrl.id = FormQuestionId.next();
 
                     if (ctrl.question.type == 'radio') {
@@ -106,12 +107,10 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                     ctrl.isAnswerSelected = false;
                     ctrl.initialized = true;
                 };
-                
-                ctrl.hideLinked = function(qdata){
+                    
+                ctrl.hideRadioLinkedQuestions = function (qdata) {
                     $timeout(function() {
-                        console.log("$rootScope.linkedquestionList",$rootScope.linkedquestionList);
                         console.log("qdata",qdata);
-
                         if ($rootScope.linkedquestionList.includes(qdata.id)) {
                             document.getElementById(qdata.id).parentElement.parentElement.parentElement.style.display = "none";
                         }
@@ -123,11 +122,69 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                                         $rootScope.linkedquestionList.push(offans.linkedquestion[i]);
                                     }                                    
                                 }
-                            });                         
+                            }); 
+                            console.log("Linked question array list",$rootScope.linkedquestionList)
                         }
 
                     }, 300);
+                }
+
+                ctrl.mappingTelephoneQuestion = function(qdata) {
+                    $timeout(function() {
+                        if(qdata.type == "telephone"){
+                            var telInput = $("#phone"),
+                              errorMsg = $("#error-msg"),
+                              validMsg = $("#valid-msg");
+
+                              console.log(telInput);
+                            // initialise plugin
+                            telInput.intlTelInput({
+                              utilsScript: "../bower_components/intl-tel-input/build/js/utils.js"
+                            });
+
+                            var reset = function() {
+                              telInput.removeClass("error");
+                              errorMsg.addClass("hide");
+                              validMsg.addClass("hide");
+                            };
+
+                            // on blur: validate
+                            telInput.blur(function() {
+                              reset();
+                              if ($.trim(telInput.val())) {
+                                if (telInput.intlTelInput("isValidNumber")) {
+                                    ctrl.invalidPhone = false;
+                                    $rootScope.$broadcast('invalidPhoneFlag', ctrl.invalidPhone);
+                                  validMsg.removeClass("hide");
+                                } else {
+                                    ctrl.invalidPhone = true;
+                                    $rootScope.$broadcast('invalidPhoneFlag', ctrl.invalidPhone);
+                                  telInput.addClass("error");
+                                  errorMsg.removeClass("hide");
+                                }
+                              }
+                            });
+
+                            // on keyup / change flag: reset
+                            telInput.on("keyup change", reset);
+                        }
+
+                    }, 3000);
+                }
+
+                ctrl.initQuestionsView = function(qdata) {
+
+                    ctrl.hideRadioLinkedQuestions(qdata);
+                    
+                    ctrl.mappingTelephoneQuestion(qdata);
                 };
+
+                $timeout(function() {
+                    $("#phone").on("countrychange", function(e, countryData) {
+                        console.log(countryData);
+                        ctrl.questionResponse.countryCode = countryData.dialCode;
+                    });
+                }, 500);
 
                 ctrl.dateChanged = function(date){
                     ctrl.questionResponse.answer = date ? moment(date).startOf('day').format('DD-MM-YYYY') : '';                    
@@ -135,19 +192,47 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
 
                 ctrl.selectedAnswerChanged = function() {
                     $timeout(function() {
-                        if(ctrl.selectedLinkQ === undefined){
+                        if(ctrl.selectedLinkQ === undefined) {
                             ctrl.selectedLinkQ = ctrl.questionResponse.selectedAnswer.linkedquestion;
+                            console.log("ctrl.selectedLinkQ", ctrl.selectedLinkQ);
+                            // getting unrequired question list
+                            $rootScope.unrequiredQuestionList = [];
+                            angular.forEach(ctrl.question.offeredAnswers, function(obj,key){
+                                angular.forEach(obj.linkedquestion, function(obj1,key1){
+                                    $rootScope.unrequiredQuestionList.push(obj1);
+                                
+                                })
+                            })
                             for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
                                 document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "block";
+                                // filter unrequiredList
+                                $rootScope.unrequiredQuestionList = $rootScope.unrequiredQuestionList.filter(item => item !== ctrl.selectedLinkQ[i])
                             }
-                        }else{
+                            //passing unrequired and required questionvlist to page element
+                            $rootScope.$broadcast('changeAllData', {"requiredQuestionList" : ctrl.selectedLinkQ, "unrequiredQuestionList" : $rootScope.unrequiredQuestionList}); 
+                        } else {
+
                             for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
                                 document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "none";
+                                $rootScope.unrequiredQuestionList = $rootScope.unrequiredQuestionList.filter(item => item == ctrl.selectedLinkQ[i])
                             }
                             ctrl.selectedLinkQ = ctrl.questionResponse.selectedAnswer.linkedquestion;
+                            // getting unrequired question list
+                            $rootScope.unrequiredQuestionList = [];
+                            angular.forEach(ctrl.question.offeredAnswers, function(obj2,key2){
+                                angular.forEach(obj2.linkedquestion, function(obj3,key3){
+                                    $rootScope.unrequiredQuestionList.push(obj3);
+                                
+                                })
+                            })
+
                             for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
                                 document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "block";
+                                // filter unrequiredList
+                                $rootScope.unrequiredQuestionList = $rootScope.unrequiredQuestionList.filter(item => item !== ctrl.selectedLinkQ[i])
                             }
+                            //passing unrequired and required questionvlist to page element
+                            $rootScope.$broadcast('changeAllData', {"requiredQuestionList" : ctrl.selectedLinkQ, "unrequiredQuestionList" : $rootScope.unrequiredQuestionList}); 
                         }
                     }, 1000);
                     
@@ -204,30 +289,38 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                 //file uploads
 
                 ele.bind("change", function(changeEvent) {
-                    var fileSize = changeEvent.target.files[0].size / 1024;
-                    console.log("file size.....................",fileSize);
-                    if (fileSize <= 1024) {
-                        ctrl.largeFileFlag = false;
-                        ctrl.fileSelectedEvent = true;
-                        $rootScope.$broadcast('fileRequiredFlag', ctrl.largeFileFlag);
-                        var reader = new FileReader();
-                        var fileName = changeEvent.target.files[0];
-                        reader.onload = function(loadEvent) {
-                            scope.$apply(function() {
-                                ctrl.questionResponse.answer = loadEvent.target.result;
-                                ctrl.questionResponse.fileName = changeEvent.target.files[0].name;
-                                ctrl.questionResponse.fileName_1 = changeEvent.target.files[0].name;
-                            });
-                        }
-                        
-                        reader.readAsDataURL(changeEvent.target.files[0]); 
-                    } else {
-                        scope.$apply(function() {
-                            ctrl.largeFileFlag = true; 
-                        });
-                        $rootScope.$broadcast('fileRequiredFlag', ctrl.largeFileFlag);
-                        alert("File size is larze; maximum file size 1 MB");           
+                    var fileSize;
+                    if(changeEvent.target.files != null){
+                        fileSize = changeEvent.target.files[0].size / 1024;
                     }
+                    
+                    console.log("file size.....................",fileSize);
+                    if(fileSize == undefined){
+
+                    }else{
+                        if (fileSize <= 1024) {
+                            ctrl.largeFileFlag = false;
+                            ctrl.fileSelectedEvent = true;
+                            $rootScope.$broadcast('fileRequiredFlag', ctrl.largeFileFlag);
+                            var reader = new FileReader();
+                            var fileName = changeEvent.target.files[0];
+                            reader.onload = function(loadEvent) {
+                                scope.$apply(function() {
+                                    ctrl.questionResponse.answer = loadEvent.target.result;
+                                    ctrl.questionResponse.fileName = changeEvent.target.files[0].name;
+                                    ctrl.questionResponse.fileName_1 = changeEvent.target.files[0].name;
+                                });
+                            }
+                            
+                            reader.readAsDataURL(changeEvent.target.files[0]); 
+                        } else {
+                            scope.$apply(function() {
+                                ctrl.largeFileFlag = true; 
+                            });
+                            $rootScope.$broadcast('fileRequiredFlag', ctrl.largeFileFlag);
+                            alert("File size is large; maximum file size 1 MB");           
+                        }
+                    }                    
                 });
             }
         };

@@ -2,7 +2,7 @@
     <!-- <div class="mw-question-text">
         {{::ctrl.print(ctrl.question.text)}} <span ng-if="ctrl.question.required">*</span>
     </div> -->
-    <div class="mw-question-answers" ng-switch="ctrl.question.type" ng-init="ctrl.hideLinked(ctrl.question)">
+    <div class="mw-question-answers" ng-switch="ctrl.question.type" ng-init="ctrl.initQuestionsView(ctrl.question)">
         <div ng-switch-when="text" id="{{ctrl.question.id}}" >  <!--ng-show="ctrl.question.isLinked && ctrl.question.id == ctrl.selectedLinkQ"   ctrl.question.isLinked && !(ctrl.selectedLinkQ == ctrl.questionResponse.selectedAnswer.linkedquestion)  ng-show="ctrl.question.isLinked && ctrl.question.id == ctrl.selectedLinkQ" -->
             <md-input-container class="md-block">
                 <input class="form-control" type="text" ng-model="ctrl.questionResponse.answer" placeholder="{{ctrl.question.text}}" ng-required="ctrl.question.required" ng-readonly="ctrl.readOnly">
@@ -24,7 +24,7 @@
 
         <div ng-switch-when="radio" id="{{ctrl.question.id}}">
             <label class="input-radio-label">{{ctrl.question.text}} <span ng-if="ctrl.question.required">*</span></label>
-            <md-radio-group md-no-ink ng-model="ctrl.questionResponse.selectedAnswer" ng-required="ctrl.question.required &&!ctrl.isOtherAnswer" ng-disabled="ctrl.readOnly" ng-change="ctrl.selectedAnswerChanged()" layout="row">
+            <md-radio-group md-no-ink ng-model="ctrl.questionResponse.selectedAnswer" ng-required="ctrl.question.required &&!ctrl.isOtherAnswer" ng-disabled="ctrl.readOnly" ng-change="ctrl.selectedAnswerChanged()">
                 <md-radio-button   ng-repeat="answer in ctrl.question.offeredAnswers" aria-label="{{ answer.value }}"  ng-value="answer" name="answer-for-question-{{ctrl.question.id}}" ng-readonly="ctrl.readOnly">
                     {{::ctrl.print(answer.value)}}
                 </md-radio-button>
@@ -46,7 +46,7 @@
         </div>
 
         <div ng-switch-when="checkbox" id="{{ctrl.question.id}}">
-           <label class="input-radio-label">{{ctrl.question.text}} <span ng-if="ctrl.question.required">*</span></label>
+           <label class="input-checkbox-label">{{ctrl.question.text}} <span ng-if="ctrl.question.required">*</span></label>
             <div class="checkbox" ng-repeat="answer in ::ctrl.question.offeredAnswers" ng-disabled="ctrl.readOnly" ng-readonly="ctrl.readOnly">
                 <md-checkbox name="answer-for-question-{{ctrl.question.id}}" ng-checked="ctrl.questionResponse.selectedAnswers.indexOf(answer.id) != -1" ng-click="ctrl.toggleSelectedAnswer(answer)" ng-disabled="ctrl.readOnly"  ng-readonly="ctrl.readOnly" >
                     {{::ctrl.print(answer.value)}}
@@ -66,9 +66,9 @@
         </div>
 
         <div ng-switch-when="select" id="{{ctrl.question.id}}">
+            <label class="input-select-label">{{ctrl.question.text}}<span ng-if="ctrl.question.required"> *</span></label></br>
             <md-input-container flex="100">
-                <label>{{ctrl.question.text}}</label>
-                <md-select ng-disabled="ctrl.readOnly" ng-required="ctrl.question.required" ng-model="ctrl.questionResponse.selectedAnswer" style="min-width: 200px;">
+                <md-select ng-disabled="ctrl.readOnly" ng-required="ctrl.question.required" md-no-asterisk ng-model="ctrl.questionResponse.selectedAnswer" style="min-width: 200px;">
                     <md-option ng-repeat="answer in ctrl.question.offeredAnswers" ng-value="answer.id">
                         {{::ctrl.print(answer.value)}}
                     </md-option>
@@ -146,8 +146,8 @@
             </md-input-container>
         </div>
 
-        <div ng-switch-when="date" class="form-inline" id="{{ctrl.question.id}}">
-             <md-datepicker  md-placeholder="{{ctrl.question.text}}" ng-model="ctrl.questionResponse.answer" ng-change="ctrl.dateChanged(ctrl.questionResponse.answer)" ng-required="ctrl.question.required" ng-readonly="ctrl.readOnly"></md-datepicker>
+        <div ng-switch-when="date" class="form-inline">
+             <md-datepicker md-placeholder="{{ctrl.question.text}}" ng-model="ctrl.questionResponse.answer" ng-change="ctrl.dateChanged(ctrl.questionResponse.answer)" ng-required="ctrl.question.required" ng-readonly="ctrl.readOnly" onkeydown="return false"></md-datepicker>
         </div>
 
         <div ng-switch-when="datetime" class="form-inline" id="{{ctrl.question.id}}">
@@ -197,10 +197,20 @@
             </div>
         </div>
 
-        <div ng-switch-when="phone" class="form-inline" id="{{ctrl.question.id}}">
-            <md-input-container>
-                <input class="form-control" type="tel">
-            </md-input-container>
+        <div ng-switch-when="telephone" class="form-inline" id="{{ctrl.question.id}}">            
+            
+            <div layout="row" layout-align="start center">
+                <md-input-container class="md-block" md-no-float>
+                    <!-- <label>{{ctrl.question.text}}</label> -->
+                    <input class="form-control" id="phone" type="tel" ng-model="ctrl.questionResponse.answer" ng-required="ctrl.question.required" ng-readonly="ctrl.readOnly">
+                </md-input-container>
+
+                <div>
+                    <span id="valid-msg" class="hide">? Valid</span>
+                    <span id="error-msg" class="hide">Invalid number</span>
+                </div>
+            </div>
+            
         </div>
     </div>
 </div>

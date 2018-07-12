@@ -46,7 +46,6 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                 }
                 
                 this.$onInit = function() {
-                    console.log("Current Question Index", ctrl.currentIndex);
                     ctrl.id = FormQuestionId.next();
 
                     if (ctrl.question.type == 'radio') {
@@ -110,7 +109,6 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                     
                 ctrl.hideRadioLinkedQuestions = function (qdata) {
                     $timeout(function() {
-                        console.log("qdata",qdata);
                         if ($rootScope.linkedquestionList.includes(qdata.id)) {
                             document.getElementById(qdata.id).parentElement.parentElement.parentElement.style.display = "none";
                         }

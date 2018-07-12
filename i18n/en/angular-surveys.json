@@ -161,6 +161,9 @@
         "paragraph":{
             "placeholder": "Enter paragraph text"
         },
+        "videolink":{
+            "placeholder": "Paste embedded youtube video url here"
+        },
         "confirmationPage":{
             "title": "Confirmation page",
             "customMessage": "Custom confirmation message",

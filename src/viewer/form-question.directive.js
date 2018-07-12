@@ -186,7 +186,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                     });
                 }, 500);
 
-                ctrl.dateChanged = function(date){
+                ctrl.dateChanged = function(date) {
                     ctrl.questionResponse.answer = date ? moment(date).startOf('day').format('DD-MM-YYYY') : '';                    
                 };
 
@@ -242,6 +242,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                     ctrl.answerChanged();
 
                 };
+                
                 ctrl.otherAnswerRadioChanged = function() {
                     if (ctrl.isOtherAnswer) {
                         ctrl.questionResponse.selectedAnswer = null;

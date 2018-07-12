@@ -51,20 +51,28 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
                 angular.forEach(data.requiredQuestionList,function(obj,key){
                 	angular.forEach(ctrl.currentPage.elements,function(item,index) {
                 	 	if (item.question && item.question.id == obj) {
-							//ctrl.currentPage.elements[index1].hideElement = true;
 	                    	item.question.required = true;
 	                    }
-                	})
-                })
+                	});
+                });
                 angular.forEach(data.unrequiredQuestionList,function(obj1,key1){
                 	 angular.forEach(ctrl.currentPage.elements,function(item1,index1) {
                 	 	if (item1.question && item1.question.id == obj1) {
-							//ctrl.currentPage.elements[index1].hideElement = true;
+							var quesType = item1.question.type;
+							angular.forEach(ctrl.responseData, function(object,id) {
+								if (id && id == obj1) {
+									if (id && quesType == "checkbox") {
+										object.selectedAnswers = [];
+									}
+									else {
+										ctrl.responseData[id] = {};
+									}
+								}
+							})
 	                    	item1.question.required = false;
 	                    }
-                	 })
-                })
-	            console.log("currentPage element....", ctrl.currentPage.elements);
+                	 });
+                });
 			});
 
       		//getting current stage index form alx-apply-frontend

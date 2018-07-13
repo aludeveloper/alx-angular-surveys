@@ -267,7 +267,7 @@ angular.module('mwFormUtils.responseUtils', [])
                     }
                     if (question.type == 'radio') {
                         //assign linked question list to question
-                        if (questionResponse.selectedAnswer.linkedquestion) {
+                        if (questionResponse.selectedAnswer) {
                             question.linkedquestion = questionResponse.selectedAnswer.linkedquestion;
                         }
                     }

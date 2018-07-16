@@ -111,10 +111,7 @@ angular.module('mwFormUtils.responseUtils', [])
         };
 
         service.$extractResponseForTelephoneQuestion = function(question, questionResponse) {
-            var result = {};
-            console.log("questionResponse",questionResponse);
-            result.phoneNumber = questionResponse.answer;
-            result.countryCode = questionResponse.countryCode;
+            var result = questionResponse.countryCode + questionResponse.answer;
             return result;
         };
 

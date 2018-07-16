@@ -563,9 +563,12 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
         }
     })
     .config(["$mdDateLocaleProvider", function($mdDateLocaleProvider){
-        $mdDateLocaleProvider.formatDate = function(date) {
-            console.log("DATE!",date ? moment(date).startOf('day').format('DD-MM-YYYY') : '');
-            return date ? moment(date).startOf('day').format('DD-MM-YYYY') : '';
+        $mdDateLocaleProvider.formatDate = function (date) {
+            return date ? moment(date).format('DD/MM/YYYY') : '';
+        };
+        $mdDateLocaleProvider.parseDate = function (dateString) {
+            var m = moment(dateString, 'DD/MM/YYYY', true);
+            return m.isValid() ? m.toDate() : new Date(NaN);
         };
     }]);
 
@@ -671,10 +674,12 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
 
                         if (qdata.type == "radio") {
                             angular.forEach(qdata.offeredAnswers, function(offans, key1) {
-                                for(var i=0; i<offans.linkedquestion.length; i++){
-                                    if(!$rootScope.linkedquestionList.includes(offans.linkedquestion[i])){
-                                        $rootScope.linkedquestionList.push(offans.linkedquestion[i]);
-                                    }                                    
+                                if (offans.linkedquestion != null && offans.linkedquestion != undefined) {
+                                    for(var i=0; i<offans.linkedquestion.length; i++){
+                                        if(!$rootScope.linkedquestionList.includes(offans.linkedquestion[i])){
+                                            $rootScope.linkedquestionList.push(offans.linkedquestion[i]);
+                                        }                                    
+                                    }
                                 }
                             }); 
                             console.log("Linked question array list",$rootScope.linkedquestionList)
@@ -741,52 +746,56 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                 }, 500);
 
                 ctrl.dateChanged = function(date) {
-                    ctrl.questionResponse.answer = date ? moment(date).startOf('day').format('DD-MM-YYYY') : '';                    
+                    ctrl.questionResponse.answer = moment(date).startOf('day').format('MM/DD/YYYY');                    
                 };
 
                 ctrl.selectedAnswerChanged = function() {
                     $timeout(function() {
-                        if(ctrl.selectedLinkQ === undefined) {
-                            ctrl.selectedLinkQ = ctrl.questionResponse.selectedAnswer.linkedquestion;
-                            console.log("ctrl.selectedLinkQ", ctrl.selectedLinkQ);
-                            // getting unrequired question list
-                            $rootScope.unrequiredQuestionList = [];
-                            angular.forEach(ctrl.question.offeredAnswers, function(obj,key){
-                                angular.forEach(obj.linkedquestion, function(obj1,key1){
-                                    $rootScope.unrequiredQuestionList.push(obj1);
-                                
+                        //assigning selectd answer linked question
+                        ctrl.resSelectedAnsLinkedQues = ctrl.questionResponse.selectedAnswer.linkedquestion;
+                        if (ctrl.resSelectedAnsLinkedQues != null && ctrl.resSelectedAnsLinkedQues != undefined) {
+                            if(ctrl.selectedLinkQ === undefined) {
+                                ctrl.selectedLinkQ = ctrl.resSelectedAnsLinkedQues;
+                                console.log("ctrl.selectedLinkQ", ctrl.selectedLinkQ);
+                                // getting unrequired question list
+                                $rootScope.unrequiredQuestionList = [];
+                                angular.forEach(ctrl.question.offeredAnswers, function(obj,key){
+                                    angular.forEach(obj.linkedquestion, function(obj1,key1){
+                                        $rootScope.unrequiredQuestionList.push(obj1);
+                                    
+                                    })
                                 })
-                            })
-                            for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
-                                document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "block";
-                                // filter unrequiredList
-                                $rootScope.unrequiredQuestionList = $rootScope.unrequiredQuestionList.filter(item => item !== ctrl.selectedLinkQ[i])
-                            }
-                            //passing unrequired and required questionvlist to page element
-                            $rootScope.$broadcast('changeAllData', {"requiredQuestionList" : ctrl.selectedLinkQ, "unrequiredQuestionList" : $rootScope.unrequiredQuestionList}); 
-                        } else {
+                                for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
+                                    document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "block";
+                                    // filter unrequiredList
+                                    $rootScope.unrequiredQuestionList = $rootScope.unrequiredQuestionList.filter(item => item !== ctrl.selectedLinkQ[i])
+                                }
+                                //passing unrequired and required questionvlist to page element
+                                $rootScope.$broadcast('changeAllData', {"requiredQuestionList" : ctrl.selectedLinkQ, "unrequiredQuestionList" : $rootScope.unrequiredQuestionList}); 
+                            } else {
 
-                            for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
-                                document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "none";
-                                $rootScope.unrequiredQuestionList = $rootScope.unrequiredQuestionList.filter(item => item == ctrl.selectedLinkQ[i])
-                            }
-                            ctrl.selectedLinkQ = ctrl.questionResponse.selectedAnswer.linkedquestion;
-                            // getting unrequired question list
-                            $rootScope.unrequiredQuestionList = [];
-                            angular.forEach(ctrl.question.offeredAnswers, function(obj2,key2){
-                                angular.forEach(obj2.linkedquestion, function(obj3,key3){
-                                    $rootScope.unrequiredQuestionList.push(obj3);
-                                
+                                for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
+                                    document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "none";
+                                    $rootScope.unrequiredQuestionList = $rootScope.unrequiredQuestionList.filter(item => item == ctrl.selectedLinkQ[i])
+                                }
+                                ctrl.selectedLinkQ = ctrl.resSelectedAnsLinkedQues;
+                                // getting unrequired question list
+                                $rootScope.unrequiredQuestionList = [];
+                                angular.forEach(ctrl.question.offeredAnswers, function(obj2,key2){
+                                    angular.forEach(obj2.linkedquestion, function(obj3,key3){
+                                        $rootScope.unrequiredQuestionList.push(obj3);
+                                    
+                                    })
                                 })
-                            })
 
-                            for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
-                                document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "block";
-                                // filter unrequiredList
-                                $rootScope.unrequiredQuestionList = $rootScope.unrequiredQuestionList.filter(item => item !== ctrl.selectedLinkQ[i])
+                                for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
+                                    document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "block";
+                                    // filter unrequiredList
+                                    $rootScope.unrequiredQuestionList = $rootScope.unrequiredQuestionList.filter(item => item !== ctrl.selectedLinkQ[i])
+                                }
+                                //passing unrequired and required questionvlist to page element
+                                $rootScope.$broadcast('changeAllData', {"requiredQuestionList" : ctrl.selectedLinkQ, "unrequiredQuestionList" : $rootScope.unrequiredQuestionList}); 
                             }
-                            //passing unrequired and required questionvlist to page element
-                            $rootScope.$broadcast('changeAllData', {"requiredQuestionList" : ctrl.selectedLinkQ, "unrequiredQuestionList" : $rootScope.unrequiredQuestionList}); 
                         }
                     }, 1000);
                     

@@ -18,14 +18,11 @@
 						<md-tooltip md-direction="top">{{'mwForm.buttons.remove' | translate}}</md-tooltip>
 						<i class="fa fa-times"></i>
 					</md-button>
-				</div>				
-				
-				<md-input-container style="width:220px">
+				</div>
+
+				<md-input-container style="width:220px" ng-if="ctrl.question.type == 'radio'">
 					<label>Select linked question</label>
-					<md-select ng-model="answer.linkedquestion" md-on-close="clearSearchTerm()" data-md-container-class="selectdemoSelectHeader" multiple>
-						<md-select-header class="demo-select-header">
-							<input ng-model="searchTerm" type="search" placeholder="Search for a question" class="demo-header-searchbox md-text">
-						</md-select-header>
+					<md-select ng-model="answer.linkedquestion" md-on-close="clearSearchTerm()" data-md-container-class="selectdemoSelectHeader" multiple>						
 						<md-optgroup label="questions">
 							<md-option ng-value="question.question.id" ng-repeat="question in ctrl.elements | filter:searchTerm">{{question.question.text}}</md-option>
 						</md-optgroup>
@@ -42,25 +39,9 @@
 			</div>
 		</div>
 
-		<div class="mw-question-offered-answer add-new-answer-widget" ng-if="!ctrl.readOnly" layout="row" layout-align="space-between">
-			<div class="drag-handle"></div>
-			<div class="option-type-indicator">
-				<i ng-if="ctrl.question.type=='radio'" class="fa fa-circle-thin fa-fw"></i>
-				<i ng-if="ctrl.question.type=='checkbox'" class="fa fa-square-o fa-fw"></i>
-			</div>
-			<span ng-click="ctrl.addNewOfferedAnswer()" role="button">
-				<md-input-container>
-					<input type="text" class="form-control  offered-answer-value" value="{{'mwForm.question.buttons.addOption'|translate}}">
-				</md-input-container>
-			</span>
-			<md-input-container flex-gt-md="30">
-				<mw-label>Select linked question</mw-label>
-				<md-select ng-model="answer.linkedquestion">
-					<md-option ng-repeat="question in ctrl.elements" ng-value="question.id">
-						{{question.question.text}}
-					</md-option>
-				</md-select>
-			</md-input-container>
+		<div class="mw-question-offered-answer add-new-answer-widget" ng-if="!ctrl.readOnly" layout="row" layout-align="space-between center">			
+			<span style="color: blue; cursor: pointer;" role="button" ng-click="ctrl.addNewOfferedAnswer()">{{'mwForm.question.buttons.addOption'|translate}}</span>
+			
 			<span class="add-custom-answer"  ng-if="!ctrl.disableOtherAnswer && !ctrl.question.otherAnswer">
 				<span translate="mwForm.question.orLabel">or </span>
 				<md-button role="button" ng-click="ctrl.addCustomAnswer()" translate="mwForm.question.buttons.addOther">Dodaj "Inne"</md-button>

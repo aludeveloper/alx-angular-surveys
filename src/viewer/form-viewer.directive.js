@@ -195,6 +195,10 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 			};
 
 			ctrl.submitForm = function() {
+				if (!ctrl.form.$valid) {
+					angular.element("[name='" + ctrl.form.$name + "']").find('.ng-invalid:visible:first').focus();
+					return false;
+				}
 				ctrl.formSubmitted = true;
 				ctrl.submitStatus = 'IN_PROGRESS';
 
@@ -342,6 +346,10 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 			};
 
 			ctrl.goToNextPage = function() {
+				if (!ctrl.form.$valid) {
+					angular.element("[name='" + ctrl.form.$name + "']").find('.ng-invalid:visible:first').focus();
+					return false;
+				}
 				window.scrollTo(0, 0);
 				//TODO Saving each page data on next button
 				ctrl.onSave();

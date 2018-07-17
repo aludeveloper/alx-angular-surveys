@@ -40,6 +40,10 @@
                         <md-input-container class="md-block">
                             <input class="form-control" type="text" disabled value="{{'mwForm.question.preview.text'|translate}}">
                         </md-input-container>
+                        <md-input-container>
+                            <label>Character Limit</label>
+                            <input type="number" ng-model="ctrl.question.chrLimit" min="1" max="127" ng-required="ctrl.question.required" onKeyUp="if(this.value>127){this.value='127';}else if(this.value<1){this.value='1';}">
+                        </md-input-container>
                     </div>
                     <div ng-switch-when="textarea">
                         <md-input-container class="md-block">

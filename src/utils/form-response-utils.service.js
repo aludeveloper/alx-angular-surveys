@@ -60,12 +60,7 @@ angular.module('mwFormUtils.responseUtils', [])
         service.$extractResponseForQuestionWithOfferedAnswersForRadio = function(question, questionResponse) {
             var offeredAnswerById = service.$getOfferedAnswerByIdMap(question);
             var result = {};
-            if (questionResponse.selectedAnswers) {
-                result.selectedAnswers = [];
-                questionResponse.selectedAnswers.forEach(function(answerId) {
-                    result.selectedAnswers.push(offeredAnswerById[answerId]);
-                })
-            } else if (questionResponse.selectedAnswer) {
+            if (questionResponse.selectedAnswer) {
                 result.selectedAnswer = offeredAnswerById[questionResponse.selectedAnswer.id];
             }
             if (questionResponse.other) {
@@ -184,10 +179,10 @@ angular.module('mwFormUtils.responseUtils', [])
             if (questionTypesWithDefaultAnswer.indexOf(question.type) !== -1) {
                 return questionResponse.answer;
             } else {
-                if (question.type == 'checkbox' || question.type == 'select') {
+                if (question.type == 'checkbox') {
                     return service.$extractResponseForQuestionWithOfferedAnswers(question, questionResponse);
                 }
-                if (question.type == 'radio') {
+                if (question.type == 'radio' || question.type == 'select') {
                     return service.$extractResponseForQuestionWithOfferedAnswersForRadio(question, questionResponse);
                 }
                 if (question.type == 'grid') {
@@ -261,7 +256,7 @@ angular.module('mwFormUtils.responseUtils', [])
                     if (question.type == "file") {
                         question.fileName = questionResponse.fileName;
                     }
-                    if (question.type == 'radio') {
+                    if (question.type == 'radio' || question.type == 'select') {
                         //assign linked question list to question
                         if (questionResponse.selectedAnswer) {
                             question.linkedquestion = questionResponse.selectedAnswer.linkedquestion;

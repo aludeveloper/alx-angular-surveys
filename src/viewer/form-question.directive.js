@@ -51,10 +51,13 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                 this.$onInit = function() {
                     ctrl.id = FormQuestionId.next();
 
-                    if (ctrl.question.type == 'radio') {
+                    if (ctrl.question.type == 'radio' || ctrl.question.type == 'select') {
                         /*if (!ctrl.questionResponse.selectedAnswer) {
                             ctrl.questionResponse.selectedAnswer = null;
                         }*/
+                        if (ctrl.questionResponse.selectedAnswer) {
+                            ctrl.selectedAnswerChanged();   
+                        }
                         if (ctrl.questionResponse.other) {
                             ctrl.isOtherAnswer = true;
                         }
@@ -116,7 +119,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                             document.getElementById(qdata.id).parentElement.parentElement.parentElement.style.display = "none";
                         }
 
-                        if (qdata.type == "radio") {
+                        if (qdata.type == "radio" || qdata.type == "select") {
                             angular.forEach(qdata.offeredAnswers, function(offans, key1) {
                                 if (offans.linkedquestion != null && offans.linkedquestion != undefined) {
                                     for(var i=0; i<offans.linkedquestion.length; i++){

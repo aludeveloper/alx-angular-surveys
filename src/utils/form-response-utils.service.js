@@ -110,8 +110,13 @@ angular.module('mwFormUtils.responseUtils', [])
         };
 
         service.$extractResponseForTelephoneQuestion = function(question, questionResponse) {
-            var result = questionResponse.countryCode + questionResponse.answer;
-            return result;
+            if(questionResponse.countryCode != undefined){
+                var result = questionResponse.countryCode + questionResponse.answer;
+                return result;
+            }else{
+                return questionResponse.answer;
+            }
+            
         };
 
         service.$extractResponseForGridQuestion = function(question, questionResponse) {

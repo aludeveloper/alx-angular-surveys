@@ -5,7 +5,7 @@
     <div class="mw-question-answers" ng-switch="ctrl.question.type" ng-init="ctrl.initQuestionsView(ctrl.question)">
         <div ng-switch-when="text" id="{{ctrl.question.id}}" >  <!--ng-show="ctrl.question.isLinked && ctrl.question.id == ctrl.selectedLinkQ"   ctrl.question.isLinked && !(ctrl.selectedLinkQ == ctrl.questionResponse.selectedAnswer.linkedquestion)  ng-show="ctrl.question.isLinked && ctrl.question.id == ctrl.selectedLinkQ" -->
             <md-input-container class="md-block">
-                <input class="form-control" type="text" ng-model="ctrl.questionResponse.answer" placeholder="{{ctrl.question.text}}" ng-required="ctrl.question.required" ng-readonly="ctrl.readOnly">
+                <input class="form-control" type="text" ng-model="ctrl.questionResponse.answer" placeholder="{{ctrl.question.text}}" ng-required="ctrl.question.required" ng-readonly="ctrl.readOnly" maxlength="{{ctrl.question.chrLimit}}">
             </md-input-container>
         </div>
 

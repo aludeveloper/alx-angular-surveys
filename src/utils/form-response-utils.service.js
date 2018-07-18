@@ -58,6 +58,9 @@ angular.module('mwFormUtils.responseUtils', [])
         };
 
         service.$extractResponseForQuestionWithOfferedAnswersForRadio = function(question, questionResponse) {
+            if (typeof questionResponse.selectedAnswer === 'string' || questionResponse.selectedAnswer instanceof String) {
+                questionResponse.selectedAnswer = JSON.parse(questionResponse.selectedAnswer)
+            } 
             var offeredAnswerById = service.$getOfferedAnswerByIdMap(question);
             var result = {};
             if (questionResponse.selectedAnswer) {
@@ -259,7 +262,12 @@ angular.module('mwFormUtils.responseUtils', [])
                     if (question.type == 'radio' || question.type == 'select') {
                         //assign linked question list to question
                         if (questionResponse.selectedAnswer) {
-                            question.linkedquestion = questionResponse.selectedAnswer.linkedquestion;
+                            if(typeof questionResponse.selectedAnswer === 'string' || questionResponse.selectedAnswer instanceof String) {
+                                questionResponse.selectedAnswer = JSON.parse(questionResponse.selectedAnswer)
+                                question.linkedquestion = questionResponse.selectedAnswer.linkedquestion;
+                            } else {
+                                question.linkedquestion = questionResponse.selectedAnswer.linkedquestion;
+                            }
                         }
                     }
                 } else {

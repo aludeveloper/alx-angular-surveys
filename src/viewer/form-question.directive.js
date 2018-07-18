@@ -51,10 +51,27 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                 this.$onInit = function() {
                     ctrl.id = FormQuestionId.next();
 
-                    if (ctrl.question.type == 'radio') {
+                    if (ctrl.question.type == 'radio' || ctrl.question.type == 'select') {
                         /*if (!ctrl.questionResponse.selectedAnswer) {
                             ctrl.questionResponse.selectedAnswer = null;
                         }*/
+                        if (ctrl.questionResponse.selectedAnswer) {
+                            ctrl.selectedAnswerId = ctrl.questionResponse.selectedAnswer.id;
+                            angular.forEach(ctrl.question.offeredAnswers, function(obj, key) {
+                                if (ctrl.selectedAnswerId == obj.id) {
+                                    ctrl.questionResponse.selectedAnswer.id = obj.id;
+                                    ctrl.questionResponse.selectedAnswer.linkedquestion = obj.linkedquestion;
+                                    ctrl.questionResponse.selectedAnswer.orderNo = obj.orderNo;
+                                    ctrl.questionResponse.selectedAnswer.pageFlow = obj.pageFlow;
+                                    ctrl.questionResponse.selectedAnswer.value = obj.value;
+                                }
+                            })
+                            $timeout(function() {
+                                ctrl.questionResponse.selectedAnswer = JSON.stringify(ctrl.questionResponse.selectedAnswer) 
+                            }, 1500);
+                            ctrl.selectedAnswerChanged();
+                        }
+
                         if (ctrl.questionResponse.other) {
                             ctrl.isOtherAnswer = true;
                         }
@@ -116,7 +133,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                             document.getElementById(qdata.id).parentElement.parentElement.parentElement.style.display = "none";
                         }
 
-                        if (qdata.type == "radio") {
+                        if (qdata.type == "radio" || qdata.type == "select") {
                             angular.forEach(qdata.offeredAnswers, function(offans, key1) {
                                 if (offans.linkedquestion != null && offans.linkedquestion != undefined) {
                                     for(var i=0; i<offans.linkedquestion.length; i++){
@@ -195,8 +212,15 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
 
                 ctrl.selectedAnswerChanged = function() {
                     $timeout(function() {
+                        //show default selected and linked question response (string checks)
+                        if(typeof ctrl.questionResponse.selectedAnswer === 'string' || ctrl.questionResponse.selectedAnswer instanceof String) {
+                            ctrl.selectedQuestionAns = ctrl.questionResponse.selectedAnswer
+                            ctrl.selectedQuestionAns = JSON.parse(ctrl.selectedQuestionAns)
+                            ctrl.resSelectedAnsLinkedQues = ctrl.selectedQuestionAns.linkedquestion;
+                        } else {
+                            ctrl.resSelectedAnsLinkedQues = ctrl.questionResponse.selectedAnswer.linkedquestion;
+                        }
                         //assigning selectd answer linked question
-                        ctrl.resSelectedAnsLinkedQues = ctrl.questionResponse.selectedAnswer.linkedquestion;
                         if (ctrl.resSelectedAnsLinkedQues != null && ctrl.resSelectedAnsLinkedQues != undefined) {
                             if(ctrl.selectedLinkQ === undefined) {
                                 ctrl.selectedLinkQ = ctrl.resSelectedAnsLinkedQues;
@@ -222,6 +246,16 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                                     document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "none";
                                     $rootScope.unrequiredQuestionList = $rootScope.unrequiredQuestionList.filter(item => item == ctrl.selectedLinkQ[i])
                                 }
+
+                                //selected answer object{} string condition checks
+                                if(typeof ctrl.questionResponse.selectedAnswer === 'string' || ctrl.questionResponse.selectedAnswer instanceof String) {
+                                    ctrl.selectedQuestionAns = ctrl.questionResponse.selectedAnswer
+                                    ctrl.selectedQuestionAns = JSON.parse(ctrl.selectedQuestionAns)
+                                    ctrl.resSelectedAnsLinkedQues = ctrl.selectedQuestionAns.linkedquestion;
+                                } else {
+                                    ctrl.resSelectedAnsLinkedQues = ctrl.questionResponse.selectedAnswer.linkedquestion;
+                                }
+
                                 ctrl.selectedLinkQ = ctrl.resSelectedAnsLinkedQues;
                                 // getting unrequired question list
                                 $rootScope.unrequiredQuestionList = [];

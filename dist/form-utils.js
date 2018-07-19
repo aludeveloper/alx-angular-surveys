@@ -59,14 +59,12 @@ angular.module('mwFormUtils.responseUtils', [])
         };
 
         service.$extractResponseForQuestionWithOfferedAnswersForRadio = function(question, questionResponse) {
+            if (typeof questionResponse.selectedAnswer === 'string' || questionResponse.selectedAnswer instanceof String) {
+                questionResponse.selectedAnswer = JSON.parse(questionResponse.selectedAnswer)
+            } 
             var offeredAnswerById = service.$getOfferedAnswerByIdMap(question);
             var result = {};
-            if (questionResponse.selectedAnswers) {
-                result.selectedAnswers = [];
-                questionResponse.selectedAnswers.forEach(function(answerId) {
-                    result.selectedAnswers.push(offeredAnswerById[answerId]);
-                })
-            } else if (questionResponse.selectedAnswer) {
+            if (questionResponse.selectedAnswer) {
                 result.selectedAnswer = offeredAnswerById[questionResponse.selectedAnswer.id];
             }
             if (questionResponse.other) {
@@ -111,8 +109,13 @@ angular.module('mwFormUtils.responseUtils', [])
         };
 
         service.$extractResponseForTelephoneQuestion = function(question, questionResponse) {
-            var result = questionResponse.countryCode + questionResponse.answer;
-            return result;
+            if(questionResponse.countryCode != undefined){
+                var result = questionResponse.countryCode + questionResponse.answer;
+                return result;
+            }else{
+                return questionResponse.answer;
+            }
+            
         };
 
         service.$extractResponseForGridQuestion = function(question, questionResponse) {
@@ -185,10 +188,10 @@ angular.module('mwFormUtils.responseUtils', [])
             if (questionTypesWithDefaultAnswer.indexOf(question.type) !== -1) {
                 return questionResponse.answer;
             } else {
-                if (question.type == 'checkbox' || question.type == 'select') {
+                if (question.type == 'checkbox') {
                     return service.$extractResponseForQuestionWithOfferedAnswers(question, questionResponse);
                 }
-                if (question.type == 'radio') {
+                if (question.type == 'radio' || question.type == 'select') {
                     return service.$extractResponseForQuestionWithOfferedAnswersForRadio(question, questionResponse);
                 }
                 if (question.type == 'grid') {
@@ -262,10 +265,15 @@ angular.module('mwFormUtils.responseUtils', [])
                     if (question.type == "file") {
                         question.fileName = questionResponse.fileName;
                     }
-                    if (question.type == 'radio') {
+                    if (question.type == 'radio' || question.type == 'select') {
                         //assign linked question list to question
                         if (questionResponse.selectedAnswer) {
-                            question.linkedquestion = questionResponse.selectedAnswer.linkedquestion;
+                            if(typeof questionResponse.selectedAnswer === 'string' || questionResponse.selectedAnswer instanceof String) {
+                                questionResponse.selectedAnswer = JSON.parse(questionResponse.selectedAnswer)
+                                question.linkedquestion = questionResponse.selectedAnswer.linkedquestion;
+                            } else {
+                                question.linkedquestion = questionResponse.selectedAnswer.linkedquestion;
+                            }
                         }
                     }
                 } else {

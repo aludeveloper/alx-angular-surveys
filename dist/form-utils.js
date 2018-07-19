@@ -59,13 +59,15 @@ angular.module('mwFormUtils.responseUtils', [])
         };
 
         service.$extractResponseForQuestionWithOfferedAnswersForRadio = function(question, questionResponse) {
-            if (typeof questionResponse.selectedAnswer === 'string' || questionResponse.selectedAnswer instanceof String) {
+            /*if (typeof questionResponse.selectedAnswer === 'string' || questionResponse.selectedAnswer instanceof String) {
                 questionResponse.selectedAnswer = JSON.parse(questionResponse.selectedAnswer)
-            } 
+            } */
             var offeredAnswerById = service.$getOfferedAnswerByIdMap(question);
             var result = {};
             if (questionResponse.selectedAnswer) {
-                result.selectedAnswer = offeredAnswerById[questionResponse.selectedAnswer.id];
+                result.selectedAnswer = offeredAnswerById[questionResponse.selectedAnswer];
+                //result.selectedAnswer = offeredAnswerById[questionResponse.selectedAnswer.id];
+
             }
             if (questionResponse.other) {
                 result.other = questionResponse.other;
@@ -265,7 +267,7 @@ angular.module('mwFormUtils.responseUtils', [])
                     if (question.type == "file") {
                         question.fileName = questionResponse.fileName;
                     }
-                    if (question.type == 'radio' || question.type == 'select') {
+                    /*if (question.type == 'radio' || question.type == 'select') {
                         //assign linked question list to question
                         if (questionResponse.selectedAnswer) {
                             if(typeof questionResponse.selectedAnswer === 'string' || questionResponse.selectedAnswer instanceof String) {
@@ -275,7 +277,7 @@ angular.module('mwFormUtils.responseUtils', [])
                                 question.linkedquestion = questionResponse.selectedAnswer.linkedquestion;
                             }
                         }
-                    }
+                    }*/
                 } else {
                     question.response = null;
                 }

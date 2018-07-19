@@ -329,13 +329,18 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
 
 
                 ctrl.toggleSelectedAnswer = function(answer) {
-                    if (ctrl.questionResponse.selectedAnswers.indexOf(answer.id) === -1) {
-                        ctrl.questionResponse.selectedAnswers.push(answer.id);
+                    if (ctrl.questionResponse.selectedAnswers != undefined) {
+                        if (ctrl.questionResponse.selectedAnswers.indexOf(answer.id) === -1) {
+                            ctrl.questionResponse.selectedAnswers.push(answer.id);
+                        } else {
+                            ctrl.questionResponse.selectedAnswers.splice(ctrl.questionResponse.selectedAnswers.indexOf(answer.id), 1);
+                        }
+                        ctrl.selectedAnswer = ctrl.questionResponse.selectedAnswers.length || ctrl.isOtherAnswer ? true : null;       
                     } else {
-                        ctrl.questionResponse.selectedAnswers.splice(ctrl.questionResponse.selectedAnswers.indexOf(answer.id), 1);
+                        ctrl.questionResponse = {
+                            selectedAnswers: []
+                        }
                     }
-                    ctrl.selectedAnswer = ctrl.questionResponse.selectedAnswers.length || ctrl.isOtherAnswer ? true : null;
-
                     ctrl.answerChanged();
                 };
 

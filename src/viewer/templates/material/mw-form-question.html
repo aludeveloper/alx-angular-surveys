@@ -49,8 +49,8 @@
         <div ng-switch-when="checkbox" id="{{ctrl.question.id}}">
            <label class="input-checkbox-label">{{ctrl.question.text}} <span ng-if="ctrl.question.required">*</span></label>
             <div class="checkbox" ng-repeat="answer in ::ctrl.question.offeredAnswers" ng-disabled="ctrl.readOnly" ng-readonly="ctrl.readOnly">
-                <md-checkbox name="answer-for-question-{{ctrl.question.id}}" ng-checked="ctrl.questionResponse.selectedAnswers.indexOf(answer.id) != -1" ng-click="ctrl.toggleSelectedAnswer(answer)" ng-disabled="ctrl.readOnly"  ng-readonly="ctrl.readOnly" >
-                    {{::ctrl.print(answer.value)}}
+                <md-checkbox name="answer-for-question-{{ctrl.question.id}}" ng-checked="ctrl.questionResponse.selectedAnswers.length && ctrl.questionResponse.selectedAnswers.indexOf(answer.id) != -1" ng-click="ctrl.toggleSelectedAnswer(answer)" ng-disabled="ctrl.readOnly"  ng-readonly="ctrl.readOnly" >
+                    {{::ctrl.print(answer.value)}} 
                 </md-checkbox>
             </div>
             <div layout="row" layout-align="start center" class="mw-question-other-answer"  ng-if="ctrl.question.otherAnswer">

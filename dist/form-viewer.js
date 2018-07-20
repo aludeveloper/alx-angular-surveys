@@ -777,7 +777,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
 
                 ctrl.initQuestionsView = function(qdata) {
                     console.log("welcome to the initQuestionsView");
-                    ctrl.hideRadioLinkedQuestions(qdata);
+                    //ctrl.hideRadioLinkedQuestions(qdata);
                     
                     ctrl.mappingTelephoneQuestion(qdata);
                 };

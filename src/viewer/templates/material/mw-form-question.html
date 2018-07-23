@@ -148,7 +148,14 @@
         </div>
 
         <div ng-switch-when="date" class="form-inline" id="{{ctrl.question.id}}">
-             <md-datepicker  md-placeholder="{{ctrl.question.text}}" ng-model="ctrl.questionResponse.answer" ng-change="ctrl.dateChanged(ctrl.questionResponse.answer)" ng-required="ctrl.question.required" ng-readonly="ctrl.readOnly"></md-datepicker>
+            <md-datepicker 
+                md-placeholder="{{ctrl.question.text}}"
+                md-current-view="year" 
+                ng-model="ctrl.questionResponse.answer" 
+                ng-change="ctrl.dateChanged(ctrl.questionResponse.answer)" 
+                ng-required="ctrl.question.required" 
+                ng-readonly="ctrl.readOnly">                    
+            </md-datepicker>
         </div>
 
         <div ng-switch-when="datetime" class="form-inline" id="{{ctrl.question.id}}">

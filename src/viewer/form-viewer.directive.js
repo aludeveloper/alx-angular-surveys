@@ -196,7 +196,9 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 
 			ctrl.submitForm = function() {
 				if (!ctrl.form.$valid) {
-					angular.element("[name='" + ctrl.form.$name + "']").find('.ng-invalid:visible:first').focus();
+					var el = angular.element("[name='" + ctrl.form.$name + "']");
+					el.find('.ng-invalid:visible:first').focus();
+					el.find('.ng-invalid:visible:first').blur();
 					return false;
 				}
 				ctrl.formSubmitted = true;
@@ -347,7 +349,10 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 
 			ctrl.goToNextPage = function() {
 				if (!ctrl.form.$valid) {
-					angular.element("[name='" + ctrl.form.$name + "']").find('.ng-invalid:visible:first').focus();
+					var el = angular.element("[name='" + ctrl.form.$name + "']");
+					console.log(ctrl.form.$name,el);
+					el.find('.ng-invalid:visible:first').focus();
+					el.find('.ng-invalid:visible:first').blur();
 					return false;
 				}
 				window.scrollTo(0, 0);

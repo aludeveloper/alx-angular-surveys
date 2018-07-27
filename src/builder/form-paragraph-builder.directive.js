@@ -7,7 +7,7 @@ angular.module('mwFormBuilder').factory("FormParagraphBuilderId", function(){
         }
     })
 
-    .directive('mwFormParagraphBuilder', function () {
+    .directive('mwFormParagraphBuilder', function ($rootScope) {
 
     return {
         replace: true,
@@ -15,6 +15,7 @@ angular.module('mwFormBuilder').factory("FormParagraphBuilderId", function(){
         require: '^mwFormPageElementBuilder',
         scope: {
             paragraph: '=',
+            selecteditem: '=',
             formObject: '=',
             onReady: '&',
             isPreview: '=?',
@@ -45,6 +46,10 @@ angular.module('mwFormBuilder').factory("FormParagraphBuilderId", function(){
                 }
             };
 
+            ctrl.saveKey = function(SfData){
+                $rootScope.selectedSfKey = ctrl.selecteditem.sfkey.key;
+            }
+
             // Prior to v1.5, we need to call `$onInit()` manually.
             // (Bindings will always be pre-assigned in these versions.)
             if (angular.version.major === 1 && angular.version.minor < 5) {
@@ -54,6 +59,7 @@ angular.module('mwFormBuilder').factory("FormParagraphBuilderId", function(){
         }],
         link: function (scope, ele, attrs, formPageElementBuilder){
             var ctrl = scope.ctrl;
+            ctrl.options = formPageElementBuilder.options;
         }
     };
 });

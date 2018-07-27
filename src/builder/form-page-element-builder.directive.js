@@ -45,6 +45,10 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
                             id: mwFormUuid.get(),
                             html: ''
                         };
+                        ctrl.pageElement.selecteditem={
+                            id: mwFormUuid.get(),                            
+                            sfkey: ''
+                        };
                     }
                 }else if(ctrl.pageElement.type=='paragraphcondition'){
                     // debugger;

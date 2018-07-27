@@ -137,6 +137,16 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 				}
 			};
 
+			ctrl.getParseParaHtml = function() {
+				angular.forEach(ctrl.formData.pages, function(obj, key) {
+					angular.forEach(obj.elements, function(obj1, key1) {
+						if (obj1.type === "paragraph") {
+							ctrl.paragraphHtml = $sce.trustAsHtml(obj1.paragraph.html);
+						}
+					});
+				});
+			};
+			
 			ctrl.getVideoUrl = function(){
 				angular.forEach(ctrl.formData.pages, function(obj, key) {
 					angular.forEach(obj.elements, function(obj1, key1) {

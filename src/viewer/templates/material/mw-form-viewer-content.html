@@ -19,7 +19,9 @@
                     </figure>
                 </div>
                 <div ng-switch-when="paragraph">
-                    <p class="paragraph-padding task-description" ng-bind-html="::ctrl.print(pageElement.paragraph.html)" style="font-size:{{pageElement.paragraph.setFont}}px; color: {{pageElement.paragraph.setColor}};"></p> 
+                    <div ng-init="ctrl.getParseParaHtml()">
+                        <p  ng-bind-html="ctrl.paragraphHtml"></p><!-- style="font-size:{{pageElement.paragraph.setFont}}px; color: {{pageElement.paragraph.setColor}};" --> <!-- class="paragraph-padding task-description" -->
+                    </div>
                 </div>
                 <div ng-switch-when="paragraphcondition">
                     <div ng-init="ctrl.getSfFlagValue()">

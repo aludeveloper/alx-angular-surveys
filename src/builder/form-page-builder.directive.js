@@ -120,8 +120,11 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
                 ctrl.addElement('image');
             };
 
-            ctrl.addParagraph= function(){
+            ctrl.addParagraph= function() {
                 ctrl.addElement('paragraph');
+                $timeout(function() {
+                    $('#summernote').summernote();
+                }, 3000);
             };
 
             ctrl.addParagraphCondition= function(){

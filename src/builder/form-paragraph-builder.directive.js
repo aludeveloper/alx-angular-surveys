@@ -39,6 +39,8 @@ angular.module('mwFormBuilder').factory("FormParagraphBuilderId", function(){
             };
 
             ctrl.save=function(){
+                ctrl.paragraph.html = $('#summernote').summernote('code');
+                console.log("ng-model", ctrl.paragraph.html)
                 ctrl.formSubmitted=true;
                 if(ctrl.form.$valid){
                     ctrl.onReady();

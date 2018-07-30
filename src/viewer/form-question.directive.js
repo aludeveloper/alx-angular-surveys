@@ -27,7 +27,6 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                 questionResponse: '=',
                 readOnly: '=?',
                 options: '=?',
-                currentIndex:'=',
             onResponseChanged: '&?'
             },
             templateUrl: 'mw-form-question.html',

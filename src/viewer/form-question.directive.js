@@ -27,7 +27,6 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                 questionResponse: '=',
                 readOnly: '=?',
                 options: '=?',
-                currentIndex:'=',
             onResponseChanged: '&?'
             },
             templateUrl: 'mw-form-question.html',
@@ -51,53 +50,10 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                 this.$onInit = function() {
                     ctrl.id = FormQuestionId.next();
 
-                    /*if (ctrl.question.type == 'select') {
-                       console.log("select.........")
-                        
-                        if (ctrl.questionResponse.selectedAnswer) {
-                            ctrl.selectedAnswerId = ctrl.questionResponse.selectedAnswer.id;
-                            angular.forEach(ctrl.question.offeredAnswers, function(obj, key) {
-                                if (ctrl.selectedAnswerId == obj.id) {
-                                    ctrl.questionResponse.selectedAnswer.id = obj.id;
-                                    ctrl.questionResponse.selectedAnswer.linkedquestion = obj.linkedquestion;
-                                    ctrl.questionResponse.selectedAnswer.orderNo = obj.orderNo;
-                                    ctrl.questionResponse.selectedAnswer.pageFlow = obj.pageFlow;
-                                    ctrl.questionResponse.selectedAnswer.value = obj.value;
-                                }
-                            })
-                            $timeout(function() {
-                                ctrl.questionResponse.selectedAnswer = ctrl.questionResponse.selectedAnswer
-                            }, 1000);
-                            ctrl.selectedAnswerChanged();
-                        }
-
-                        if (ctrl.questionResponse.other) {
-                            ctrl.isOtherAnswer = true;
-                        }
-
-                    }*/
-
                     if (ctrl.question.type == 'radio') {
                         /*if (!ctrl.questionResponse.selectedAnswer) {
                             ctrl.questionResponse.selectedAnswer = null;
                         }*/
-                        /*if (ctrl.questionResponse.selectedAnswer) {
-                            ctrl.selectedAnswerId = ctrl.questionResponse.selectedAnswer.id;
-                            angular.forEach(ctrl.question.offeredAnswers, function(obj, key) {
-                                if (ctrl.selectedAnswerId == obj.id) {
-                                    ctrl.questionResponse.selectedAnswer.id = obj.id;
-                                    ctrl.questionResponse.selectedAnswer.linkedquestion = obj.linkedquestion;
-                                    ctrl.questionResponse.selectedAnswer.orderNo = obj.orderNo;
-                                    ctrl.questionResponse.selectedAnswer.pageFlow = obj.pageFlow;
-                                    ctrl.questionResponse.selectedAnswer.value = obj.value;
-                                }
-                            })
-                            $timeout(function() {
-                                ctrl.questionResponse.selectedAnswer = JSON.stringify(ctrl.questionResponse.selectedAnswer) 
-                            }, 1000);
-                            ctrl.selectedAnswerChanged();
-                        }*/
-
                         if (ctrl.questionResponse.other) {
                             ctrl.isOtherAnswer = true;
                         }

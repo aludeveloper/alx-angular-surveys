@@ -123,8 +123,8 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
             ctrl.addParagraph= function() {
                 ctrl.addElement('paragraph');
                 $timeout(function() {
-                    $('#summernote').summernote();
-                }, 3000);
+                    $( ".summernote" ).summernote();
+                }, 1000);
             };
 
             ctrl.addParagraphCondition= function(){
@@ -141,6 +141,11 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
 
             ctrl.selectElement = function(element){
                 ctrl.activeElement=element;
+                if (ctrl.activeElement.type == 'paragraph') {
+                    $timeout(function() {
+                        $('.summernote').summernote({focus: true});
+                    }, 1000);
+                }
             };
 
             ctrl.onElementReady = function(){

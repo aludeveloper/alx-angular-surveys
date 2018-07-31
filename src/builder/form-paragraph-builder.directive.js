@@ -38,9 +38,8 @@ angular.module('mwFormBuilder').factory("FormParagraphBuilderId", function(){
                 ctrl.formSubmitted=false;
             };
 
-            ctrl.save=function(){
-                ctrl.paragraph.html = $('#summernote').summernote('code');
-                console.log("ng-model", ctrl.paragraph.html)
+            ctrl.save=function() {
+                ctrl.paragraph.html = $('.summernote').summernote('code');
                 ctrl.formSubmitted=true;
                 if(ctrl.form.$valid){
                     ctrl.onReady();
@@ -56,6 +55,7 @@ angular.module('mwFormBuilder').factory("FormParagraphBuilderId", function(){
         }],
         link: function (scope, ele, attrs, formPageElementBuilder){
             var ctrl = scope.ctrl;
+            ctrl.options = formPageElementBuilder.options;
         }
     };
 });

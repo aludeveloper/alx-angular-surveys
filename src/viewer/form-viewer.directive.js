@@ -137,17 +137,12 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 				}
 			};
 
-			ctrl.getParseParaHtml = function() {
-				angular.forEach(ctrl.formData.pages, function(obj, key) {
-					angular.forEach(obj.elements, function(obj1, key1) {
-						if (obj1.type === "paragraph") {
-							ctrl.paragraphHtml = $sce.trustAsHtml(obj1.paragraph.html);
-						}
-					});
-				});
+			//returning paragraph as html
+			ctrl.getParseParaHtml = function(html) {
+				return $sce.trustAsHtml(html);
 			};
 			
-			ctrl.getVideoUrl = function(){
+			ctrl.getVideoUrl = function() {
 				angular.forEach(ctrl.formData.pages, function(obj, key) {
 					angular.forEach(obj.elements, function(obj1, key1) {
 						if (obj1.type === "videolink") {
@@ -206,7 +201,9 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 
 			ctrl.submitForm = function() {
 				if (!ctrl.form.$valid) {
-					angular.element("[name='" + ctrl.form.$name + "']").find('.ng-invalid:visible:first').focus();
+					var el = angular.element("[name='" + ctrl.form.$name + "']");
+					el.find('.ng-invalid:visible:first').focus();
+					el.find('.ng-invalid:visible:first').blur();
 					return false;
 				}
 				ctrl.formSubmitted = true;
@@ -357,7 +354,10 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 
 			ctrl.goToNextPage = function() {
 				if (!ctrl.form.$valid) {
-					angular.element("[name='" + ctrl.form.$name + "']").find('.ng-invalid:visible:first').focus();
+					var el = angular.element("[name='" + ctrl.form.$name + "']");
+					console.log(ctrl.form.$name,el);
+					el.find('.ng-invalid:visible:first').focus();
+					el.find('.ng-invalid:visible:first').blur();
 					return false;
 				}
 				window.scrollTo(0, 0);

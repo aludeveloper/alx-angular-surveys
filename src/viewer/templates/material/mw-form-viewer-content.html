@@ -10,8 +10,8 @@
     <div class="mw-form-page" ng-if="ctrl.currentPage">
         <h2 class="mw-page-title" ng-if="ctrl.currentPage.namedPage && ctrl.currentPage.name">{{ctrl.currentPage.name}}</h2>
         <div class="mw-form-page-element-list">
-            <div class="mw-page-element" ng-repeat="pageElement in ctrl.currentPage.elements track by $index" ng-switch="pageElement.type" ng-init="parentIndex=$index">
-                <mw-form-question ng-switch-when="question" current-index="parentIndex" question="pageElement.question" question-response="ctrl.responseData[pageElement.question.id]"  read-only="ctrl.readOnly" on-response-changed="ctrl.onResponseChanged(pageElement)"></mw-form-question>
+            <div class="mw-page-element" ng-repeat="pageElement in ctrl.currentPage.elements" ng-switch="pageElement.type">
+                <mw-form-question ng-switch-when="question" question="pageElement.question" question-response="ctrl.responseData[pageElement.question.id]"  read-only="ctrl.readOnly" on-response-changed="ctrl.onResponseChanged(pageElement)"></mw-form-question>
                 <div class="image-element" ng-switch-when="image">
                     <figure ng-class="'align-'+pageElement.image.align">
                         <img ng-src="{{pageElement.image.src}}" ng-attr-alt="pageElement.image.caption">
@@ -19,9 +19,8 @@
                     </figure>
                 </div>
                 <div ng-switch-when="paragraph">
-                    <div ng-init="ctrl.getParseParaHtml()">
-                        <p  ng-bind-html="ctrl.paragraphHtml"></p><!-- style="font-size:{{pageElement.paragraph.setFont}}px; color: {{pageElement.paragraph.setColor}};" --> <!-- class="paragraph-padding task-description" -->
-                    </div>
+                    <p class="paragraph-padding" ng-bind-html="ctrl.getParseParaHtml(pageElement.paragraph.html)"></p>
+                    <!-- class="task-description" -->
                 </div>
                 <div ng-switch-when="paragraphcondition">
                     <div ng-init="ctrl.getSfFlagValue()">

@@ -3,6 +3,7 @@
         {{::ctrl.print(ctrl.question.text)}} <span ng-if="ctrl.question.required">*</span>
     </div> -->
     <div class="mw-question-answers" ng-switch="ctrl.question.type" ng-init="ctrl.initQuestionsView(ctrl.question)">
+        <!-- ng-init="ctrl.initQuestionsView(ctrl.question)" -->
         <div ng-switch-when="text" id="{{ctrl.question.id}}" >  <!--ng-show="ctrl.question.isLinked && ctrl.question.id == ctrl.selectedLinkQ"   ctrl.question.isLinked && !(ctrl.selectedLinkQ == ctrl.questionResponse.selectedAnswer.linkedquestion)  ng-show="ctrl.question.isLinked && ctrl.question.id == ctrl.selectedLinkQ" -->
             <md-input-container class="md-block">
                 <input class="form-control" type="text" ng-model="ctrl.questionResponse.answer" placeholder="{{ctrl.question.text}}" ng-required="ctrl.question.required" ng-readonly="ctrl.readOnly" maxlength="{{ctrl.question.chrLimit}}">
@@ -25,7 +26,7 @@
         <div ng-switch-when="radio" id="{{ctrl.question.id}}">
             <label class="input-radio-label">{{ctrl.question.text}} <span ng-if="ctrl.question.required">*</span></label>
             <md-radio-group md-no-ink ng-model="ctrl.questionResponse.selectedAnswer" ng-required="ctrl.question.required &&!ctrl.isOtherAnswer" ng-disabled="ctrl.readOnly" ng-change="ctrl.selectedAnswerChanged()">
-                <md-radio-button   ng-repeat="answer in ctrl.question.offeredAnswers" aria-label="{{ answer.value }}"  value="{{answer}}" name="answer-for-question-{{ctrl.question.id}}" ng-readonly="ctrl.readOnly">
+                <md-radio-button   ng-repeat="answer in ctrl.question.offeredAnswers" aria-label="{{ answer.value }}"  ng-value="answer.id" name="answer-for-question-{{ctrl.question.id}}" ng-readonly="ctrl.readOnly">
                     {{::ctrl.print(answer.value)}}
                 </md-radio-button>
             </md-radio-group>
@@ -48,12 +49,12 @@
         <div ng-switch-when="checkbox" id="{{ctrl.question.id}}">
            <label class="input-checkbox-label">{{ctrl.question.text}} <span ng-if="ctrl.question.required">*</span></label>
             <div class="checkbox" ng-repeat="answer in ::ctrl.question.offeredAnswers" ng-disabled="ctrl.readOnly" ng-readonly="ctrl.readOnly">
-                <md-checkbox name="answer-for-question-{{ctrl.question.id}}" ng-checked="ctrl.questionResponse.selectedAnswers.indexOf(answer.id) != -1" ng-click="ctrl.toggleSelectedAnswer(answer)" ng-disabled="ctrl.readOnly"  ng-readonly="ctrl.readOnly" >
-                    {{::ctrl.print(answer.value)}}
+                <md-checkbox name="answer-for-question-{{ctrl.question.id}}" ng-checked="ctrl.questionResponse.selectedAnswers.length && ctrl.questionResponse.selectedAnswers.indexOf(answer.id) != -1" ng-click="ctrl.toggleSelectedAnswer(answer)" ng-disabled="ctrl.readOnly"  ng-readonly="ctrl.readOnly" class="redColor">
+                    {{::ctrl.print(answer.value)}} 
                 </md-checkbox>
             </div>
             <div layout="row" layout-align="start center" class="mw-question-other-answer"  ng-if="ctrl.question.otherAnswer">
-                <md-checkbox name="answer-for-question-{{ctrl.question.id}}" ng-model="ctrl.isOtherAnswer" ng-change="ctrl.otherAnswerCheckboxChanged()" ng-readonly="ctrl.readOnly" ng-disabled="ctrl.readOnly">
+                <md-checkbox name="answer-for-question-{{ctrl.question.id}}" ng-model="ctrl.isOtherAnswer" ng-change="ctrl.otherAnswerCheckboxChanged()" ng-readonly="ctrl.readOnly" ng-disabled="ctrl.readOnly" class="redColor">
                     <span translate="mwForm.question.preview.otherAnswer">Inna</span>:
                 </md-checkbox>
                 <div>
@@ -68,8 +69,8 @@
         <div ng-switch-when="select" id="{{ctrl.question.id}}">
             <label class="input-select-label">{{ctrl.question.text}}<span ng-if="ctrl.question.required"> *</span></label></br>
             <md-input-container flex="100">
-                <md-select ng-disabled="ctrl.readOnly" ng-required="ctrl.question.required" md-no-asterisk ng-model="ctrl.questionResponse.selectedAnswer" style="min-width: 200px;"ng-change="ctrl.selectedAnswerChanged()">
-                    <md-option ng-repeat="answer in ctrl.question.offeredAnswers" value="{{answer}}">
+                <md-select ng-disabled="ctrl.readOnly" ng-required="ctrl.question.required" md-no-asterisk ng-model="ctrl.questionResponse.selectedAnswer" style="min-width: 200px;">
+                    <md-option ng-repeat="answer in ctrl.question.offeredAnswers" ng-value="answer.id">
                         {{::ctrl.print(answer.value)}}
                     </md-option>
                 </md-select>
@@ -147,7 +148,14 @@
         </div>
 
         <div ng-switch-when="date" class="form-inline" id="{{ctrl.question.id}}">
-             <md-datepicker  md-placeholder="{{ctrl.question.text}}" ng-model="ctrl.questionResponse.answer" ng-change="ctrl.dateChanged(ctrl.questionResponse.answer)" ng-required="ctrl.question.required" ng-readonly="ctrl.readOnly"></md-datepicker>
+            <md-datepicker 
+                md-placeholder="{{ctrl.question.text}}"
+                md-current-view="year" 
+                ng-model="ctrl.questionResponse.answer" 
+                ng-change="ctrl.dateChanged(ctrl.questionResponse.answer)" 
+                ng-required="ctrl.question.required" 
+                ng-readonly="ctrl.readOnly">                    
+            </md-datepicker>
         </div>
 
         <div ng-switch-when="datetime" class="form-inline" id="{{ctrl.question.id}}">

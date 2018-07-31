@@ -3,35 +3,41 @@
         <div ng-form="ctrl.form" ng-if="!ctrl.isPreview">
             <div class="form-horizontal">
 
-                    <md-input-container class="md-block">
-                        <mw-label label-for="question-text-{{ctrl.id}}" label-key="mwForm.question.text"></mw-label>
-                        <input type="text" name="text" ng-attr-id="question-text-{{ctrl.id}}" ng-model="ctrl.question.text" ng-readonly="ctrl.readOnly" required>
-                    </md-input-container>
-
-                <div class="mw-question-type" layout="row" layout-align="start center">
-                    <md-input-container flex-gt-md="30">
-                        <mw-label label-for="question-type-{{ctrl.id}}" label-class="col-sm-2 control-label"  label-key="mwForm.question.type"></mw-label>
-                        <md-select ng-attr-id="question-type-{{ctrl.id}}" ng-model="ctrl.question.type" ng-change="ctrl.questionTypeChanged()" ng-disabled="ctrl.readOnly" required>
+                <md-input-container class="md-block">
+                    <mw-label label-for="question-text-{{ctrl.id}}" label-key="mwForm.question.text"></mw-label>
+                    <input type="text" name="text" ng-attr-id="question-text-{{ctrl.id}}" ng-model="ctrl.question.text" ng-readonly="ctrl.readOnly" required>
+                </md-input-container>
+                
+                <div layout="row" layout-align="space-between center" flex="90">
+                    <md-input-container>
+                        <mw-label label-for="question-type-{{ctrl.id}}" label-class="control-label"  label-key="mwForm.question.type"></mw-label>
+                        <md-select style="min-width: 200px;" ng-attr-id="question-type-{{ctrl.id}}" ng-model="ctrl.question.type" ng-change="ctrl.questionTypeChanged()" ng-disabled="ctrl.readOnly" required>
                             <md-option ng-repeat="type in ctrl.questionTypes" ng-value="type">
                                 {{'mwForm.question.types.'+type+'.name'|translate}}
                             </md-option>
                         </md-select>
                     </md-input-container>
-                    <div flex flex-offset-gt-md="5">
-                        <md-checkbox  ng-if="ctrl.question.type=='radio' || ctrl.question.type=='select'" ng-model="ctrl.question.pageFlowModifier" ng-change="ctrl.pageFlowModifierChanged()" ng-readonly="ctrl.readOnly" aria-label="Go to page">
+                    
+                    <div ng-repeat="select in ctrl.options.customQuestionSelects">
+                        <mw-label label-for="question-{{select.key}}-{{ctrl.id}}" label-class="col-sm-2 control-label"  label-key="{{select.label}}"></mw-label>
+                        <div class="col-sm-10 form-inline">
+                            <select 
+                                ng-attr-id="question-{{opt.key}}-{{ctrl.id}}" 
+                                ng-options="opt.label for opt in select.options track by opt.key" 
+                                ng-model="ctrl.question[select.key]" 
+                                class="form-control" 
+                                ng-disabled="ctrl.readOnly" 
+                                ng-required="select.required">                                
+                            </select>
+                        </div>
+                    </div>
+
+                    <div layout="column" layout-align="center center" ng-if="ctrl.question.type=='radio' || ctrl.question.type=='select'">
+                        <md-checkbox ng-model="ctrl.question.pageFlowModifier" ng-change="ctrl.pageFlowModifierChanged()" ng-readonly="ctrl.readOnly" aria-label="Go to page">
                             <span translate="mwForm.pageFlow.afterQuestionAnswer">Przejdź do strony w oparciu o odpowiedź</span>
                         </md-checkbox>
-
-
                     </div>
-                </div>
-                <div class="form-group mw-question-type" ng-repeat="select in ctrl.options.customQuestionSelects">
-                    <mw-label label-for="question-{{select.key}}-{{ctrl.id}}" label-class="col-sm-2 control-label"  label-key="{{select.label}}"></mw-label>
-                    <div class="col-sm-10 form-inline">
-                        <select ng-attr-id="question-{{opt.key}}-{{ctrl.id}}" ng-options="opt.label for opt in select.options track by opt.key" ng-model="ctrl.question[select.key]"  class="form-control" ng-disabled="ctrl.readOnly" ng-required="select.required"></select>
-
-                    </div>
-                </div>
+                </div>          
             </div>
 
             <div ng-if="ctrl.question.type">

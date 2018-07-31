@@ -1,32 +1,46 @@
 <div class="mw-form-paragraph-builder-wrapper">
-    <div class="mw-form-paragraph-builder" ng-class="{'ng-submitted':ctrl.formSubmitted}">
-        <div class="paragraph-editor" ng-form="ctrl.form" ng-if="!ctrl.isPreview">
-            <md-input-container class="md-block" ng-form name="myParagraphText">
-                <mw-label label-for="paragraph-textarea-{{ctrl.id}}" label-key="mwForm.paragraph.placeholder"></mw-label>
-                <textarea name="errorCheck" msd-elastic class="form-control mw-form-paragraph-textarea" ng-model="ctrl.paragraph.html" required ng-attr-id="paragraph-textarea-{{ctrl.id}}" ng-readonly="ctrl.readOnly" ng-maxlength="131072" maxlength="131073" style="font-size: {{ctrl.paragraph.setFont}}px; color:{{ctrl.paragraph.setColor}};"></textarea>
-                <span style="color:red; font-size:13px;" ng-show= "myParagraphText.errorCheck.$error.maxlength">You have exceeded the maximum entry limit of 131072 characters.</span>
-            </md-input-container>
-            <md-input-container>
-                <md-select placeholder="Select Font Size" ng-model="ctrl.paragraph.setFont">
-                    <md-option value="{{$index+1}}" ng-repeat= "i in ctrl.getNumber(ctrl.number) track by $index">{{$index+1}}</md-option>
-                </md-select>
-            </md-input-container>
-            <label style="margin-left: 20px;font-size: 13px;font-family: open Sans;font-style: italic;">Choose Color</label>
-            <md-input-container style="margin-left: 25px;">
-                <input type="color" ng-model="ctrl.paragraph.setColor" style="width:60px;">    
-            </md-input-container>
-            <input type="text" ng-model="ctrl.paragraph.setColor" style="width:80px;margin-left:10px;font-size:13px;">
-            <div layout="row">
-                <br/>
+	<div class="mw-form-paragraph-builder" ng-class="{'ng-submitted':ctrl.formSubmitted}">
+		<div class="paragraph-editor" ng-form="ctrl.form" ng-if="!ctrl.isPreview">
+			<md-input-container class="md-block" ng-form name="myParagraphText">
+				<mw-label label-for="paragraph-textarea-{{ctrl.id}}" label-key="mwForm.paragraph.placeholder"></mw-label>
+				<textarea name="errorCheck" msd-elastic class="form-control mw-form-paragraph-textarea" ng-model="ctrl.paragraph.html" required ng-attr-id="paragraph-textarea-{{ctrl.id}}" ng-readonly="ctrl.readOnly" ng-maxlength="131072" maxlength="131073" style="font-size: {{ctrl.paragraph.setFont}}px; color:{{ctrl.paragraph.setColor}};"></textarea>
+				<span style="color:red; font-size:13px;" ng-show= "myParagraphText.errorCheck.$error.maxlength">You have exceeded the maximum entry limit of 131072 characters.</span>
+			</md-input-container>
 
-                <md-button class="md-primary md-raised" type="button" role="button" ng-click="ctrl.save()" translate="mwForm.buttons.questionReady">
-                    Ready
-                </md-button>
-            </div>
-        </div>
-        <div class="mw-preview" ng-if="ctrl.isPreview">
-            <p ng-bind-html="ctrl.paragraph.html" style="font-size: {{ctrl.paragraph.setFont}}px; color:{{ctrl.paragraph.setColor}};"></p>
-        </div>
-    </div>
+			<md-input-container>
+				<md-select placeholder="Select Font Size" ng-model="ctrl.paragraph.setFont">
+					<md-option value="{{$index+1}}" ng-repeat= "i in ctrl.getNumber(ctrl.number) track by $index">{{$index+1}}</md-option>
+				</md-select>
+			</md-input-container>
 
+			<label style="margin-left: 20px;font-size: 13px;font-family: open Sans;font-style: italic;">Choose Color</label>
+			<input type="color" ng-model="ctrl.paragraph.setColor" style="width:60px;">
+			<md-input-container style="margin-left: 25px;">                
+				<input type="text" ng-model="ctrl.paragraph.setColor" style="width:70px; margin-left: 10px;padding-top: 6px;">
+			</md-input-container>
+			
+			<div class="form-group mw-question-type" ng-repeat="select in ctrl.options.customQuestionSelects">
+				<mw-label label-for="question-{{select.key}}-{{ctrl.id}}" label-class="control-label"  label-key="{{select.label}}"></mw-label>
+				<div class="form-inline">
+					<select 
+						ng-attr-id="question-{{opt.key}}-{{ctrl.id}}" 
+						ng-options="opt.label for opt in select.options track by opt.key" 
+						ng-model="ctrl.paragraph.SFKey"
+						class="form-control" 
+						ng-disabled="ctrl.readOnly" 
+						ng-required="select.required">
+					</select>
+				</div>
+			</div>
+			<div layout="row">
+				<br/>
+				<md-button class="md-primary md-raised" type="button" role="button" ng-click="ctrl.save()" translate="mwForm.buttons.questionReady">
+					Ready
+				</md-button>
+			</div>
+		</div>
+	<div class="mw-preview" ng-if="ctrl.isPreview">
+		<p ng-bind-html="ctrl.paragraph.html" style="font-size: {{ctrl.paragraph.setFont}}px; color:{{ctrl.paragraph.setColor}};"></p>
+	</div>
+</div>
 </div>

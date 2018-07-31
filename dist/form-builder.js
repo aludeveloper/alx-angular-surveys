@@ -885,7 +885,7 @@ angular.module('mwFormBuilder').factory("FormParagraphBuilderId", function(){
         }
     })
 
-    .directive('mwFormParagraphBuilder', function () {
+    .directive('mwFormParagraphBuilder', ["$rootScope", function ($rootScope) {
 
     return {
         replace: true,
@@ -932,9 +932,10 @@ angular.module('mwFormBuilder').factory("FormParagraphBuilderId", function(){
         }],
         link: function (scope, ele, attrs, formPageElementBuilder){
             var ctrl = scope.ctrl;
+            ctrl.options = formPageElementBuilder.options;
         }
     };
-});
+}]);
 
 angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function () {
 

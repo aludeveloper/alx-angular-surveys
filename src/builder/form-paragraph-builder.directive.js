@@ -15,7 +15,6 @@ angular.module('mwFormBuilder').factory("FormParagraphBuilderId", function(){
         require: '^mwFormPageElementBuilder',
         scope: {
             paragraph: '=',
-            selecteditem: '=',
             formObject: '=',
             onReady: '&',
             isPreview: '=?',
@@ -45,10 +44,6 @@ angular.module('mwFormBuilder').factory("FormParagraphBuilderId", function(){
                     ctrl.onReady();
                 }
             };
-
-            ctrl.saveKey = function(SfData){
-                $rootScope.selectedSfKey = ctrl.selecteditem.sfkey.key;
-            }
 
             // Prior to v1.5, we need to call `$onInit()` manually.
             // (Bindings will always be pre-assigned in these versions.)

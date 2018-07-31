@@ -19,17 +19,14 @@
                     </md-input-container>
                     
                     <div ng-repeat="select in ctrl.options.customQuestionSelects">
-                        <mw-label label-for="question-{{select.key}}-{{ctrl.id}}" label-class="col-sm-2 control-label"  label-key="{{select.label}}"></mw-label>
-                        <div class="col-sm-10 form-inline">
-                            <select 
-                                ng-attr-id="question-{{opt.key}}-{{ctrl.id}}" 
-                                ng-options="opt.label for opt in select.options track by opt.key" 
-                                ng-model="ctrl.question[select.key]" 
-                                class="form-control" 
-                                ng-disabled="ctrl.readOnly" 
-                                ng-required="select.required">                                
-                            </select>
-                        </div>
+                        <md-input-container flex="100">
+                            <label>Salesforce Field</label>
+                            <md-select  style="min-width: 200px;" ng-model="ctrl.question[select.key]" >
+                                <md-option ng-repeat="opt in select.options track by opt.key" value="{{opt.key}}">
+                                    {{opt.label}}
+                                </md-option>
+                            </md-select>
+                        </md-input-container>
                     </div>
 
                     <div layout="column" layout-align="center center" ng-if="ctrl.question.type=='radio' || ctrl.question.type=='select'">

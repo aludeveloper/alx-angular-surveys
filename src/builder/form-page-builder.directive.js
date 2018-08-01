@@ -123,7 +123,9 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
             ctrl.addParagraph= function() {
                 ctrl.addElement('paragraph');
                 $timeout(function() {
-                    $( ".summernote" ).summernote();
+                    $( ".summernote" ).summernote({
+                        placeholder: 'Enter paragraph text'
+                    });
                 }, 1000);
             };
 

@@ -137,7 +137,12 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 				}
 			};
 
-			ctrl.getVideoUrl = function(){
+			//returning paragraph as html
+			ctrl.getParseParaHtml = function(html) {
+				return $sce.trustAsHtml(html);
+			};
+			
+			ctrl.getVideoUrl = function() {
 				angular.forEach(ctrl.formData.pages, function(obj, key) {
 					angular.forEach(obj.elements, function(obj1, key1) {
 						if (obj1.type === "videolink") {

@@ -7,7 +7,7 @@ angular.module('mwFormBuilder').factory("FormParagraphBuilderId", function(){
         }
     })
 
-    .directive('mwFormParagraphBuilder', function ($rootScope) {
+    .directive('mwFormParagraphBuilder', function () {
 
     return {
         replace: true,
@@ -25,7 +25,7 @@ angular.module('mwFormBuilder').factory("FormParagraphBuilderId", function(){
         bindToController: true,
         controller: ["$timeout", "FormParagraphBuilderId", function($timeout,FormParagraphBuilderId){
             var ctrl = this;
-
+            ctrl.requiredPara = false;
             ctrl.number = 100; 
             ctrl.getNumber = function(num)
             {
@@ -38,10 +38,14 @@ angular.module('mwFormBuilder').factory("FormParagraphBuilderId", function(){
                 ctrl.formSubmitted=false;
             };
 
-            ctrl.save=function(){
+            ctrl.save=function() {
+                ctrl.paragraph.html = $('.summernote').summernote('code');
                 ctrl.formSubmitted=true;
-                if(ctrl.form.$valid){
+                if (!$('.summernote').summernote('isEmpty')) {
+                    ctrl.requiredPara = false;
                     ctrl.onReady();
+                } else {
+                    ctrl.requiredPara = true;
                 }
             };
 

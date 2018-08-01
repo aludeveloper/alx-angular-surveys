@@ -1,4 +1,9 @@
 angular.module('mwFormBuilder', ['ngSanitize','ng-sortable', 'pascalprecht.translate']);
+angular.module('mwFormBuilder').filter('trustAsHtml', ["$sce", function($sce) {
+  return function(html) {
+    return $sce.trustAsHtml(html);
+  };
+}]);
 
 angular.module('mwFormBuilder')
     .service('mwFormUuid', function () {
@@ -334,6 +339,7 @@ angular.module('mwFormBuilder').directive('mwQuestionOfferedAnswerListBuilder', 
 		}
 	};
 });
+
 angular.module('mwFormBuilder').directive('mwQuestionGridBuilder', function () {
 
     return {
@@ -885,7 +891,7 @@ angular.module('mwFormBuilder').factory("FormParagraphBuilderId", function(){
         }
     })
 
-    .directive('mwFormParagraphBuilder', ["$rootScope", function ($rootScope) {
+    .directive('mwFormParagraphBuilder', function () {
 
     return {
         replace: true,
@@ -903,7 +909,7 @@ angular.module('mwFormBuilder').factory("FormParagraphBuilderId", function(){
         bindToController: true,
         controller: ["$timeout", "FormParagraphBuilderId", function($timeout,FormParagraphBuilderId){
             var ctrl = this;
-
+            ctrl.requiredPara = false;
             ctrl.number = 100; 
             ctrl.getNumber = function(num)
             {
@@ -916,10 +922,14 @@ angular.module('mwFormBuilder').factory("FormParagraphBuilderId", function(){
                 ctrl.formSubmitted=false;
             };
 
-            ctrl.save=function(){
+            ctrl.save=function() {
+                ctrl.paragraph.html = $('.summernote').summernote('code');
                 ctrl.formSubmitted=true;
-                if(ctrl.form.$valid){
+                if (!$('.summernote').summernote('isEmpty')) {
+                    ctrl.requiredPara = false;
                     ctrl.onReady();
+                } else {
+                    ctrl.requiredPara = true;
                 }
             };
 
@@ -935,7 +945,7 @@ angular.module('mwFormBuilder').factory("FormParagraphBuilderId", function(){
             ctrl.options = formPageElementBuilder.options;
         }
     };
-}]);
+});
 
 angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function () {
 
@@ -1208,8 +1218,13 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
                 ctrl.addElement('image');
             };
 
-            ctrl.addParagraph= function(){
+            ctrl.addParagraph= function() {
                 ctrl.addElement('paragraph');
+                $timeout(function() {
+                    $( ".summernote" ).summernote({
+                        placeholder: 'Enter paragraph text'
+                    });
+                }, 1000);
             };
 
             ctrl.addParagraphCondition= function(){
@@ -1226,6 +1241,11 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
 
             ctrl.selectElement = function(element){
                 ctrl.activeElement=element;
+                if (ctrl.activeElement.type == 'paragraph') {
+                    $timeout(function() {
+                        $('.summernote').summernote({focus: true});
+                    }, 1000);
+                }
             };
 
             ctrl.onElementReady = function(){

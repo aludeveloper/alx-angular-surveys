@@ -139,7 +139,7 @@ angular.module('mwFormBuilder').directive('mwQuestionOfferedAnswerListBuilder', 
 			ele.bind("change", function(changeEvent) {
 				var files = changeEvent.target.files;
 				var reader = new FileReader();
-				if (files.length > 0) {
+				if (files && files.length > 0) {
 					reader.onload = function(e) {
 						var contents = e.target.result;
 					};

@@ -759,7 +759,14 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                               console.log(telInput);
                             // initialise plugin
                             telInput.intlTelInput({
-                              utilsScript: "../bower_components/intl-tel-input/build/js/utils.js"
+                                initialCountry: "auto",
+                                geoIpLookup: function(callback) {
+                                    $.get('https://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+                                      var countryCode = (resp && resp.country) ? resp.country : "";
+                                      callback(countryCode);
+                                    });
+                                },
+                                utilsScript: "../bower_components/intl-tel-input/build/js/utils.js"
                             });
 
                             var reset = function() {

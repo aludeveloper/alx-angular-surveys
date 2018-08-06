@@ -333,11 +333,14 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 
 
 				var resultPromise = ctrl.onSubmit();
-				resultPromise.then(function() {
-					ctrl.submitStatus = 'SUCCESS';
-				}).catch(function() {
-					ctrl.submitStatus = 'ERROR';
-				});
+
+				if (resultPromise) {
+					resultPromise.then(function() {
+						ctrl.submitStatus = 'SUCCESS';
+					}).catch(function() {
+						ctrl.submitStatus = 'ERROR';
+					});
+				}
 			};
 
 			ctrl.setCurrentPage = function(page) {

@@ -1,49 +1,46 @@
 <div>
-	<div class="page-element-list" ng-sortable="ctrl.sortableConfig" ng-model="ctrl.formPage.rows.elements">
-		<div class="empty-page-element-list-label form-group" ng-if="!ctrl.formPage.rows.elements || (ctrl.formPage.rows.elements && ctrl.formPage.rows.elements.length === 0)">
-			<span translate="mwForm.page.elements.empty">Brak elementów</span>
+	<div class="page-element-list" ng-sortable="ctrl.sortableConfig" ng-model="ctrl.formPage.elements">
+		<div class="empty-page-element-list-label form-group" ng-if="!ctrl.formPage.elements || (ctrl.formPage.elements && ctrl.formPage.elements.length === 0)">
+			<!-- <span translate="mwForm.page.elements.empty">Brak elementów</span> -->
 		</div>
-		<mw-form-page-element-builder  ng-repeat="element in ctrl.formPage.rows.elements" page-element="element" form-object="ctrl.formObject" is-active="ctrl.isElementActive(element)" on-ready="ctrl.onElementReady()" ng-click="ctrl.selectElement(element)" is-first="$first" is-last="$last" read-only="ctrl.readOnly"></mw-form-page-element-builder>
+		<mw-form-page-element-builder  ng-repeat="element in ctrl.formPage.elements" page-element="element" form-object="ctrl.formObject" is-active="ctrl.isElementActive(element)" on-ready="ctrl.onElementReady()" ng-click="ctrl.selectElement(element)" is-first="$first" is-last="$last" read-only="ctrl.readOnly"></mw-form-page-element-builder>
 	</div>
 
-	<div class="page-element-list" ng-model="ctrl.formPage.rows">
-		<div class="empty-page-element-list-label form-group" ng-if="!ctrl.formPage.rows || (ctrl.formPage.rows && ctrl.formPage.rows.length === 0)"></div>
-		<md-menu ng-if="!ctrl.readOnly">
-			<md-button class="md-raised" aria-label="{{'mwForm.buttons.addElement'|translate}}"    ng-click="$mdOpenMenu($event)" translate="mwForm.buttons.addElement">
-				Add element
-			</md-button>
-			<md-menu-content width="4">
-				<md-menu-item ng-if="ctrl.isElementTypeEnabled('question')">
-					<md-button type="button" ng-click="ctrl.addQuestion()">
-						<span translate="mwForm.elements.question">Pytanie</span><i class="fa fa-question-circle  fa-lg fa-fw" style="margin-left: 10px;"></i>
-					</md-button>
-				</md-menu-item>
+	<md-menu ng-if="!ctrl.readOnly">
+		<md-button class="md-raised" aria-label="{{'mwForm.buttons.addElement'|translate}}" ng-click="$mdOpenMenu($event)" translate="mwForm.buttons.addElement">
+			Add element
+		</md-button>
+		<md-menu-content width="4">
+			<md-menu-item ng-if="ctrl.isElementTypeEnabled('question')">
+				<md-button type="button" ng-click="ctrl.addQuestion()">
+					<span translate="mwForm.elements.question">Pytanie</span><i class="fa fa-question-circle  fa-lg fa-fw" style="margin-left: 10px;"></i>
+				</md-button>
+			</md-menu-item>
+			
+			<md-menu-item ng-if="ctrl.isElementTypeEnabled('image')">
+				<md-button type="button" ng-click="ctrl.addImage()">
+					<span translate="mwForm.elements.image">Obraz</span><i class="fa fa-picture-o  fa-lg fa-fw" style="margin-left: 10px;"></i>
+				</md-button>
+			</md-menu-item>
 
-				<md-menu-item ng-if="ctrl.isElementTypeEnabled('image')">
-					<md-button type="button" ng-click="ctrl.addImage()">
-						<span translate="mwForm.elements.image">Obraz</span><i class="fa fa-picture-o  fa-lg fa-fw" style="margin-left: 10px;"></i>
-					</md-button>
-				</md-menu-item>
+			<md-menu-item ng-if="ctrl.isElementTypeEnabled('paragraph')">
+				<md-button type="button" ng-click="ctrl.addParagraph()">
+					<span translate="mwForm.elements.paragraph">Obraz</span><i class="fa fa-paragraph  fa-lg fa-fw" style="margin-left: 10px;"></i>
+				</md-button>
+			</md-menu-item>
 
-				<md-menu-item ng-if="ctrl.isElementTypeEnabled('paragraph')">
-					<md-button type="button" ng-click="ctrl.addParagraph()">
-						<span translate="mwForm.elements.paragraph">Obraz</span><i class="fa fa-paragraph  fa-lg fa-fw" style="margin-left: 10px;"></i>
-					</md-button>
-				</md-menu-item>
-				
-				<md-menu-item ng-if="ctrl.isElementTypeEnabled('paragraphConditionTrue')">
-					<md-button type="button" ng-click="ctrl.addParagraphCondition()">
-						<span>Conditional Paragraph</span><i class="fa fa-paragraph  fa-lg fa-fw" style="margin-left: 10px;"></i>
-					</md-button>
-				</md-menu-item>
+			<md-menu-item ng-if="ctrl.isElementTypeEnabled('paragraphConditionTrue')">
+				<md-button type="button" ng-click="ctrl.addParagraphCondition()">
+					<span>Conditional Paragraph</span><i class="fa fa-paragraph  fa-lg fa-fw" style="margin-left: 10px;"></i>
+				</md-button>
+			</md-menu-item>
 
-				<md-menu-item ng-if="ctrl.isElementTypeEnabled('videolink')">
-					<md-button type="button" ng-click="ctrl.addVideoLink()">
-						<span>Video Link</span>
-					</md-button>
-				</md-menu-item>
-			</md-menu-content>
-		</md-menu>
-	</div>
+			<md-menu-item ng-if="ctrl.isElementTypeEnabled('videolink')">
+				<md-button type="button" ng-click="ctrl.addVideoLink()">
+					<span>Video Link</span>
+				</md-button>
+			</md-menu-item>
+		</md-menu-content>
+	</md-menu>
 </div>
 

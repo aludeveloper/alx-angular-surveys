@@ -16,14 +16,15 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
         bindToController: true,
         controller: ["$timeout", "mwFormUuid", "mwFormClone", "mwFormBuilderOptions", function($timeout, mwFormUuid, mwFormClone, mwFormBuilderOptions){
             var ctrl = this;
+            console.log("formPage",ctrl.formPage)
             // Put initialization logic inside `$onInit()`
             // to make sure bindings have been initialized.
             ctrl.$onInit = function() {
                 ctrl.hoverEdit = false;
                 ctrl.formPage.namedPage = !!ctrl.formPage.name;
                 ctrl.isFolded = false;
-                //ctrl.formPage.row = [];
-                sortElementsByOrderNo();
+                ctrl.formPage.rows = [];
+                //sortElementsByOrderNo();
 
                 ctrl.sortableConfig = {
                     disabled: ctrl.readOnly,

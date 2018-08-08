@@ -1,7 +1,7 @@
 <div>
 	<div class="page-element-list" ng-sortable="ctrl.sortableConfig" ng-model="ctrl.formPage.rows.elements">
 		<div class="empty-page-element-list-label form-group" ng-if="!ctrl.formPage.rows.elements || (ctrl.formPage.rows.elements && ctrl.formPage.rows.elements.length === 0)">
-			<span translate="mwForm.page.elements.empty">Brak elementów</span>
+			<!-- <span translate="mwForm.page.elements.empty">Brak elementów</span> -->
 		</div>
 		<mw-form-page-element-builder  ng-repeat="element in ctrl.formPage.rows.elements" page-element="element" form-object="ctrl.formObject" is-active="ctrl.isElementActive(element)" on-ready="ctrl.onElementReady()" ng-click="ctrl.selectElement(element)" is-first="$first" is-last="$last" read-only="ctrl.readOnly"></mw-form-page-element-builder>
 	</div>

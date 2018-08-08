@@ -1,19 +1,13 @@
-angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function () {
+angular.module('mwFormBuilder').directive('mwFormPageRowBuilder', function () {
 
     return {
         replace: true,
         restrict: 'AE',
-        require: '^mwFormRowBuilder',
+        require: '^mwFormPageBuilder',
         scope: {
-            pageElement: '=',
-            formObject: '=',
-            isActive: '=',
-            isFirst: '=',
-            isLast: '=',
-            onReady: '&',
-            readOnly: '=?'
+            
         },
-        templateUrl: 'mw-form-page-element-builder.html',
+        templateUrl: 'mw-form-page-row-builder.html',
         controllerAs: 'ctrl',
         bindToController: true,
         controller: ["mwFormUuid", function(mwFormUuid){
@@ -21,7 +15,7 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
 
             // Put initialization logic inside `$onInit()`
             // to make sure bindings have been initialized.
-            ctrl.$onInit = function() {
+            /*ctrl.$onInit = function() {
                 if(ctrl.pageElement.type=='question'){
                     if(!ctrl.pageElement.question){
                         ctrl.pageElement.question={
@@ -88,6 +82,7 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
                     element.callback(ctrl.pageElement);
                 }
             };
+
             ctrl.filter = function(button){
                 if(!button.showInOpen && ctrl.isActive){
                     return false;
@@ -100,7 +95,7 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
                     return button.filter(ctrl.pageElement);
                 }
                 return true;
-            };
+            };*/
 
             // Prior to v1.5, we need to call `$onInit()` manually.
             // (Bindings will always be pre-assigned in these versions.)
@@ -110,7 +105,7 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
         }],
         link: function (scope, ele, attrs, pageBuilderCtrl){
             var ctrl = scope.ctrl;
-            ctrl.possiblePageFlow = pageBuilderCtrl.possiblePageFlow;
+            /*ctrl.possiblePageFlow = pageBuilderCtrl.possiblePageFlow;
 
             ctrl.hoverIn = function(){
                 ctrl.isHovered = true;
@@ -142,7 +137,7 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
             };
 
             ctrl.options = pageBuilderCtrl.options;
-            ctrl.onImageSelection = pageBuilderCtrl.onImageSelection;
+            ctrl.onImageSelection = pageBuilderCtrl.onImageSelection;*/
         }
     };
 });

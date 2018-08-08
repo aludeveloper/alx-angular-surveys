@@ -37,14 +37,14 @@
                 </button>
             </div>
         </div>
-        <div ng-form="ctrl.form" role="form" novalidate class="form-page-builder-body">
 
+        <div ng-form="ctrl.form" role="form" novalidate class="form-page-builder-body">
             <md-input-container class="md-block" ng-if="ctrl.formPage.namedPage">
                 <label ng-attr-for="page-name-{{ctrl.formPage.number}}" translate="mwForm.page.name">Nazwa strony</label>
                 <input type="text" class="form-control" name="pageName" ng-attr-id="page-name-{{ctrl.formPage.number}}" ng-model="ctrl.formPage.name" ng-blur="ctrl.pageNameChanged()"  ng-readonly="ctrl.readOnly">
             </md-input-container>
 
-            <div class="page-element-list" ng-sortable="ctrl.sortableConfig" ng-model="ctrl.formPage.row.elements">
+            <!-- <div class="page-element-list" ng-sortable="ctrl.sortableConfig" ng-model="ctrl.formPage.row.elements">
                 <div class="empty-page-element-list-label form-group" ng-if="!ctrl.formPage.row.elements || (ctrl.formPage.row.elements && ctrl.formPage.row.elements.length === 0)">
                     <span translate="mwForm.page.elements.empty">Brak elementów</span>
                 </div>
@@ -53,7 +53,6 @@
 
             <div class="page-element-list" ng-model="ctrl.formPage.row">
                 <div class="empty-page-element-list-label form-group" ng-if="!ctrl.formPage.row || (ctrl.formPage.row && ctrl.formPage.row.length === 0)"></div>
-                <!-- <mw-form-page-element-builder  ng-repeat="element in ctrl.formPage.elements" page-element="element" form-object="ctrl.formObject" is-active="ctrl.isElementActive(element)" on-ready="ctrl.onElementReady()" ng-click="ctrl.selectElement(element)" is-first="$first" is-last="$last" read-only="ctrl.readOnly"></mw-form-page-element-builder> -->
                 <md-menu ng-if="!ctrl.readOnly">
                 <md-button class="md-raised" aria-label="{{'mwForm.buttons.addElement'|translate}}"    ng-click="$mdOpenMenu($event)" translate="mwForm.buttons.addElement">
                     Add element
@@ -87,15 +86,18 @@
                     </md-menu-item>
                 </md-menu-content>
             </md-menu>
+            </div> -->
+
+            <div class="page-element-list" ng-sortable="ctrl.sortableConfig" ng-model="ctrl.formPage.rows">
+                <div class="empty-page-element-list-label form-group" ></div>
+                <mw-form-page-row-builder  ng-repeat="row in ctrl.formPage.rows"></mw-form-page-row-builder>
             </div>
 
             <md-button ng-if="!ctrl.readOnly" class="md-raised" ng-click="ctrl.addRow()">
                 Add row
             </md-button>
-
-            
-
         </div>
+
         <table cellspacing="0" class="mw-page-bottom-tab-container" ng-if="!ctrl.isLast">
             <tr>
                 <td class="mw-page-bottom-tab-triangle">

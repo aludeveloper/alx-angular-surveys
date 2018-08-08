@@ -22,7 +22,7 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
                 ctrl.hoverEdit = false;
                 ctrl.formPage.namedPage = !!ctrl.formPage.name;
                 ctrl.isFolded = false;
-                ctrl.formPage.row = [];
+                //ctrl.formPage.row = [];
                 sortElementsByOrderNo();
 
                 ctrl.sortableConfig = {
@@ -71,15 +71,16 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
 
                     type=mwFormBuilderOptions.elementTypes[0];
                 }
-                var element = createEmptyElement(type, ctrl.formPage.row.elements.length + 1);
+                var element = createEmptyElement(type, ctrl.formPage.rows.elements.length + 1);
                 ctrl.activeElement=element;
-                ctrl.formPage.row.elements.push(element);
+                ctrl.formPage.rows.elements.push(element);
+                console.log(ctrl.formPage);
             };
 
             ctrl.addRow = function(){                
-                var row = createEmptyRow(ctrl.formPage.row.length + 1);
+                var row = createEmptyRow(ctrl.formPage.rows.length + 1);
                 //ctrl.activeElement=element;
-                ctrl.formPage.row.push(row);
+                ctrl.formPage.rows.push(row);
                 console.log(ctrl.formPage);
             };
 
@@ -174,8 +175,7 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
 
             function createEmptyRow(orderNo){
                 return {
-                    id: mwFormUuid.get(),
-                    orderNo: orderNo
+                    elements:[]
                 };
             }
 

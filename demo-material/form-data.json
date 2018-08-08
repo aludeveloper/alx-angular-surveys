@@ -11,6 +11,11 @@
         "nextPage": true,
         "label": "mwForm.pageFlow.goToNextPage"
       },
+      "rows":[
+        {
+          "elements":[]
+        }
+      ],
       "elements": [
         {
           "id": "e30d62038bb2becbe76cb144dc37472e",

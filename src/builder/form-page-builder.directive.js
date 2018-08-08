@@ -22,6 +22,7 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
                 ctrl.hoverEdit = false;
                 ctrl.formPage.namedPage = !!ctrl.formPage.name;
                 ctrl.isFolded = false;
+                ctrl.formPage.row = [];
                 sortElementsByOrderNo();
 
                 ctrl.sortableConfig = {
@@ -70,9 +71,16 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
 
                     type=mwFormBuilderOptions.elementTypes[0];
                 }
-                var element = createEmptyElement(type, ctrl.formPage.elements.length + 1);
+                var element = createEmptyElement(type, ctrl.formPage.row.elements.length + 1);
                 ctrl.activeElement=element;
-                ctrl.formPage.elements.push(element);
+                ctrl.formPage.row.elements.push(element);
+            };
+
+            ctrl.addRow = function(){                
+                var row = createEmptyRow(ctrl.formPage.row.length + 1);
+                //ctrl.activeElement=element;
+                ctrl.formPage.row.push(row);
+                console.log(ctrl.formPage);
             };
 
             ctrl.cloneElement = function(pageElement, setActive){
@@ -161,6 +169,13 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
                     id: mwFormUuid.get(),
                     orderNo: orderNo,
                     type: type
+                };
+            }
+
+            function createEmptyRow(orderNo){
+                return {
+                    id: mwFormUuid.get(),
+                    orderNo: orderNo
                 };
             }
 

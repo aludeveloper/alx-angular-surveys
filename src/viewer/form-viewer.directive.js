@@ -314,6 +314,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 			};
 
 			ctrl.initResponsesForCurrentPage = function() {
+				console.log("ctrl.currentPage.elements",ctrl.currentPage.elements)
 				ctrl.currentPage.elements.forEach(function(element) {
 					var question = element.question;
 					if (question && !ctrl.responseData[question.id]) {

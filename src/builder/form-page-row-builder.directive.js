@@ -6,6 +6,7 @@ angular.module('mwFormBuilder').directive('mwFormPageRowBuilder', function () {
         require: '^mwFormPageBuilder',
         scope: {
             formPage: '=',
+            formObject: '=',
             rowIndex: '='
         },
         templateUrl: 'mw-form-page-row-builder.html',
@@ -113,13 +114,13 @@ angular.module('mwFormBuilder').directive('mwFormPageRowBuilder', function () {
                 };
             }
 
-            ctrl.addElement = function(type){
+            ctrl.addElement = function(type,rowIndex){
                 var element;
                 if(!type){
 
                     type=mwFormBuilderOptions.elementTypes[0];
                 }
-                for(var i=0; i<ctrl.formPage.rows.length; i++){
+                for(var i=0; i<=rowIndex; i++){
                     element = createEmptyElement(type, ctrl.formPage.rows[i].elements.length + 1);
                     ctrl.activeElement=element;
                     ctrl.formPage.rows[i].elements.push(element);
@@ -132,8 +133,8 @@ angular.module('mwFormBuilder').directive('mwFormPageRowBuilder', function () {
                 return mwFormBuilderOptions.elementTypes.indexOf(elementType) !== -1;
             };
 
-            ctrl.addQuestion = function(){
-                ctrl.addElement('question');
+            ctrl.addQuestion = function(rowIndex){
+                ctrl.addElement('question',rowIndex);
             };
         }],
         link: function (scope, ele, attrs, pageBuilderCtrl){

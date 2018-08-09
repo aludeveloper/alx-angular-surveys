@@ -12,7 +12,7 @@ angular.module('mwFormBuilder').directive('mwFormPageRowBuilder', function () {
         templateUrl: 'mw-form-page-row-builder.html',
         controllerAs: 'ctrl',
         bindToController: true,
-        controller: ["mwFormUuid","mwFormBuilderOptions", function(mwFormUuid,mwFormBuilderOptions){
+        controller: ["mwFormUuid","mwFormBuilderOptions","$timeout", function(mwFormUuid,mwFormBuilderOptions,$timeout){
             var ctrl = this;
 
             // Put initialization logic inside `$onInit()`
@@ -113,6 +113,25 @@ angular.module('mwFormBuilder').directive('mwFormPageRowBuilder', function () {
                     type: type
                 };
             }
+
+            ctrl.isElementActive= function(element){
+                return ctrl.activeElement==element;
+            };
+
+            ctrl.selectElement = function(element){
+                ctrl.activeElement=element;
+                if (ctrl.activeElement.type == 'paragraph') {
+                    $timeout(function() {
+                        $('.summernote').summernote({focus: true});
+                    }, 1000);
+                }
+            };
+
+            ctrl.onElementReady = function(){
+                $timeout(function(){
+                    ctrl.activeElement=null;
+                });
+            };
 
             ctrl.addElement = function(type,rowIndex){
                 var element;

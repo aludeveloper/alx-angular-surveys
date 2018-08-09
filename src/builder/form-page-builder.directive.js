@@ -58,9 +58,11 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
 
 
             function sortElementsByOrderNo() {
-                ctrl.formPage.elements.sort(function(a,b){
-                    return a.orderNo - b.orderNo;
-                });
+                for(var i=0; i<ctrl.formPage.rows.length; i++){
+                    ctrl.formPage.rows[i].elements.sort(function(a,b){
+                        return a.orderNo - b.orderNo;
+                    });
+                }                
             }
             ctrl.pageNameChanged = function(){
                 $rootScope.$broadcast('mwForm.pageEvents.pageNameChanged', {page: ctrl.formPage});

@@ -3,7 +3,7 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
     return {
         replace: true,
         restrict: 'AE',
-        require: '^mwFormRowBuilder',
+        require: '^mwFormPageBuilder',
         scope: {
             pageElement: '=',
             formObject: '=',

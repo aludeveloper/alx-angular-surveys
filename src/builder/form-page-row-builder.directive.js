@@ -5,7 +5,8 @@ angular.module('mwFormBuilder').directive('mwFormPageRowBuilder', function () {
         restrict: 'AE',
         require: '^mwFormPageBuilder',
         scope: {
-            formPage: '='
+            formPage: '=',
+            rowIndex: '='
         },
         templateUrl: 'mw-form-page-row-builder.html',
         controllerAs: 'ctrl',
@@ -16,7 +17,7 @@ angular.module('mwFormBuilder').directive('mwFormPageRowBuilder', function () {
             // Put initialization logic inside `$onInit()`
             // to make sure bindings have been initialized.
             ctrl.$onInit = function() {
-                console.log("ctrl.formPage",ctrl.formPage);
+                console.log("ctrl.formPage",ctrl.rowIndex, ctrl.formPage);
                 // if(ctrl.pageElement.type=='question'){
                 //     if(!ctrl.pageElement.question){
                 //         ctrl.pageElement.question={
@@ -113,13 +114,17 @@ angular.module('mwFormBuilder').directive('mwFormPageRowBuilder', function () {
             }
 
             ctrl.addElement = function(type){
+                var element;
                 if(!type){
 
                     type=mwFormBuilderOptions.elementTypes[0];
                 }
-                var element = createEmptyElement(type, ctrl.formPage.rows.elements.length + 1);
-                ctrl.activeElement=element;
-                ctrl.formPage.rows.elements.push(element);
+                for(var i=0; i<ctrl.formPage.rows.length; i++){
+                    element = createEmptyElement(type, ctrl.formPage.rows[i].elements.length + 1);
+                    ctrl.activeElement=element;
+                    ctrl.formPage.rows[i].elements.push(element);
+                }
+                
                 console.log(ctrl.formPage);
             };
 

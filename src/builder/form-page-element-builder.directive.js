@@ -11,6 +11,7 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
             isFirst: '=',
             isLast: '=',
             onReady: '&',
+            rowIndex:"=",
             readOnly: '=?'
         },
         templateUrl: 'mw-form-page-element-builder.html',
@@ -130,8 +131,14 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
                 pageBuilderCtrl.cloneElement(ctrl.pageElement);
             };
 
-            ctrl.removeElement=function(){
-                pageBuilderCtrl.removeElement(ctrl.pageElement);
+            ctrl.removeElement = function(pageElement,rowIndex){
+                console.log("ELEMENT BUILDER",pageElement,rowIndex);
+                var index;
+                for(var i=0; i<rowIndex; i++){
+                    index = ctrl.formPage.rows[i].elements.indexOf(pageElement);
+                    ctrl.formPage.rows[i].elements.splice(index,1);
+                }
+                console.log("ELEMENT BUILDER",ctrl.formPage);
             };
 
             ctrl.moveDown= function(){

@@ -77,6 +77,7 @@ angular.module('mwFormBuilder').factory("FormQuestionBuilderId", function(){
             var questionTypesWithOfferedAnswers = ['radio', 'checkbox', 'select'];
 
             ctrl.questionTypeChanged = function(){
+                console.log(ctrl.question.type);
                 if( questionTypesWithOfferedAnswers.indexOf(ctrl.question.type) !== -1){
                     if(!ctrl.question.offeredAnswers){
                         ctrl.question.offeredAnswers=[];

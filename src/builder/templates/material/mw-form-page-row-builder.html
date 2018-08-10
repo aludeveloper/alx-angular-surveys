@@ -3,7 +3,7 @@
 		<div class="empty-page-element-list-label form-group" ng-if="!ctrl.formPage.rows.elements || (ctrl.formPage.rows.elements && ctrl.formPage.rows.elements.length === 0)">
 			<!-- <span translate="mwForm.page.elements.empty">Brak elementów</span> -->
 		</div>
-		<div ng-repeat="rowData in ctrl.formPage.rows">
+		<div ng-repeat="rowData in ctrl.formPage.rows track by $index">
 			<mw-form-page-element-builder 
 				ng-repeat="element in rowData.elements" 
 				page-element="element" 
@@ -13,7 +13,8 @@
 				ng-click="ctrl.selectElement(element)" 
 				is-first="$first" 
 				is-last="$last" 
-				read-only="ctrl.readOnly">
+				read-only="ctrl.readOnly"
+				row-index="$index">
 			</mw-form-page-element-builder>
 		</div>
 	</div>

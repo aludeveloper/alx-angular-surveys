@@ -88,7 +88,7 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
                 console.log(ctrl.formPage);
             };
 
-            ctrl.cloneElement = function(pageElement, setActive){
+            /*ctrl.cloneElement = function(pageElement, setActive){
                 var index = ctrl.formPage.elements.indexOf(pageElement);
                 var element = mwFormClone.cloneElement(pageElement);
                 if(setActive){
@@ -120,7 +120,7 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
                 }
                 updateElementsOrderNo();
             };
-
+*/
             ctrl.isElementTypeEnabled = function(elementType){
                 return mwFormBuilderOptions.elementTypes.indexOf(elementType) !== -1;
             };

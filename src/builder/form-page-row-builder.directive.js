@@ -6,7 +6,7 @@ angular.module('mwFormBuilder').directive('mwFormPageRowBuilder', function () {
         require: '^mwFormPageBuilder',
         scope: {
             formPage: '=',
-            formObject: '=',
+            rowObject: '=',
             rowIndex: '='
         },
         templateUrl: 'mw-form-page-row-builder.html',
@@ -18,86 +18,7 @@ angular.module('mwFormBuilder').directive('mwFormPageRowBuilder', function () {
             // Put initialization logic inside `$onInit()`
             // to make sure bindings have been initialized.
             ctrl.$onInit = function() {
-                console.log("ctrl.formPage",ctrl.rowIndex, ctrl.formPage);
-                // if(ctrl.pageElement.type=='question'){
-                //     if(!ctrl.pageElement.question){
-                //         ctrl.pageElement.question={
-                //             id: mwFormUuid.get(),
-                //             text: null,
-                //             type:null,
-                //             required:true
-                //         };
-                //     }
-                // }else if(ctrl.pageElement.type=='image'){
-                //     if(!ctrl.pageElement.image){
-                //         ctrl.pageElement.image={
-                //             id: mwFormUuid.get(),
-                //             align: 'left'
-                //         };
-                //     }
-
-                // }else if(ctrl.pageElement.type=='paragraph'){
-                //     if(!ctrl.pageElement.paragraph){
-                //         ctrl.pageElement.paragraph={
-                //             id: mwFormUuid.get(),
-                //             html: ''
-                //         };
-                //     }
-                // }else if(ctrl.pageElement.type=='paragraphcondition'){
-                //     // debugger;
-                //     if(!ctrl.pageElement.paragraphcondition){
-                //         ctrl.pageElement.paragraphcondition={
-                //             id: mwFormUuid.get(),
-                //             html: ''
-                //         };
-                //         ctrl.pageElement.paragraphconditionfalse={
-                //             id: mwFormUuid.get(),
-                //             html: ''
-                //         };
-                //         ctrl.pageElement.paragraphconditionunset={
-                //             id: mwFormUuid.get(),
-                //             html: ''
-                //         };
-                //         ctrl.pageElement.paragraphconditionsubtext={
-                //             id: mwFormUuid.get(),
-                //             html: ''
-                //         };
-                //         ctrl.pageElement.selecteditem={
-                //             id: mwFormUuid.get(),                            
-                //             sfkey: ''
-                //         };
-                //     }
-                // }else if(ctrl.pageElement.type=='videolink'){
-                //     console.log("videolink");
-                //     if(!ctrl.pageElement.videolink){
-                //         ctrl.pageElement.videolink={
-                //             id: mwFormUuid.get(),
-                //             html: ''
-                //         };
-                //     }
-                // }
-            };
-
-            ctrl.callback = function($event,element){
-                $event.preventDefault();
-                $event.stopPropagation();
-                if (element.callback && typeof element.callback === "function") {
-                    element.callback(ctrl.pageElement);
-                }
-            };
-
-            ctrl.filter = function(button){
-                if(!button.showInOpen && ctrl.isActive){
-                    return false;
-                }
-                if(!button.showInPreview && !ctrl.isActive){
-                    return false;
-                }
-
-                if (button.filter && typeof button.filter === "function") {
-                    return button.filter(ctrl.pageElement);
-                }
-                return true;
+                console.log("ctrl.rowObject",ctrl.rowIndex, ctrl.rowObject);                
             };
 
             // Prior to v1.5, we need to call `$onInit()` manually.
@@ -107,6 +28,7 @@ angular.module('mwFormBuilder').directive('mwFormPageRowBuilder', function () {
             }
 
             function createEmptyElement(type,orderNo){
+                console.log("createEmptyElement",type,orderNo);
                 return {
                     id: mwFormUuid.get(),
                     orderNo: orderNo,
@@ -148,6 +70,43 @@ angular.module('mwFormBuilder').directive('mwFormPageRowBuilder', function () {
                 console.log(ctrl.formPage);
             };
 
+            ctrl.cloneElement = function(pageElement, setActive){
+                var index = ctrl.formPage.elements.indexOf(pageElement);
+                var element = mwFormClone.cloneElement(pageElement);
+                if(setActive){
+                    ctrl.activeElement=element;
+                }
+                ctrl.formPage.elements.splice(index,0, element);
+
+            };
+
+            ctrl.removeElement = function(pageElement,rowIndex){
+                console.log("ROW BUILDER");
+                var index;
+                for(var i=0; i<rowIndex; i++){
+                    index = ctrl.formPage.rows[i].elements.indexOf(pageElement);
+                    ctrl.formPage.rows[i].elements.splice(index,1);
+                }                
+            };
+
+            ctrl.moveDownElement= function(pageElement){
+                var fromIndex = ctrl.formPage.elements.indexOf(pageElement);
+                var toIndex=fromIndex+1;
+                if(toIndex<ctrl.formPage.elements.length){
+                    arrayMove(ctrl.formPage.elements, fromIndex, toIndex);
+                }
+                updateElementsOrderNo();
+            };
+
+            ctrl.moveUpElement= function(pageElement){
+                var fromIndex = ctrl.formPage.elements.indexOf(pageElement);
+                var toIndex=fromIndex-1;
+                if(toIndex>=0){
+                    arrayMove(ctrl.formPage.elements, fromIndex, toIndex);
+                }
+                updateElementsOrderNo();
+            };
+
             ctrl.isElementTypeEnabled = function(elementType){
                 return mwFormBuilderOptions.elementTypes.indexOf(elementType) !== -1;
             };
@@ -155,42 +114,50 @@ angular.module('mwFormBuilder').directive('mwFormPageRowBuilder', function () {
             ctrl.addQuestion = function(rowIndex){
                 ctrl.addElement('question',rowIndex);
             };
-        }],
-        link: function (scope, ele, attrs, pageBuilderCtrl){
-            var ctrl = scope.ctrl;
-            /*ctrl.possiblePageFlow = pageBuilderCtrl.possiblePageFlow;
+
+            function arrayMove(arr, fromIndex, toIndex) {
+                var element = arr[fromIndex];
+                arr.splice(fromIndex, 1);
+                arr.splice(toIndex, 0, element);
+            }
 
             ctrl.hoverIn = function(){
-                ctrl.isHovered = true;
+                ctrl.hoverEdit = true;
             };
 
             ctrl.hoverOut = function(){
-                ctrl.isHovered = false;
+                ctrl.hoverEdit = false;
             };
 
-            ctrl.editElement=function(){
-                pageBuilderCtrl.selectElement(ctrl.pageElement);
-            };
 
-            ctrl.cloneElement=function($event){
-                $event.preventDefault();
-                $event.stopPropagation();
-                pageBuilderCtrl.cloneElement(ctrl.pageElement);
-            };
-
-            ctrl.removeElement=function(){
-                pageBuilderCtrl.removeElement(ctrl.pageElement);
-            };
-
+            //ctrl.updateElementsOrderNo = updateElementsOrderNo;
+        }],
+        link: function (scope, ele, attrs, formBuilderCtrl){
+            var ctrl = scope.ctrl;
+            ctrl.possiblePageFlow = formBuilderCtrl.possiblePageFlow;
             ctrl.moveDown= function(){
-                pageBuilderCtrl.moveDownElement(ctrl.pageElement);
-            };
-            ctrl.moveUp= function(){
-                pageBuilderCtrl.moveUpElement(ctrl.pageElement);
+                formBuilderCtrl.moveDownPage(ctrl.formPage);
             };
 
-            ctrl.options = pageBuilderCtrl.options;
-            ctrl.onImageSelection = pageBuilderCtrl.onImageSelection;*/
+            ctrl.moveUp= function(){
+                formBuilderCtrl.moveUpPage(ctrl.formPage);
+            };
+
+            ctrl.removePage=function(){
+                formBuilderCtrl.removePage(ctrl.formPage);
+            };
+
+            ctrl.addPage=function(){
+                formBuilderCtrl.addPageAfter(ctrl.formPage);
+            };
+
+            scope.$watch('ctrl.formPage.elements.length', function(newValue, oldValue){
+                if(newValue!=oldValue){
+                    ctrl.updateElementsOrderNo();
+                }
+            });
+            ctrl.options = formBuilderCtrl.options;
+            ctrl.onImageSelection = formBuilderCtrl.onImageSelection;
         }
     };
 });

@@ -371,7 +371,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
 
                 ele.bind("change", function(changeEvent) {
                     var fileSize;
-                    if(changeEvent.target.files != null){
+                    if(changeEvent.target.files && changeEvent.target.files.length>0){
                         fileSize = changeEvent.target.files[0].size / 1024;
                     }
                     

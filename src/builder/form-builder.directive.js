@@ -74,7 +74,7 @@ angular.module('mwFormBuilder').directive('mwFormBuilder', ["$rootScope", functi
                     name: null,
                     description: null,
                     pageFlow: defaultPageFlow,
-                    elements: []
+                    rows:[{elements: []}]
                 };
             }
 
@@ -185,20 +185,22 @@ angular.module('mwFormBuilder').directive('mwFormBuilder', ["$rootScope", functi
                         }else{
                             page.pageFlow = defaultPageFlow;
                         }
-
-                        page.elements.forEach(function(element){
-                            var question = element.question;
-                            if(question && question.pageFlowModifier){
-                                question.offeredAnswers.forEach(function(answer){
-                                    if(answer.pageFlow){
-                                        if(ctrl.isSamePageFlow(pageFlow, answer.pageFlow)){
-                                            answer.pageFlow = pageFlow;
+                        
+                        for(var i=0; i<page.rows.length; i++){
+                            page.rows[i].elements.forEach(function(element){
+                                var question = element.question;
+                                if(question && question.pageFlowModifier){
+                                    question.offeredAnswers.forEach(function(answer){
+                                        if(answer.pageFlow){
+                                            if(ctrl.isSamePageFlow(pageFlow, answer.pageFlow)){
+                                                answer.pageFlow = pageFlow;
+                                            }
                                         }
-                                    }
-                                });
-                            }
-
-                        });
+                                    });
+                                }
+                            });
+                        }
+                        
                     });
                 });
             };

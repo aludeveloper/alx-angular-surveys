@@ -16,15 +16,16 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
         bindToController: true,
         controller: ["$timeout", "mwFormUuid", "mwFormClone", "mwFormBuilderOptions", function($timeout, mwFormUuid, mwFormClone, mwFormBuilderOptions){
             var ctrl = this;
-            console.log("formPage",ctrl.formPage)
+
             // Put initialization logic inside `$onInit()`
             // to make sure bindings have been initialized.
             ctrl.$onInit = function() {
                 ctrl.hoverEdit = false;
                 ctrl.formPage.namedPage = !!ctrl.formPage.name;
                 ctrl.isFolded = false;
-                ctrl.formPage.rows = [];
-                //sortElementsByOrderNo();
+                //ctrl.formPage.row = [];
+                console.log("ctrl.formPage",ctrl.formPage);
+                sortElementsByOrderNo();
 
                 ctrl.sortableConfig = {
                     disabled: ctrl.readOnly,
@@ -57,9 +58,11 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
 
 
             function sortElementsByOrderNo() {
-                ctrl.formPage.elements.sort(function(a,b){
-                    return a.orderNo - b.orderNo;
-                });
+                for(var i=0; i<ctrl.formPage.rows.length; i++){
+                    ctrl.formPage.rows[i].elements.sort(function(a,b){
+                        return a.orderNo - b.orderNo;
+                    });
+                }                
             }
             ctrl.pageNameChanged = function(){
                 $rootScope.$broadcast('mwForm.pageEvents.pageNameChanged', {page: ctrl.formPage});
@@ -85,7 +88,7 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
                 console.log(ctrl.formPage);
             };
 
-            ctrl.cloneElement = function(pageElement, setActive){
+            /*ctrl.cloneElement = function(pageElement, setActive){
                 var index = ctrl.formPage.elements.indexOf(pageElement);
                 var element = mwFormClone.cloneElement(pageElement);
                 if(setActive){
@@ -117,7 +120,7 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
                 }
                 updateElementsOrderNo();
             };
-
+*/
             ctrl.isElementTypeEnabled = function(elementType){
                 return mwFormBuilderOptions.elementTypes.indexOf(elementType) !== -1;
             };

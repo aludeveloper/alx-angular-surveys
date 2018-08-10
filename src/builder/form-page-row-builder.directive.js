@@ -1,152 +1,41 @@
-angular.module('mwFormBuilder').directive('mwFormPageRowBuilder', ["$rootScope", function ($rootScope) {
+angular.module('mwFormBuilder').directive('mwFormPageRowBuilder', function () {
 
     return {
         replace: true,
         restrict: 'AE',
-        require: '^mwFormBuilder',
+        require: '^mwFormPageBuilder',
         scope: {
             formPage: '=',
-            formObject: '=',
-            isFirst: '=',
-            isLast: '=',
-            readOnly: '=?'
+            rowObject: '=',
+            rowIndex: '='
         },
         templateUrl: 'mw-form-page-row-builder.html',
         controllerAs: 'ctrl',
         bindToController: true,
-        controller: ["$timeout", "mwFormUuid", "mwFormClone", "mwFormBuilderOptions", function($timeout, mwFormUuid, mwFormClone, mwFormBuilderOptions){
-            //console.log("formPage",scope.formPage)
+        controller: ["mwFormUuid","mwFormBuilderOptions","$timeout", function(mwFormUuid,mwFormBuilderOptions,$timeout){
             var ctrl = this;
+
             // Put initialization logic inside `$onInit()`
             // to make sure bindings have been initialized.
             ctrl.$onInit = function() {
-                ctrl.hoverEdit = false;
-                // ctrl.formPage.namedPage = !!ctrl.formPage.name;
-                ctrl.isFolded = false;
-                ctrl.formPage.rows = [];
-                //sortElementsByOrderNo();
+                console.log("ctrl.rowObject",ctrl.rowIndex, ctrl.rowObject);                
+            };
 
-                ctrl.sortableConfig = {
-                    disabled: ctrl.readOnly,
-                    ghostClass: "beingDragged",
-                    group: "survey",
-                    handle: ".inactive",
-                    //cancel: ".not-draggable",
-                    chosenClass: ".page-element-list",
-                    onEnd: function(e, ui) {
-                        updateElementsOrderNo();
-                    }
+            // Prior to v1.5, we need to call `$onInit()` manually.
+            // (Bindings will always be pre-assigned in these versions.)
+            if (angular.version.major === 1 && angular.version.minor < 5) {
+                ctrl.$onInit();
+            }
+
+            function createEmptyElement(type,orderNo){
+                console.log("createEmptyElement",type,orderNo);
+                return {
+                    id: mwFormUuid.get(),
+                    orderNo: orderNo,
+                    type: type
                 };
-
-                ctrl.activeElement = null;
-            };
-
-            ctrl.unfold = function(){
-                ctrl.isFolded = false;
-            };
-            ctrl.fold = function(){
-                ctrl.isFolded = true;
-            };
-
-
-            function updateElementsOrderNo() {
-                for(var i=0; i<ctrl.formPage.rows.elements.length; i++){
-                    ctrl.formPage.rows.elements[i].orderNo = i+1;
-                }
             }
 
-
-            function sortElementsByOrderNo() {
-                ctrl.formPage.rows.elements.sort(function(a,b){
-                    return a.orderNo - b.orderNo;
-                });
-            }
-            ctrl.pageNameChanged = function(){
-                $rootScope.$broadcast('mwForm.pageEvents.pageNameChanged', {page: ctrl.formPage});
-            };
-
-
-
-            ctrl.addElement = function(type){
-                if(!type){
-
-                    type=mwFormBuilderOptions.elementTypes[0];
-                }
-                var element = createEmptyElement(type, ctrl.formPage.rows.elements.length + 1);
-                ctrl.activeElement=element;
-                ctrl.formPage.rows.elements.push(element);
-                console.log(ctrl.formPage);
-            };
-
-            // ctrl.addRow = function(){                
-            //     var row = createEmptyRow(ctrl.formPage.rows.length + 1);
-            //     //ctrl.activeElement=element;
-            //     ctrl.formPage.rows.push(row);
-            //     console.log(ctrl.formPage);
-            // };
-
-            ctrl.cloneElement = function(pageElement, setActive){
-                var index = ctrl.formPage.rows.elements.indexOf(pageElement);
-                var element = mwFormClone.cloneElement(pageElement);
-                if(setActive){
-                    ctrl.activeElement=element;
-                }
-                ctrl.formPage.rows.elements.splice(index,0, element);
-
-            };
-
-            ctrl.removeElement = function(pageElement){
-                var index = ctrl.formPage.rows.elements.indexOf(pageElement);
-                ctrl.formPage.rows.elements.splice(index,1);
-            };
-
-            ctrl.moveDownElement= function(pageElement){
-                var fromIndex = ctrl.formPage.rows.elements.indexOf(pageElement);
-                var toIndex=fromIndex+1;
-                if(toIndex<ctrl.formPage.rows.elements.length){
-                    arrayMove(ctrl.formPage.rows.elements, fromIndex, toIndex);
-                }
-                updateElementsOrderNo();
-            };
-
-            ctrl.moveUpElement= function(pageElement){
-                var fromIndex = ctrl.formPage.rows.elements.indexOf(pageElement);
-                var toIndex=fromIndex-1;
-                if(toIndex>=0){
-                    arrayMove(ctrl.formPage.rows.elements, fromIndex, toIndex);
-                }
-                updateElementsOrderNo();
-            };
-
-            ctrl.isElementTypeEnabled = function(elementType){
-                return mwFormBuilderOptions.elementTypes.indexOf(elementType) !== -1;
-            };
-
-            ctrl.addQuestion = function(){
-                ctrl.addElement('question');
-            };
-
-            ctrl.addImage = function(){
-                ctrl.addElement('image');
-            };
-
-            ctrl.addParagraph= function() {
-                ctrl.addElement('paragraph');
-                $timeout(function() {
-                    $( ".summernote" ).summernote({
-                        placeholder: 'Enter paragraph text'
-                    });
-                }, 1000);
-            };
-
-            ctrl.addParagraphCondition= function(){
-                ctrl.addElement('paragraphcondition');
-            };
-
-            ctrl.addVideoLink= function(){
-                ctrl.addElement('videolink');
-            };
-            
             ctrl.isElementActive= function(element){
                 return ctrl.activeElement==element;
             };
@@ -166,19 +55,65 @@ angular.module('mwFormBuilder').directive('mwFormPageRowBuilder', ["$rootScope",
                 });
             };
 
-            function createEmptyElement(type,orderNo){
-                return {
-                    id: mwFormUuid.get(),
-                    orderNo: orderNo,
-                    type: type
-                };
-            }
+            ctrl.addElement = function(type,rowIndex){
+                var element;
+                if(!type){
 
-            // function createEmptyRow(orderNo){
-            //     return {
-            //         elements:[]
-            //     };
-            // }
+                    type=mwFormBuilderOptions.elementTypes[0];
+                }
+                for(var i=0; i<=rowIndex; i++){
+                    element = createEmptyElement(type, ctrl.formPage.rows[i].elements.length + 1);
+                    ctrl.activeElement=element;
+                    ctrl.formPage.rows[i].elements.push(element);
+                }
+                
+                console.log(ctrl.formPage);
+            };
+
+            ctrl.cloneElement = function(pageElement, setActive){
+                var index = ctrl.formPage.elements.indexOf(pageElement);
+                var element = mwFormClone.cloneElement(pageElement);
+                if(setActive){
+                    ctrl.activeElement=element;
+                }
+                ctrl.formPage.elements.splice(index,0, element);
+
+            };
+
+            ctrl.removeElement = function(pageElement,rowIndex){
+                console.log("ROW BUILDER");
+                var index;
+                for(var i=0; i<rowIndex; i++){
+                    index = ctrl.formPage.rows[i].elements.indexOf(pageElement);
+                    ctrl.formPage.rows[i].elements.splice(index,1);
+                }                
+            };
+
+            ctrl.moveDownElement= function(pageElement){
+                var fromIndex = ctrl.formPage.elements.indexOf(pageElement);
+                var toIndex=fromIndex+1;
+                if(toIndex<ctrl.formPage.elements.length){
+                    arrayMove(ctrl.formPage.elements, fromIndex, toIndex);
+                }
+                updateElementsOrderNo();
+            };
+
+            ctrl.moveUpElement= function(pageElement){
+                var fromIndex = ctrl.formPage.elements.indexOf(pageElement);
+                var toIndex=fromIndex-1;
+                if(toIndex>=0){
+                    arrayMove(ctrl.formPage.elements, fromIndex, toIndex);
+                }
+                updateElementsOrderNo();
+            };
+
+            ctrl.isElementTypeEnabled = function(elementType){
+                return mwFormBuilderOptions.elementTypes.indexOf(elementType) !== -1;
+            };
+
+            ctrl.addQuestion = function(rowIndex){
+                ctrl.addElement('question',rowIndex);
+            };
 
             function arrayMove(arr, fromIndex, toIndex) {
                 var element = arr[fromIndex];
@@ -195,20 +130,12 @@ angular.module('mwFormBuilder').directive('mwFormPageRowBuilder', ["$rootScope",
             };
 
 
-            ctrl.updateElementsOrderNo = updateElementsOrderNo;
-
-            // Prior to v1.5, we need to call `$onInit()` manually.
-            // (Bindings will always be pre-assigned in these versions.)
-            if (angular.version.major === 1 && angular.version.minor < 5) {
-                ctrl.$onInit();
-            }
-
+            //ctrl.updateElementsOrderNo = updateElementsOrderNo;
         }],
         link: function (scope, ele, attrs, formBuilderCtrl){
             var ctrl = scope.ctrl;
             ctrl.possiblePageFlow = formBuilderCtrl.possiblePageFlow;
             ctrl.moveDown= function(){
-
                 formBuilderCtrl.moveDownPage(ctrl.formPage);
             };
 
@@ -224,7 +151,7 @@ angular.module('mwFormBuilder').directive('mwFormPageRowBuilder', ["$rootScope",
                 formBuilderCtrl.addPageAfter(ctrl.formPage);
             };
 
-            scope.$watch('ctrl.formPage.rows.elements.length', function(newValue, oldValue){
+            scope.$watch('ctrl.formPage.elements.length', function(newValue, oldValue){
                 if(newValue!=oldValue){
                     ctrl.updateElementsOrderNo();
                 }
@@ -233,4 +160,4 @@ angular.module('mwFormBuilder').directive('mwFormPageRowBuilder', ["$rootScope",
             ctrl.onImageSelection = formBuilderCtrl.onImageSelection;
         }
     };
-}]);
+});

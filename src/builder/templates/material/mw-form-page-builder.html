@@ -90,7 +90,12 @@
 
             <div class="page-element-list" ng-sortable="ctrl.sortableConfig" ng-model="ctrl.formPage.rows">
                 <div class="empty-page-element-list-label form-group" ></div>
-                <mw-form-page-row-builder  ng-repeat="row in ctrl.formPage.rows"></mw-form-page-row-builder>
+                <mw-form-page-row-builder 
+                    ng-repeat="row in ctrl.formPage.rows track by $index" 
+                    form-page="ctrl.formPage" 
+                    row-object="row" 
+                    row-index="$index">
+                </mw-form-page-row-builder>
             </div>
 
             <md-button ng-if="!ctrl.readOnly" class="md-raised" ng-click="ctrl.addRow()">

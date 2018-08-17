@@ -63,6 +63,11 @@
 		</div>
 
 		<div ng-switch="ctrl.pageElement.type">
+			<md-input-container>
+			    <label>Row</label>
+			    <input type="number" ng-model="ctrl.pageElement.rowNumber" ng-required="ctrl.question.required">
+			</md-input-container>
+			
 			<mw-form-question-builder 
 				ng-switch-when="question" 
 				question="ctrl.pageElement.question"  

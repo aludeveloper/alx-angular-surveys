@@ -7,21 +7,25 @@
 
         <md-button type="button"  ng-if="!ctrl.currentPage && !ctrl.formSubmitted" class="md-raised begin-response-button" ng-click="ctrl.beginResponse()" translate="mwForm.buttons.begin">Rozpocznij</md-button>
     </div>
+
     <div class="mw-form-page" ng-if="ctrl.currentPage">
         <h2 class="mw-page-title" ng-if="ctrl.currentPage.namedPage && ctrl.currentPage.name">{{ctrl.currentPage.name}}</h2>
         <div class="mw-form-page-element-list">
-            <div class="mw-page-element" ng-repeat="pageElement in ctrl.currentPage.elements" ng-switch="pageElement.type">
+            <div class="mw-page-element" ng-class="ctrl.currentPage.elements[$index-1].rowNumber == pageElement.rowNumber || (ctrl.currentPage.elements[$index-1].rowNumber == null) ? 'float-left' : 'clear-float'" ng-repeat="pageElement in ctrl.currentPage.elements | orderBy:'rowNumber'" ng-switch="pageElement.type">
                 <mw-form-question ng-switch-when="question" question="pageElement.question" question-response="ctrl.responseData[pageElement.question.id]"  read-only="ctrl.readOnly" on-response-changed="ctrl.onResponseChanged(pageElement)"></mw-form-question>
+                
                 <div class="image-element" ng-switch-when="image">
                     <figure ng-class="'align-'+pageElement.image.align">
                         <img ng-src="{{pageElement.image.src}}" ng-attr-alt="pageElement.image.caption">
                         <figcaption ng-if="pageElement.image.caption">{{pageElement.image.caption}}</figcaption>
                     </figure>
                 </div>
+
                 <div ng-switch-when="paragraph">
                     <p class="paragraph-padding" ng-bind-html="ctrl.getParseParaHtml(pageElement.paragraph.html)"></p>
-                    <!-- class="task-description" -->
+                    
                 </div>
+                
                 <div ng-switch-when="paragraphcondition">
                     <div ng-init="ctrl.getSfFlagValue()">
                         <p class="task-description" ng-if="ctrl.sfFlag == 'Pass'" ng-bind-html="::ctrl.print(pageElement.paragraphcondition.html)"></p>
@@ -37,9 +41,14 @@
                 <div ng-switch-when="videolink">
                     <div ng-init="ctrl.getVideoUrl()" ng-bind-html="ctrl.videourl"></div>
                 </div>
+                        
+                    <!--<div id="element-{{$index}}" ng-init="ctrl.createDiv(pageElement, $index, ctrl.currentRowNo)">   
+                    </div>-->
             </div>
         </div>
     </div>
+
+     
 </div>
 
 <mw-form-confirmation-page 
@@ -48,7 +57,7 @@
     submit-status="ctrl.submitStatus">
 </mw-form-confirmation-page>
 
-<div class="mw-form-action-list form-padding">
+<div class="mw-form-action-list form-padding" style="clear:left">
     <md-button type="button"  ng-if="ctrl.buttons.prevPage.visible" class="prev-page-button btn-next" ng-click="ctrl.goToPrevPage()"><span translate="mwForm.buttons.back">Wstecz</span></md-button>
     <md-button type="button" ng-disabled="ctrl.largeFileFlag || ctrl.invalidPhone" ng-if="ctrl.buttons.nextPage.visible && ctrl.condtionalParaFlag" class="md-raised next-page-button btn-next" ng-click="ctrl.goToNextPage()">
     

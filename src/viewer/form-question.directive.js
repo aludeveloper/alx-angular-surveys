@@ -379,7 +379,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                     if(fileSize == undefined){
 
                     }else{
-                        if (fileSize <= 1024) {
+                        if (fileSize <= 5120) {
                             ctrl.largeFileFlag = false;
                             ctrl.fileSelectedEvent = true;
                             $rootScope.$broadcast('fileRequiredFlag', ctrl.largeFileFlag);
@@ -391,17 +391,16 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                                     ctrl.questionResponse.fileName = changeEvent.target.files[0].name;
                                     ctrl.questionResponse.fileName_1 = changeEvent.target.files[0].name;
                                 });
-                            }
-                            
+                            };                            
                             reader.readAsDataURL(changeEvent.target.files[0]); 
                         } else {
                             scope.$apply(function() {
                                 ctrl.largeFileFlag = true; 
                             });
                             $rootScope.$broadcast('fileRequiredFlag', ctrl.largeFileFlag);
-                            alert("File size is large; maximum file size 1 MB");           
+                            alert("File size cannot exceed 5 MB");
                         }
-                    }                    
+                    }
                 });
             }
         };

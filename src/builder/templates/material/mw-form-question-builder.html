@@ -2,7 +2,6 @@
     <div class="mw-form-question-builder" ng-class="{'ng-submitted':ctrl.formSubmitted}">
         <div ng-form="ctrl.form" ng-if="!ctrl.isPreview">
             <div class="form-horizontal">
-
                 <md-input-container class="md-block">
                     <mw-label label-for="question-text-{{ctrl.id}}" label-key="mwForm.question.text"></mw-label>
                     <input type="text" name="text" ng-attr-id="question-text-{{ctrl.id}}" ng-model="ctrl.question.text" ng-readonly="ctrl.readOnly" required>
@@ -38,7 +37,7 @@
             </div>
 
             <div ng-if="ctrl.question.type">
-                <div class="mw-form-question-answers-builder" ng-switch="ctrl.question.type">
+                <div class="mw-form-question-answers-builder" ng-switch="ctrl.question.type">                    
                     <div ng-if="ctrl.question.type=='text'">
                         <md-input-container class="md-block">
                             <input class="form-control" type="text" disabled value="{{'mwForm.question.preview.text'|translate}}">
@@ -48,6 +47,7 @@
                             <input type="number" ng-model="ctrl.question.chrLimit" min="1" max="127" ng-required="ctrl.question.required" onKeyUp="if(this.value>127){this.value='127';}else if(this.value<1){this.value='1';}">
                         </md-input-container>
                     </div>
+
                     <div ng-switch-when="textarea">
                         <md-input-container class="md-block">
                             <textarea class="form-control" maxlength="{{ctrl.question.charLimit}}" rows="5" disabled>{{'mwForm.question.preview.textarea'|translate}}</textarea>
@@ -57,18 +57,23 @@
                             <input type="number" ng-model="ctrl.question.charLimit" min="1" max="131072" ng-required="ctrl.question.required" onKeyUp="if(this.value>131072){this.value='131072';}else if(this.value<1){this.value='1';}">
                         </md-input-container>
                     </div>
+
                     <div ng-switch-when="radio">
                         <mw-question-offered-answer-list-builder question="ctrl.question" form-object="ctrl.formObject" read-only="ctrl.readOnly"></mw-question-offered-answer-list-builder>
                     </div>
+
                     <div ng-switch-when="select">
                         <mw-question-offered-answer-list-builder question="ctrl.question" form-object="ctrl.formObject" read-only="ctrl.readOnly" disable-other-answer="true"></mw-question-offered-answer-list-builder>
                     </div>
+
                     <div ng-switch-when="checkbox">
                         <mw-question-offered-answer-list-builder question="ctrl.question" form-object="ctrl.formObject" read-only="ctrl.readOnly"></mw-question-offered-answer-list-builder>
                     </div>
+
                     <div ng-switch-when="priority">
                         <mw-question-priority-list-builder question="ctrl.question" read-only="ctrl.readOnly"></mw-question-priority-list-builder>
                     </div>
+
                     <div ng-switch-when="number" class="form-inline">
                         <div class="range-config form-inline">
                             <md-input-container><mw-label label-for="question-number-range-min-{{ctrl.id}}" label-key="mwForm.question.number.min"></mw-label><input ng-attr-id="question-number-range-min-{{ctrl.id}}" class="form-control" type="number" ng-model="ctrl.question.min" max="{{ctrl.question.max}}" ng-readonly="ctrl.readOnly"/></md-input-container>
@@ -79,26 +84,31 @@
                             <input class="form-control" type="number" disabled >
                         </md-input-container>
                     </div>
+
                     <div ng-switch-when="date" class="form-inline">
                         <md-input-container>
                             <input class="form-control" type="date" disabled>
                         </md-input-container>
                     </div>
+
                     <div ng-switch-when="datetime" class="form-inline">
                         <md-input-container>
                             <input class="form-control" type="datetime" disabled>
                         </md-input-container>
                     </div>
+
                     <div ng-switch-when="time" class="form-inline">
                         <md-input-container>
                             <input class="form-control" type="time" disabled>
                         </md-input-container>
                     </div>
+
                     <div ng-switch-when="email" class="form-inline">
                         <md-input-container>
                             <input class="form-control" type="email" disabled>
                         </md-input-container>
                     </div>
+
                     <div ng-switch-when="range" >
                         <div class="range-config form-inline">
                             <md-input-container><mw-label label-for="question-range-from-{{ctrl.id}}" label-key="mwForm.question.range.from"></mw-label><input ng-attr-id="question-range-from-{{ctrl.id}}" type="number" ng-model="ctrl.question.min" max="{{ctrl.question.max}}" ng-readonly="ctrl.readOnly"/></md-input-container>
@@ -109,20 +119,23 @@
 
                             <md-slider min="ctrl.question.min" max="ctrl.question.max" class="" type="range" disabled></md-slider>
                         </div>
-
                     </div>
+
                     <div ng-switch-when="url" class="form-inline">
                         <input class="form-control" type="url" disabled>
                     </div>
+
                     <div ng-switch-when="file" class="form-inline">
                         <md-input-container>
                             <input class="form-control" type="file" disabled>
                         </md-input-container>
                     </div>
                 </div>
+
                 <div class="col-sm-12" ng-if="ctrl.question.type=='grid'">
                     <mw-question-grid-builder question="ctrl.question" read-only="ctrl.readOnly"></mw-question-grid-builder>
                 </div>
+
                 <div class="col-sm-12" ng-if="ctrl.question.type=='division'">
                     <mw-question-division-builder question="ctrl.question" read-only="ctrl.readOnly"></mw-question-division-builder>
                 </div>
@@ -140,9 +153,7 @@
                         <span translate="mwForm.question.required">Required</span>
                     </md-checkbox>
                 </div>
-
             </div>
-
         </div>
         <div class="mw-preview" ng-if="ctrl.isPreview">
             <div class="mw-question-text">
@@ -346,9 +357,6 @@
                     </md-input-container>
                 </div>
             </div>
-
-
         </div>
     </div>
-
 </div>

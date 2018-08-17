@@ -51,8 +51,6 @@
                 <mw-form-page-element-builder  ng-repeat="element in ctrl.formPage.elements" page-element="element" form-object="ctrl.formObject" is-active="ctrl.isElementActive(element)" on-ready="ctrl.onElementReady()" ng-click="ctrl.selectElement(element)" is-first="$first" is-last="$last" read-only="ctrl.readOnly"></mw-form-page-element-builder>
             </div>
 
-
-
             <md-menu ng-if="!ctrl.readOnly">
                 <md-button class="md-raised" aria-label="{{'mwForm.buttons.addElement'|translate}}"    ng-click="$mdOpenMenu($event)" translate="mwForm.buttons.addElement">
                     Add element
@@ -86,7 +84,6 @@
                     </md-menu-item>
                 </md-menu-content>
             </md-menu>
-
         </div>
         <table cellspacing="0" class="mw-page-bottom-tab-container" ng-if="!ctrl.isLast">
             <tr>

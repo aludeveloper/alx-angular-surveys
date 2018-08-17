@@ -78,10 +78,12 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
       		//getting current stage index form alx-apply-frontend
       		ctrl.stageNo = localStorage.getItem('stageIndexNo');
 
+      		ctrl.singleElRow = [];
 			// Put initialization logic inside `$onInit()`
 			// to make sure bindings have been initialized.
 			ctrl.$onInit = function() {
 				// ctrl.currentPage.elements.pra.selecteditem.value
+
 				ctrl.condtionalParaFlag = true;
 				ctrl.defaultOptions = {
 					nestedForm: false,
@@ -135,7 +137,33 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 						$timeout(ctrl.resetPages, 0);
 					}
 				}
+
+				$timeout(function() {
+					var temp = [];
+					angular.forEach(ctrl.currentPage.elements,function(item,index) {	          	 	
+	                 	temp.push(item.rowNumber);
+	          	});
+
+	          	for(var i=0;i<temp.length;i++){
+	          		if(i==0){
+	          			ctrl.singleElRow.push(temp[i]);
+	          		}else{
+	          			if(ctrl.singleElRow.includes(temp[i])){
+	          				ctrl.singleElRow.pop();
+	          			}else{
+	          				ctrl.singleElRow.push(temp[i]);
+	          			}
+	          		}
+	          	};
+	          	console.log("ctrl.singleElRow",ctrl.singleElRow);
+				}, 3000);
+				
 			};
+
+			ctrl.singleRow = function(index){
+				console.log("ctrl.singleElRow.includes(index)",ctrl.singleElRow.includes(index));
+				return ctrl.singleElRow.includes(index);
+			}
 
 			//returning paragraph as html
 			ctrl.getParseParaHtml = function(html) {

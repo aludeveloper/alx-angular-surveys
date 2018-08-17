@@ -1,17 +1,22 @@
 <div class="mw-form-viewer-content">
     <div class="mw-title-page">
-
         <div class="mw-form-description task-description">
             {{ctrl.formData.description}}
         </div>
-
         <md-button type="button"  ng-if="!ctrl.currentPage && !ctrl.formSubmitted" class="md-raised begin-response-button" ng-click="ctrl.beginResponse()" translate="mwForm.buttons.begin">Rozpocznij</md-button>
     </div>
 
     <div class="mw-form-page" ng-if="ctrl.currentPage">
         <h2 class="mw-page-title" ng-if="ctrl.currentPage.namedPage && ctrl.currentPage.name">{{ctrl.currentPage.name}}</h2>
         <div class="mw-form-page-element-list">
-            <div class="mw-page-element" ng-class="ctrl.currentPage.elements[$index-1].rowNumber == pageElement.rowNumber || (ctrl.currentPage.elements[$index-1].rowNumber == null) ? 'float-left' : 'clear-float'" ng-repeat="pageElement in ctrl.currentPage.elements | orderBy:'rowNumber'" ng-switch="pageElement.type">
+            <!-- ng-class="[ctrl.currentPage.elements[$index-1].rowNumber == pageElement.rowNumber || (ctrl.currentPage.elements[$index-1].rowNumber == null) ? 'float-left' : 'clear-float', ctrl.currentPage.elements[$index+1].rowNumber != pageElement.rowNumber && ctrl.currentPage.elements[$index+1].rowNumber != null ? 'width-100':'width-10']" -->
+            <div class="mw-page-element" style="align-content: stretch;" 
+                ng-class="[ctrl.currentPage.elements[$index-1].rowNumber == pageElement.rowNumber || 
+                (ctrl.currentPage.elements[$index-1].rowNumber == null) ? 'float-left' : 'clear-float',
+                {'width-100': ctrl.singleRow($index)}]" 
+                ng-repeat="pageElement in ctrl.currentPage.elements | orderBy:'rowNumber'" 
+                ng-switch="pageElement.type">
+            {{pageElement.rowNumber}} {{ctrl.currentPage.elements[$index+1].rowNumber}} 
                 <mw-form-question ng-switch-when="question" question="pageElement.question" question-response="ctrl.responseData[pageElement.question.id]"  read-only="ctrl.readOnly" on-response-changed="ctrl.onResponseChanged(pageElement)"></mw-form-question>
                 
                 <div class="image-element" ng-switch-when="image">
@@ -22,8 +27,7 @@
                 </div>
 
                 <div ng-switch-when="paragraph">
-                    <p class="paragraph-padding" ng-bind-html="ctrl.getParseParaHtml(pageElement.paragraph.html)"></p>
-                    
+                    <p class="paragraph-padding" ng-bind-html="ctrl.getParseParaHtml(pageElement.paragraph.html)"></p>                    
                 </div>
                 
                 <div ng-switch-when="paragraphcondition">

@@ -161,7 +161,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 
 			ctrl.singleRow = function(index){
 				//console.log("ctrl.singleElRow.includes(index)",ctrl.singleElRow.includes(index));
-				return ctrl.singleElRow.includes(index+1);
+				//return ctrl.singleElRow.includes(index+1);
 			};
 
 			//returning paragraph as html

@@ -140,7 +140,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 		templateUrl: 'mw-form-viewer.html',
 		controllerAs: 'ctrl',
 		bindToController: true,
-		controller: ["$timeout", "$interpolate", "$cookies", "$sce", function($timeout, $interpolate, $cookies, $sce) {
+		controller: ["$timeout", "$interpolate", "$cookies", "$sce", "$filter", function($timeout, $interpolate, $cookies, $sce, $filter) {
 			var ctrl = this;
 			var rootScope = $rootScope;
 			ctrl.largeFileFlag = false;
@@ -198,10 +198,12 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
       		//getting current stage index form alx-apply-frontend
       		ctrl.stageNo = localStorage.getItem('stageIndexNo');
 
+      		ctrl.singleElRow = [];
 			// Put initialization logic inside `$onInit()`
 			// to make sure bindings have been initialized.
 			ctrl.$onInit = function() {
 				// ctrl.currentPage.elements.pra.selecteditem.value
+
 				ctrl.condtionalParaFlag = true;
 				ctrl.defaultOptions = {
 					nestedForm: false,
@@ -255,6 +257,31 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 						$timeout(ctrl.resetPages, 0);
 					}
 				}
+        
+				$timeout(function() {
+					var temp = [];					
+					angular.forEach(ctrl.currentPage.elements,function(item,index) {	          	 	
+	                 	temp.push(item.rowNumber);
+	          	});
+
+	          	for(var i=0;i<temp.length;i++){
+	          		if(i==0){
+	          			ctrl.singleElRow.push(temp[i]);
+	          		}else{
+	          			if(ctrl.singleElRow.includes(temp[i])){
+	          				ctrl.singleElRow.pop();
+	          			}else{
+	          				ctrl.singleElRow.push(temp[i]);
+	          			}
+	          		}
+	          	};	          	
+				}, 3000);
+				
+			};
+
+			ctrl.singleRow = function(index){
+				//console.log("ctrl.singleElRow.includes(index)",ctrl.singleElRow.includes(index));
+				//return ctrl.singleElRow.includes(index+1);
 			};
 
 			//returning paragraph as html
@@ -368,8 +395,10 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 					});
 				});*/
 
-				console.log("ctrl.formData.pages",ctrl.formData.pages);
-				ctrl.totalPageLength = ctrl.formData.pages.length;
+				for(var i=0; i<ctrl.formData.pages.length; i++){
+					ctrl.formData.pages[i].elements=$filter('orderBy')(ctrl.formData.pages[i].elements, 'rowNumber');
+				}
+				 ctrl.totalPageLength = ctrl.formData.pages.length;
 
 
 
@@ -948,7 +977,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
 
                 ele.bind("change", function(changeEvent) {
                     var fileSize;
-                    if(changeEvent.target.files != null){
+                    if(changeEvent.target.files && changeEvent.target.files.length>0){
                         fileSize = changeEvent.target.files[0].size / 1024;
                     }
                     
@@ -956,7 +985,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                     if(fileSize == undefined){
 
                     }else{
-                        if (fileSize <= 1024) {
+                        if (fileSize <= 5120) {
                             ctrl.largeFileFlag = false;
                             ctrl.fileSelectedEvent = true;
                             $rootScope.$broadcast('fileRequiredFlag', ctrl.largeFileFlag);
@@ -968,17 +997,16 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                                     ctrl.questionResponse.fileName = changeEvent.target.files[0].name;
                                     ctrl.questionResponse.fileName_1 = changeEvent.target.files[0].name;
                                 });
-                            }
-                            
+                            };                            
                             reader.readAsDataURL(changeEvent.target.files[0]); 
                         } else {
                             scope.$apply(function() {
                                 ctrl.largeFileFlag = true; 
                             });
                             $rootScope.$broadcast('fileRequiredFlag', ctrl.largeFileFlag);
-                            alert("File size is large; maximum file size 1 MB");           
+                            alert("File size cannot exceed 5 MB");
                         }
-                    }                    
+                    }
                 });
             }
         };

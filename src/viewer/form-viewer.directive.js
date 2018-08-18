@@ -138,26 +138,13 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 					}
 				}
 
-				console.log("ctrl.currentPage",ctrl.currentPage);
+				
 				$timeout(function() {
 					var arr = [];
 					angular.forEach(ctrl.currentPage.elements,function(item,index) {	          	 	
 	                 	arr.push(item.rowNumber);
 	          	});
-
-					// var len = temp.length;
-					// for(var i=0; i<len; i++){
-					// 	for(var j=i+1; j<len; j++){
-					// 		if(temp[i] == temp[j]){
-					// 			temp2.push(temp[i]);
-					// 			temp.splice(j,1);
-					// 			j--;
-					// 			len--;
-					// 		}
-					// 	}
-					// }
-
-					//var arr = [9, 9, 111, 2, 3, 4, 4, 5, 7];
+					
 					var sorted_arr = arr.sort();
 					var results = [];
 					for (var i = 0; i < arr.length - 1; i++) {
@@ -165,33 +152,17 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 					        results.push(sorted_arr[i]);
 					    }
 					}
-					//var t = [];
+					
 					for(var i in arr){
 						if(!results.includes(arr[i])){
 							ctrl.singleElRow.push(arr[i]);
 					    }
 					}
-					//ctrl.singleElRow = t;
-
-	          	// for(var i=0;i<temp.length;i++){
-	          	// 	if(ctrl.singleElRow.length == 0){
-	          	// 		ctrl.singleElRow.push(temp[i]);
-	          	// 	}else{
-	          	// 		if(ctrl.singleElRow.includes(temp[i])){
-	          	// 			ctrl.singleElRow.pop();
-	          	// 		}else{
-	          	// 			ctrl.singleElRow.push(temp[i]);
-	          	// 		}
-	          	// 	}
-	          	// };
-	          	console.log("ctrl.singleElRow",ctrl.singleElRow);
 				}, 3000);
 				
 			};
 
 			ctrl.singleRow = function(index){
-				//console.log("ctrl.singleElRow.includes(index)",ctrl.singleElRow.includes(index));
-				console.log("singleRow",index,ctrl.currentPage.elements);
 				return ctrl.singleElRow.includes(index);
 			};
 
@@ -231,8 +202,6 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 					appName = key;
 					sfAppId = value;
 				});
-
-
 
 				if (conditionalParaSfKey != "" && conditionalParaSfKey != undefined && appName != "" && appName != undefined) {
 					$.ajax({

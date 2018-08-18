@@ -350,6 +350,19 @@ input[type=file] {
   font-style: italic;
 }
 
+.float-left {
+  float: left;
+}
+
+.clear-float {
+  float: left;
+  clear:left;
+}
+
+.width-100{
+  width: 100%;
+}
+
 .iti-flag {background-image: url("../bower_components/intl-tel-input/build/img/flags.png");}
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {

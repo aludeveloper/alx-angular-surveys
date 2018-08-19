@@ -20,7 +20,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 		templateUrl: 'mw-form-viewer.html',
 		controllerAs: 'ctrl',
 		bindToController: true,
-		controller: ["$timeout", "$interpolate", "$cookies", "$sce", function($timeout, $interpolate, $cookies, $sce) {
+		controller: ["$timeout", "$interpolate", "$cookies", "$sce", "$filter", function($timeout, $interpolate, $cookies, $sce, $filter) {
 			var ctrl = this;
 			var rootScope = $rootScope;
 			ctrl.largeFileFlag = false;
@@ -78,10 +78,12 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
       		//getting current stage index form alx-apply-frontend
       		ctrl.stageNo = localStorage.getItem('stageIndexNo');
 
+      		ctrl.singleElRow = [];
 			// Put initialization logic inside `$onInit()`
 			// to make sure bindings have been initialized.
 			ctrl.$onInit = function() {
 				// ctrl.currentPage.elements.pra.selecteditem.value
+
 				ctrl.condtionalParaFlag = true;
 				ctrl.defaultOptions = {
 					nestedForm: false,
@@ -135,6 +137,33 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 						$timeout(ctrl.resetPages, 0);
 					}
 				}
+
+				
+				$timeout(function() {
+					var arr = [];
+					angular.forEach(ctrl.currentPage.elements,function(item,index) {	          	 	
+	                 	arr.push(item.rowNumber);
+	          	});
+					
+					var sorted_arr = arr.sort();
+					var results = [];
+					for (var i = 0; i < arr.length - 1; i++) {
+					    if (sorted_arr[i + 1] == sorted_arr[i]) {
+					        results.push(sorted_arr[i]);
+					    }
+					}
+					
+					for(var i in arr){
+						if(!results.includes(arr[i])){
+							ctrl.singleElRow.push(arr[i]);
+					    }
+					}
+				}, 3000);
+				
+			};
+
+			ctrl.singleRow = function(index){
+				return ctrl.singleElRow.includes(index);
 			};
 
 			ctrl.sfKeyValue = "";
@@ -205,8 +234,6 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 					appName = key;
 					sfAppId = value;
 				});
-
-
 
 				if (conditionalParaSfKey != "" && conditionalParaSfKey != undefined && appName != "" && appName != undefined) {
 					$.ajax({
@@ -281,7 +308,15 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 				});*/
 
 				console.log("ctrl.formData.pages",ctrl.formData.pages);
-				ctrl.totalPageLength = ctrl.formData.pages.length;
+
+				for(var i=0; i<ctrl.formData.pages.length; i++){
+					ctrl.formData.pages[i].elements=$filter('orderBy')(ctrl.formData.pages[i].elements, 'rowNumber');
+				}
+
+				console.log("SORTED ctrl.formData.pages",ctrl.formData.pages);
+				// ctrl.currentPage  = $filter('orderBy')(ctrl.currentPage.elements, 'rowNumber');
+				// console.log("sorted ctrl.currentPage",ctrl.currentPage);
+				 ctrl.totalPageLength = ctrl.formData.pages.length;
 
 
 

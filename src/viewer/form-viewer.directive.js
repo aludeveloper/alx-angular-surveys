@@ -166,9 +166,41 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 				return ctrl.singleElRow.includes(index);
 			};
 
-			//returning paragraph as html
-			ctrl.getParseParaHtml = function(html) {
-				return $sce.trustAsHtml(html);
+			ctrl.sfKeyValue = "";
+			
+			//returning paragraph as html			
+			ctrl.getParseParaHtml = function(paragrphData) {
+				var paragraphSFKey = paragrphData.SFKey;
+				if(paragraphSFKey)
+				{
+					var auth_token = localStorage.getItem('auth_token');
+					var baseURL = __env.apiUrl
+					var userInfo = JSON.parse($cookies.get("userInfo"));
+					
+					var applicationData = userInfo.applicationIdMap;
+					var sfAppId;
+					var appName = localStorage.getItem('applicationName');
+					angular.forEach(applicationData, function(value, key) {
+						appName = key;
+						sfAppId = value;
+					});
+
+					$.ajax({
+						async: false,
+						headers: {
+							'X-AUTH-TOKEN': auth_token,
+							'content-Type': 'Application/Json'
+						},
+						url: baseURL + "salesforce/paragraph/" + paragraphSFKey + "/" + appName + "/" + userInfo.email,	
+						success: function(result) {
+							ctrl.sfKeyValue = result;
+						}
+					});
+					return $sce.trustAsHtml(ctrl.sfKeyValue);	
+				}
+				else {
+					return $sce.trustAsHtml(paragrphData.html);
+				}
 			};
 			
 			ctrl.getVideoUrl = function() {

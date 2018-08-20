@@ -319,6 +319,18 @@ input[type=file] {
     bottom:30px;
     width: 30px;
   }    
+
+  .float-left {
+    float: none !important;
+  }
+
+  .clear-float {
+    float: none !important;
+  }
+
+  .width-100 {
+    width: auto;
+  }
 }
 
 @media (min-width: 768px){
@@ -359,7 +371,7 @@ input[type=file] {
   clear:left;
 }
 
-.width-100{
+.width-100 {
   width: 100%;
 }
 

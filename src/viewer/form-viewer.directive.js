@@ -171,8 +171,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 			//returning paragraph as html			
 			ctrl.getParseParaHtml = function(paragrphData) {
 				var paragraphSFKey = paragrphData.SFKey;
-				if(paragraphSFKey)
-				{
+				if (paragraphSFKey) {
 					var auth_token = localStorage.getItem('auth_token');
 					var baseURL = __env.apiUrl
 					var userInfo = JSON.parse($cookies.get("userInfo"));

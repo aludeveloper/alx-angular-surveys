@@ -289,11 +289,34 @@ input[type=file] {
   font-family: Open Sans;
   min-width: 80px;
   text-transform: capitalize;
+  height : 25px;
+  position: absolute;
+  left: 3px;
+  bottom: 30px;
+  width: 30px;
+  cursor: pointer;
+  padding-left: 2px;
+  padding-top: 1px;
+}
+
+.custom-image-upload-btn {
+  background : transparent;
+  color: #00264e;
+  border: 2px solid #00264e;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 13px;
+  font-style: italic;
+  font-family: Open Sans;
+  min-width: 96px;
+  text-transform: capitalize;
   height : 23px;
   position: absolute;
   left: 3px;
   bottom: 30px;
   width: 30px;
+  cursor: pointer;
+  padding-left: 2px;
 }
 
 @media only screen and (max-width: 960px) {
@@ -313,12 +336,35 @@ input[type=file] {
     font-family: Open Sans;
     min-width: 80px;
     text-transform: capitalize;
+    height : 25px;
+    position: absolute;
+    left: 3px;
+    bottom: 30px;
+    width: 30px;
+    cursor: pointer;
+    padding-left: 2px;
+    padding-top: 1px;
+  } 
+
+  .custom-image-upload-btn {
+    background : transparent;
+    color: #00264e;
+    border: 2px solid #00264e;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 13px;
+    font-style: italic;
+    font-family: Open Sans;
+    min-width: 96px;
+    text-transform: capitalize;
     height : 23px;
     position: absolute;
     left: 3px;
-    bottom:30px;
+    bottom: 30px;
     width: 30px;
-  }    
+    cursor: pointer;
+    padding-left: 2px;
+  }   
 
   .float-left {
     float: none !important;

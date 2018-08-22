@@ -36,6 +36,10 @@ angular.module('mwFormBuilder').factory("FormImageBuilderId", function(){
                 }
             };
 
+            ctrl.imageClick = function() {
+                document.getElementById('imageName').click();
+            }
+
             ctrl.selectImageButtonClicked = function(){
                 var resultPromise = ctrl.onImageSelection();
                 resultPromise.then(function(imageSrc){

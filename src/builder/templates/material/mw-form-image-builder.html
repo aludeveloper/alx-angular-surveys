@@ -2,8 +2,14 @@
     <div class="mw-form-image-builder" ng-class="{'ng-submitted':ctrl.formSubmitted}">
         <div class="image-editor" ng-form="ctrl.form" ng-if="!ctrl.isPreview">
         
-
-            <input type="file" id="fileName" accept=".png, .tif, .jpg, .jpeg" onchange="angular.element(this).scope().ctrl.selectImage(this)">
+            <div layout="row">
+                <div flex="100">
+                    <md-input-container style="width: 100%;">
+                        <input id="imageName" type="file" accept=".png, .tif, .jpg, .jpeg" onchange="angular.element(this).scope().ctrl.selectImage(this)">
+                        <span class="custom-image-upload-btn" ng-click="ctrl.imageClick()"> Choose Image </span>
+                    </md-input-container>
+                </div>
+            </div>
 
             <div class="image-edition row" ng-if="ctrl.image.src" >
                 <div class="col-md-12" ng-class="'align-'+ctrl.image.align">

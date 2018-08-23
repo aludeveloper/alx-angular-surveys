@@ -158,12 +158,24 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 							ctrl.singleElRow.push(arr[i]);
 					    }
 					}
-				}, 3000);
+				}, 4000);
 				
 			};
 
 			ctrl.singleRow = function(index){
+				// console.log("singleRow",index,ctrl.currentPage.elements,ctrl.singleElRow);
 				return ctrl.singleElRow.includes(index);
+			};
+
+			var rowEleCount = [33,50,100];
+
+			ctrl.getWidth = function(rowNumber){
+				console.log("rowNumber",rowNumber);
+				for(var i=0;i<rowEleCount.length;i++){
+					if(i+1 == rowNumber){
+						return {"width":rowEleCount[i]+"%"};
+					}
+				}
 			};
 
 			ctrl.sfKeyValue = "";

@@ -13,8 +13,8 @@
             
             <div class="mw-page-element" style="align-content: stretch;" 
                 ng-class="[ctrl.currentPage.elements[$index-1].rowNumber == pageElement.rowNumber || 
-                (ctrl.currentPage.elements[$index-1].rowNumber == null) ? 'float-left' : 'clear-float',
-                {'width-100': ctrl.singleRow(pageElement.rowNumber)}]" 
+                (ctrl.currentPage.elements[$index-1].rowNumber == null) ? 'float-left' : 'clear-float']"
+                ng-style="ctrl.getWidth(pageElement.rowNumber)"
                 ng-repeat="pageElement in ctrl.currentPage.elements | orderBy:['rowNumber','orderNo']" 
                 ng-switch="pageElement.type">
             

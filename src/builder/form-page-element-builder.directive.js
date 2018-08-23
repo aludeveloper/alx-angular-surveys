@@ -16,7 +16,7 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
         templateUrl: 'mw-form-page-element-builder.html',
         controllerAs: 'ctrl',
         bindToController: true,
-        controller: ["mwFormUuid", function(mwFormUuid){
+        controller: ["mwFormUuid", "$rootScope", function(mwFormUuid, $rootScope){
             var ctrl = this;
 
             // Put initialization logic inside `$onInit()`
@@ -79,6 +79,20 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
                         };
                     }
                 }
+
+                ctrl.orderNo = $rootScope.orderNolen;
+                console.log("22",ctrl.orderNo);
+
+                ctrl.pageElement.rowNumber = {value: ctrl.orderNo};
+                
+                ctrl.numbers = [
+                  {value: 1},
+                  {value: 2},
+                  {value: 3},
+                  {value: 4},
+                  {value: 5},
+                  {value: 6}
+                ];
             };
 
             ctrl.callback = function($event,element){

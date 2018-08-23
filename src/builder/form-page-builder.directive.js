@@ -73,6 +73,11 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
                 var element = createEmptyElement(type, ctrl.formPage.elements.length + 1);
                 ctrl.activeElement=element;
                 ctrl.formPage.elements.push(element);
+                
+                $rootScope.orderNolen = ctrl.formPage.elements[ctrl.formPage.elements.length-1].orderNo;
+                console.log(ctrl.formPage.elements[ctrl.formPage.elements.length-1].orderNo);
+                
+
             };
 
             ctrl.cloneElement = function(pageElement, setActive){

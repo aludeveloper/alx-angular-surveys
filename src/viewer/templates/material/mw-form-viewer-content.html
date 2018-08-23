@@ -9,12 +9,10 @@
 
     <div class="mw-form-page" ng-if="ctrl.currentPage">
         <h2 class="mw-page-title" ng-if="ctrl.currentPage.namedPage && ctrl.currentPage.name">{{ctrl.currentPage.name}}</h2>
-        <div class="mw-form-page-element-list">
-            
-            <div class="mw-page-element" style="align-content: stretch;" 
-                ng-class="[ctrl.currentPage.elements[$index-1].rowNumber == pageElement.rowNumber || 
-                (ctrl.currentPage.elements[$index-1].rowNumber == null) ? 'float-left' : 'clear-float',
-                {'width-100': ctrl.singleRow(pageElement.rowNumber)}]" 
+        <div class="mw-form-page-element-list" layout="row" layout-wrap>            
+            <div class="mw-page-element"
+                layout="column" layout-align="end"
+                ng-style="ctrl.getWidth(pageElement.rowNumber)"
                 ng-repeat="pageElement in ctrl.currentPage.elements | orderBy:['rowNumber','orderNo']" 
                 ng-switch="pageElement.type">
             
@@ -38,8 +36,7 @@
                         <div ng-if="ctrl.sfFlag == 'Fail'">
                             <hr>
                             <span class="subtext" ng-bind-html="::ctrl.print(pageElement.paragraphconditionsubtext.html)"></span>
-                        </div>
-                        
+                        </div>                        
                     </div>
                 </div>
                 <div ng-switch-when="videolink">

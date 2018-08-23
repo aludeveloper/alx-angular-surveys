@@ -339,7 +339,6 @@ angular.module('mwFormBuilder').directive('mwQuestionOfferedAnswerListBuilder', 
 		}
 	};
 });
-
 angular.module('mwFormBuilder').directive('mwQuestionGridBuilder', function () {
 
     return {
@@ -965,8 +964,11 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
         templateUrl: 'mw-form-page-element-builder.html',
         controllerAs: 'ctrl',
         bindToController: true,
-        controller: ["mwFormUuid", function(mwFormUuid){
+        controller: ["mwFormUuid", "$rootScope", function(mwFormUuid, $rootScope){
             var ctrl = this;
+            if($rootScope.defaultRowNumber == undefined || $rootScope.defaultRowNumber==null){
+                $rootScope.defaultRowNumber = 0;
+            }
 
             // Put initialization logic inside `$onInit()`
             // to make sure bindings have been initialized.
@@ -1028,6 +1030,14 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
                         };
                     }
                 }
+            };
+
+            // $rootScope.$on('mwForm.pageEvents.addPage', function(event,data){
+            //     ctrl.addPage();
+            // });
+
+            ctrl.updateDefaultRow = function(currentRow){
+                $rootScope.defaultRowNumber = currentRow++;
             };
 
             ctrl.callback = function($event,element){
@@ -1165,12 +1175,13 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
 
             ctrl.addElement = function(type){
                 if(!type){
-
                     type=mwFormBuilderOptions.elementTypes[0];
                 }
-                var element = createEmptyElement(type, ctrl.formPage.elements.length + 1);
+                $rootScope.defaultRowNumber++;
+                var element = createEmptyElement(type, ctrl.formPage.elements.length + 1, $rootScope.defaultRowNumber);
                 ctrl.activeElement=element;
                 ctrl.formPage.elements.push(element);
+                // $rootScope.$broadcast('newElementAdded', ctrl.formPage);
             };
 
             ctrl.cloneElement = function(pageElement, setActive){
@@ -1254,11 +1265,12 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
                 });
             };
 
-            function createEmptyElement(type,orderNo){
+            function createEmptyElement(type,orderNo,rowNumber){
                 return {
                     id: mwFormUuid.get(),
                     orderNo: orderNo,
-                    type: type
+                    type: type,
+                    rowNumber: rowNumber
                 };
             }
 
@@ -1473,7 +1485,7 @@ angular.module('mwFormBuilder').directive('mwFormBuilder', ["$rootScope", functi
 
                         ctrl.formData.pages.length=0;
                         ctrl.formData.pages.push(createEmptyPage(1));
-
+                        $rootScope.defaultRowNumber=0;
                     }
                 }
             };

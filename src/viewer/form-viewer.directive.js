@@ -20,12 +20,12 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 		templateUrl: 'mw-form-viewer.html',
 		controllerAs: 'ctrl',
 		bindToController: true,
-		controller: ["$timeout", "$interpolate", "$cookies", "$sce", "$filter", function($timeout, $interpolate, $cookies, $sce, $filter) {
+		controller: ["$timeout", "$interpolate", "$cookies", "$sce", "$filter", "$window", function($timeout, $interpolate, $cookies, $sce, $filter, $window) {
 			var ctrl = this;
 			var rootScope = $rootScope;
 			ctrl.largeFileFlag = false;
 			ctrl.invalidPhone = false;
-      ctrl.currentPageNumber;
+			ctrl.currentPageNumber;
 			ctrl.hideSaveButton = localStorage.getItem('hideSaveButton');
 			if (ctrl.hideSaveButton == undefined || ctrl.hideSaveButton == '') {
 				ctrl.hideSaveButton = false;
@@ -135,35 +135,8 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 						ctrl.buttons.nextPage.visible = false;
 						ctrl.currentPage = null;
 						$timeout(ctrl.resetPages, 0);
-					}
+					};
 				}
-
-				
-				$timeout(function() {
-					var arr = [];
-					angular.forEach(ctrl.currentPage.elements,function(item,index) {	          	 	
-	                 	arr.push(item.rowNumber);
-	          	});
-					
-					var sorted_arr = arr.sort();
-					var results = [];
-					for (var i = 0; i < arr.length - 1; i++) {
-					    if (sorted_arr[i + 1] == sorted_arr[i]) {
-					        results.push(sorted_arr[i]);
-					    }
-					}
-					
-					for(var i in arr){
-						if(!results.includes(arr[i])){
-							ctrl.singleElRow.push(arr[i]);
-					    }
-					}
-				}, 3000);
-				
-			};
-
-			ctrl.singleRow = function(index){
-				return ctrl.singleElRow.includes(index);
 			};
 
 			ctrl.sfKeyValue = "";
@@ -386,6 +359,33 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 						ctrl.responseData[question.id] = {};
 					}
 				});
+
+				var arr = [];
+				angular.forEach(ctrl.currentPage.elements,function(item,index) {	          	 	
+					arr.push(item.rowNumber);
+				});
+
+				ctrl.elementWidth = [];
+				var array_elements = arr.sort();
+				var current = null;
+				var cnt = 0;
+
+				var counts = {};
+				array_elements.forEach(function(x) { counts[x] = (counts[x] || 0)+1; });
+				angular.forEach(counts, function(item,index) {
+					console.log("item,index",item,index);
+					ctrl.elementWidth.push(100/item);
+				});
+			};
+
+			ctrl.getWidth = function(rowNumber){
+				for(var i=0;i<ctrl.elementWidth.length;i++){
+					if($window.innerWidth <= 960){
+						return { "width" : "100%" };
+					}else	if(i+1 == rowNumber){
+						return { "width" : ctrl.elementWidth[i] + "%" };
+					}
+				}
 			};
 
 			ctrl.beginResponse = function() {

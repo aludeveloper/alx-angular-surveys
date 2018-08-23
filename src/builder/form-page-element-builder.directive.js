@@ -16,8 +16,11 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
         templateUrl: 'mw-form-page-element-builder.html',
         controllerAs: 'ctrl',
         bindToController: true,
-        controller: ["mwFormUuid", function(mwFormUuid){
+        controller: ["mwFormUuid", "$rootScope", function(mwFormUuid, $rootScope){
             var ctrl = this;
+            if($rootScope.defaultRowNumber == undefined || $rootScope.defaultRowNumber==null){
+                $rootScope.defaultRowNumber = 0;
+            }
 
             // Put initialization logic inside `$onInit()`
             // to make sure bindings have been initialized.
@@ -79,6 +82,14 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
                         };
                     }
                 }
+            };
+
+            // $rootScope.$on('mwForm.pageEvents.addPage', function(event,data){
+            //     ctrl.addPage();
+            // });
+
+            ctrl.updateDefaultRow = function(currentRow){
+                $rootScope.defaultRowNumber = currentRow++;
             };
 
             ctrl.callback = function($event,element){

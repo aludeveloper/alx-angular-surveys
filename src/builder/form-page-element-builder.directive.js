@@ -79,20 +79,26 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
                         };
                     }
                 }
-
-                ctrl.orderNo = $rootScope.orderNolen;
+                /*var rowNumberArr = [];
+                console.log("111",ctrl.pageElement);
+                if(rowNumberArr.indexOf(ctrl.pageElement.rowNumber.value) == -1){
+                    rowNumberArr.push(ctrl.pageElement.rowNumber.value);
+                }*/
+                //maxRowValue = Math.max(...rowNumberArr);
+                ctrl.orderNo = ctrl.pageElement.orderNo;
                 console.log("22",ctrl.orderNo);
 
                 ctrl.pageElement.rowNumber = {value: ctrl.orderNo};
-                
-                ctrl.numbers = [
-                  {value: 1},
-                  {value: 2},
-                  {value: 3},
-                  {value: 4},
-                  {value: 5},
-                  {value: 6}
-                ];
+                console.log("pageElement", ctrl.pageElement);
+                console.log("numbers....", ctrl.numbers);
+                ctrl.numbers = {}
+                for (var i = 0; i < 20; i++) {
+                    //if (i < maxRowValue) {
+                        ctrl.numbers[i] = {
+                            value: i+ 1
+                        }
+                    //}
+                }
             };
 
             ctrl.callback = function($event,element){

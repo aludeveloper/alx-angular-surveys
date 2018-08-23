@@ -12,10 +12,10 @@
         <div class="mw-form-page-element-list">
             
             <div class="mw-page-element" style="align-content: stretch;" 
-                ng-class="[ctrl.currentPage.elements[$index-1].rowNumber == pageElement.rowNumber || 
-                (ctrl.currentPage.elements[$index-1].rowNumber == null) ? 'float-left' : 'clear-float',
-                {'width-100': ctrl.singleRow(pageElement.rowNumber)}]" 
-                ng-repeat="pageElement in ctrl.currentPage.elements | orderBy:['rowNumber','orderNo']" 
+                ng-class="[ctrl.currentPage.elements[$index-1].rowNumber.value == pageElement.rowNumber.value || 
+                (ctrl.currentPage.elements[$index-1].rowNumber.value == null) ? 'float-left' : 'clear-float',
+                {'width-100': ctrl.singleRow(pageElement.rowNumber.value)}]" 
+                ng-repeat="pageElement in ctrl.currentPage.elements | orderBy:['rowNumber.value','orderNo']" 
                 ng-switch="pageElement.type">
             
                 <mw-form-question ng-switch-when="question" question="pageElement.question" question-response="ctrl.responseData[pageElement.question.id]"  read-only="ctrl.readOnly" on-response-changed="ctrl.onResponseChanged(pageElement)"></mw-form-question>

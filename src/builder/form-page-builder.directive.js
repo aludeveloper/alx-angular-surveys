@@ -74,8 +74,6 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
                 ctrl.activeElement=element;
                 ctrl.formPage.elements.push(element);
                 
-                $rootScope.orderNolen = ctrl.formPage.elements[ctrl.formPage.elements.length-1].orderNo;
-                console.log(ctrl.formPage.elements[ctrl.formPage.elements.length-1].orderNo);
                 
 
             };

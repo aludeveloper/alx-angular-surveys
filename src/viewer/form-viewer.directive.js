@@ -137,42 +137,6 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 						$timeout(ctrl.resetPages, 0);
 					}
 				}
-
-				ctrl.elementWidth = [];
-				$timeout(function() {
-					// var arr = [];
-					// angular.forEach(ctrl.currentPage.elements,function(item,index) {	          	 	
-	    //              	arr.push(item.rowNumber);
-	    //       	});
-
-	    //       	var array_elements = arr.sort();
-					// var current = null;
-   		// 		var cnt = 0;
-
-   		// 		var counts = {};
-   		// 		array_elements.forEach(function(x) { counts[x] = (counts[x] || 0)+1; });
-   		// 		console.log("counts",counts);
-					
-					// angular.forEach(counts.elements,function(item,index) {
-					// 		console.log(item,index);
-	    //              	ctrl.elementWidth.push(100/item);
-	    //       	});
-					// console.log("ctrl.elementWidth",ctrl.elementWidth);
-					// var sorted_arr = arr.sort();
-					// var results = [];
-					// for (var i = 0; i < arr.length - 1; i++) {
-					//     if (sorted_arr[i + 1] == sorted_arr[i]) {
-					//         results.push(sorted_arr[i]);
-					//     }
-					// }
-					
-					// for(var i in arr){
-					// 	if(!results.includes(arr[i])){
-					// 		ctrl.singleElRow.push(arr[i]);
-					//     }
-					// }
-				}, 4000);
-				
 			};
 
 			ctrl.singleRow = function(index){
@@ -417,19 +381,17 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 				arr.push(item.rowNumber);
 				});
 
+				ctrl.elementWidth = [];
 				var array_elements = arr.sort();
 				var current = null;
 				var cnt = 0;
 
 				var counts = {};
 				array_elements.forEach(function(x) { counts[x] = (counts[x] || 0)+1; });
-				console.log("counts",counts);
-
 				angular.forEach(counts, function(item,index) {
 					console.log("item,index",item,index);
 					ctrl.elementWidth.push(100/item);
 				});
-				console.log("ctrl.elementWidth",ctrl.elementWidth);
 			};
 
 			ctrl.beginResponse = function() {

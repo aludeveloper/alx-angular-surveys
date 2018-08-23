@@ -67,10 +67,10 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
 
             ctrl.addElement = function(type){
                 if(!type){
-
                     type=mwFormBuilderOptions.elementTypes[0];
                 }
-                var element = createEmptyElement(type, ctrl.formPage.elements.length + 1);
+                $rootScope.defaultRowNumber++;
+                var element = createEmptyElement(type, ctrl.formPage.elements.length + 1, $rootScope.defaultRowNumber);
                 ctrl.activeElement=element;
                 ctrl.formPage.elements.push(element);
             };
@@ -156,11 +156,12 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
                 });
             };
 
-            function createEmptyElement(type,orderNo){
+            function createEmptyElement(type,orderNo,rowNumber){
                 return {
                     id: mwFormUuid.get(),
                     orderNo: orderNo,
-                    type: type
+                    type: type,
+                    rowNumber: rowNumber
                 };
             }
 

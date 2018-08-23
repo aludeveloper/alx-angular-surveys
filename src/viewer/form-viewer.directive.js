@@ -25,7 +25,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 			var rootScope = $rootScope;
 			ctrl.largeFileFlag = false;
 			ctrl.invalidPhone = false;
-      ctrl.currentPageNumber;
+			ctrl.currentPageNumber;
 			ctrl.hideSaveButton = localStorage.getItem('hideSaveButton');
 			if (ctrl.hideSaveButton == undefined || ctrl.hideSaveButton == '') {
 				ctrl.hideSaveButton = false;
@@ -282,7 +282,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 				console.log("ctrl.formData.pages",ctrl.formData.pages);
 
 				for(var i=0; i<ctrl.formData.pages.length; i++){
-					ctrl.formData.pages[i].elements=$filter('orderBy')(ctrl.formData.pages[i].elements, 'rowNumber.value');
+					ctrl.formData.pages[i].elements=$filter('orderBy')(ctrl.formData.pages[i].elements, 'rowNumber');
 				}
 
 				console.log("SORTED ctrl.formData.pages",ctrl.formData.pages);
@@ -362,9 +362,9 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 
 				var arr = [];
 				angular.forEach(ctrl.currentPage.elements,function(item,index) {	          	 	
-					arr.push(item.rowNumber.value);
+					arr.push(item.rowNumber);
 				});
-				
+
 				ctrl.elementWidth = [];
 				var array_elements = arr.sort();
 				var current = null;

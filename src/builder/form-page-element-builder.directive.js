@@ -16,8 +16,11 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
         templateUrl: 'mw-form-page-element-builder.html',
         controllerAs: 'ctrl',
         bindToController: true,
-        controller: ["mwFormUuid", function(mwFormUuid){
+        controller: ["mwFormUuid", "$rootScope", function(mwFormUuid, $rootScope){
             var ctrl = this;
+            if($rootScope.defaultRowNumber == undefined || $rootScope.defaultRowNumber==null){
+                $rootScope.defaultRowNumber = 0;
+            }
 
             // Put initialization logic inside `$onInit()`
             // to make sure bindings have been initialized.
@@ -79,26 +82,14 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
                         };
                     }
                 }
-                /*var rowNumberArr = [];
-                console.log("111",ctrl.pageElement);
-                if(rowNumberArr.indexOf(ctrl.pageElement.rowNumber.value) == -1){
-                    rowNumberArr.push(ctrl.pageElement.rowNumber.value);
-                }*/
-                //maxRowValue = Math.max(...rowNumberArr);
-                ctrl.orderNo = ctrl.pageElement.orderNo;
-                console.log("22",ctrl.orderNo);
+            };
 
-                ctrl.pageElement.rowNumber = {value: ctrl.orderNo};
-                console.log("pageElement", ctrl.pageElement);
-                console.log("numbers....", ctrl.numbers);
-                ctrl.numbers = {}
-                for (var i = 0; i < 20; i++) {
-                    //if (i < maxRowValue) {
-                        ctrl.numbers[i] = {
-                            value: i+ 1
-                        }
-                    //}
-                }
+            // $rootScope.$on('mwForm.pageEvents.addPage', function(event,data){
+            //     ctrl.addPage();
+            // });
+
+            ctrl.updateDefaultRow = function(currentRow){
+                $rootScope.defaultRowNumber = currentRow++;
             };
 
             ctrl.callback = function($event,element){

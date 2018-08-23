@@ -38,7 +38,7 @@ angular.module('mwFormBuilder').directive('mwFormBuilder', ["$rootScope", functi
 
                         ctrl.formData.pages.length=0;
                         ctrl.formData.pages.push(createEmptyPage(1));
-
+                        $rootScope.defaultRowNumber=0;
                     }
                 }
             };

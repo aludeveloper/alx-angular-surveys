@@ -364,18 +364,6 @@ input[type=file] {
     width: 30px;
     cursor: pointer;
     padding-left: 2px;
-  }   
-
-  .float-left {
-    float: none !important;
-  }
-
-  .clear-float {
-    float: none !important;
-  }
-
-  .width-100 {
-    width: auto;
   }
 }
 
@@ -406,19 +394,6 @@ input[type=file] {
   font-size: 13px;
   font-family: Open Sans;
   font-style: italic;
-}
-
-.float-left {
-  float: left;
-}
-
-.clear-float {
-  float: left;
-  clear:left;
-}
-
-.width-100 {
-  width: 100%;
 }
 
 .iti-flag {background-image: url("../bower_components/intl-tel-input/build/img/flags.png");}

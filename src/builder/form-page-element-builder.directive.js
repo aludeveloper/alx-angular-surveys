@@ -16,7 +16,7 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
         templateUrl: 'mw-form-page-element-builder.html',
         controllerAs: 'ctrl',
         bindToController: true,
-        controller: ["mwFormUuid", "$rootScope", function(mwFormUuid, $rootScope){
+        controller: ["mwFormUuid", function(mwFormUuid){
             var ctrl = this;
 
             // Put initialization logic inside `$onInit()`

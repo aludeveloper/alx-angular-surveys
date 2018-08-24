@@ -88,6 +88,7 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
             ctrl.removeElement = function(pageElement){
                 var index = ctrl.formPage.elements.indexOf(pageElement);
                 ctrl.formPage.elements.splice(index,1);
+                $rootScope.defaultRowNumber = $rootScope.defaultRowNumber-1;
             };
 
             ctrl.moveDownElement= function(pageElement){

@@ -189,10 +189,10 @@ angular.module('mwFormUtils.responseUtils', [])
             if (questionTypesWithDefaultAnswer.indexOf(question.type) !== -1) {
                 return questionResponse.answer;
             } else {
-                if (question.type == 'checkbox') {
+                if (question.type == 'checkbox' || question.type == 'select') {
                     return service.$extractResponseForQuestionWithOfferedAnswers(question, questionResponse);
                 }
-                if (question.type == 'radio' || question.type == 'select') {
+                if (question.type == 'radio') {
                     return service.$extractResponseForQuestionWithOfferedAnswersForRadio(question, questionResponse);
                 }
                 if (question.type == 'grid') {
@@ -266,7 +266,7 @@ angular.module('mwFormUtils.responseUtils', [])
                     if (question.type == "file") {
                         question.fileName = questionResponse.fileName;
                     }
-                    if (question.type == 'radio' || question.type == 'select') {
+                    if (question.type == 'radio') { //|| question.type == 'select'
                         //assign linked question list to question
                         if (questionResponse.selectedAnswer) {
                             if(typeof questionResponse.selectedAnswer === 'string' || questionResponse.selectedAnswer instanceof String) {

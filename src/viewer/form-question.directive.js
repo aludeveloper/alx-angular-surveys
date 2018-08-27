@@ -50,7 +50,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                 this.$onInit = function() {
                     ctrl.id = FormQuestionId.next();
 
-                    if (ctrl.question.type == 'radio' || ctrl.question.type == 'select') {
+                    if (ctrl.question.type == 'radio') {    //|| ctrl.question.type == 'select'
                         /*if (!ctrl.questionResponse.selectedAnswer) {
                             ctrl.questionResponse.selectedAnswer = null;
                         }*/
@@ -132,7 +132,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                             document.getElementById(qdata.id).parentElement.parentElement.parentElement.style.display = "none";
                         }
 
-                        if (qdata.type == "radio" || qdata.type == "select") {
+                        if (qdata.type == "radio") { //|| qdata.type == "select"
                             angular.forEach(qdata.offeredAnswers, function(offans, key1) {
                                 if (offans.linkedquestion != null && offans.linkedquestion != undefined) {
                                     for(var i=0; i<offans.linkedquestion.length; i++){
@@ -242,7 +242,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                                 for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
                                     document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "block";
                                     // filter unrequiredList
-                                    $rootScope.unrequiredQuestionList = $rootScope.unrequiredQuestionList.filter(item => item !== ctrl.selectedLinkQ[i])
+                                    $rootScope.unrequiredQuestionList = $rootScope.unrequiredQuestionList.filter(function(item) {return item !== ctrl.selectedLinkQ[i]});
                                 }
                                 //passing unrequired and required questionvlist to page element
                                 $rootScope.$broadcast('changeAllData', {"requiredQuestionList" : ctrl.selectedLinkQ, "unrequiredQuestionList" : $rootScope.unrequiredQuestionList}); 
@@ -250,7 +250,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
 
                                 for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
                                     document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "none";
-                                    $rootScope.unrequiredQuestionList = $rootScope.unrequiredQuestionList.filter(item => item == ctrl.selectedLinkQ[i])
+                                    $rootScope.unrequiredQuestionList = $rootScope.unrequiredQuestionList.filter(function(item) {return item == ctrl.selectedLinkQ[i]});
                                 }
 
                                 //selected answer object{} string condition checks
@@ -275,7 +275,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                                 for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
                                     document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "block";
                                     // filter unrequiredList
-                                    $rootScope.unrequiredQuestionList = $rootScope.unrequiredQuestionList.filter(item => item !== ctrl.selectedLinkQ[i])
+                                    $rootScope.unrequiredQuestionList = $rootScope.unrequiredQuestionList.filter(function(item) {return item !== ctrl.selectedLinkQ[i]});
                                 }
                                 //passing unrequired and required questionvlist to page element
                                 $rootScope.$broadcast('changeAllData', {"requiredQuestionList" : ctrl.selectedLinkQ, "unrequiredQuestionList" : $rootScope.unrequiredQuestionList}); 

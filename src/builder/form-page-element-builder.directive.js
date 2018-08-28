@@ -6,6 +6,7 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
         require: '^mwFormPageBuilder',
         scope: {
             pageElement: '=',
+            pageNumber: '=',
             formObject: '=',
             isActive: '=',
             isFirst: '=',

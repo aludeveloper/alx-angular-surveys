@@ -58,16 +58,9 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                             ctrl.selectedAnswerId = ctrl.questionResponse.selectedAnswer.id;
                             angular.forEach(ctrl.question.offeredAnswers, function(obj, key) {
                                 if (ctrl.selectedAnswerId == obj.id) {
-                                    ctrl.questionResponse.selectedAnswer.id = obj.id;
-                                    ctrl.questionResponse.selectedAnswer.linkedquestion = obj.linkedquestion;
-                                    ctrl.questionResponse.selectedAnswer.orderNo = obj.orderNo;
-                                    ctrl.questionResponse.selectedAnswer.pageFlow = obj.pageFlow;
-                                    ctrl.questionResponse.selectedAnswer.value = obj.value;
+                                    ctrl.questionResponse.selectedAnswer = angular.toJson(obj);
                                 }
-                            })
-                            $timeout(function() {
-                                ctrl.questionResponse.selectedAnswer = JSON.stringify(ctrl.questionResponse.selectedAnswer) 
-                            }, 1500);
+                            });
                             ctrl.selectedAnswerChanged();
                         }
 

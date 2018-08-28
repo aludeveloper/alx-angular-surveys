@@ -193,6 +193,7 @@ angular.module('mwFormBuilder').directive('mwQuestionOfferedAnswerListBuilder', 
 		require: '^mwFormQuestionBuilder',
 		scope: {
 			question: '=',
+			pageNumber: '=',
 			formObject: '=',
 			readOnly: '=?',
 			options: '=?',
@@ -226,6 +227,7 @@ angular.module('mwFormBuilder').directive('mwQuestionOfferedAnswerListBuilder', 
 						updateAnswersOrderNo();
 					}
 				};
+				console.log("mwQuestionOfferedAnswerListBuilder ctrl.pageNumber",ctrl.pageNumber);
 			};
 
 
@@ -319,9 +321,14 @@ angular.module('mwFormBuilder').directive('mwQuestionOfferedAnswerListBuilder', 
 		}],
 		link: function(scope, ele, attrs, formQuestionBuilderCtrl) {
 			var ctrl = scope.ctrl;
+			var elePageNumber = ctrl.pageNumber -1;
 			ctrl.possiblePageFlow = formQuestionBuilderCtrl.possiblePageFlow;
+			// console.log("formQuestionBuilderCtrl.formObject.pages",formQuestionBuilderCtrl.formObject.pages);
+			console.log("mwQuestionOfferedAnswerListBuilder elePageNumber",elePageNumber);
+			// for(var i=0; i<formQuestionBuilderCtrl.formObject.pages.length; i++){
 
-			ctrl.elements = formQuestionBuilderCtrl.formObject.pages[0].elements;
+			// }
+			ctrl.elements = formQuestionBuilderCtrl.formObject.pages[elePageNumber].elements;
 			//file uploads
 			ele.bind("change", function(changeEvent) {
 				var files = changeEvent.target.files;
@@ -680,6 +687,7 @@ angular.module('mwFormBuilder').factory("FormQuestionBuilderId", function(){
         require: '^mwFormPageElementBuilder',
         scope: {
             question: '=',
+            pageNumber: '=',
             formObject: '=',
             onReady: '&',
             isPreview: '=?',
@@ -690,7 +698,7 @@ angular.module('mwFormBuilder').factory("FormQuestionBuilderId", function(){
         bindToController: true,
         controller: ["$timeout", "FormQuestionBuilderId", "mwFormBuilderOptions", function($timeout,FormQuestionBuilderId, mwFormBuilderOptions){
             var ctrl = this;
-
+            console.log("mwFormQuestionBuilder ctrl.question",ctrl.question);
 
             // Put initialization logic inside `$onInit()`
             // to make sure bindings have been initialized.
@@ -954,6 +962,7 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
         require: '^mwFormPageBuilder',
         scope: {
             pageElement: '=',
+            pageNumber: '=',
             formObject: '=',
             isActive: '=',
             isFirst: '=',
@@ -982,6 +991,7 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
                             required:true
                         };
                     }
+                    console.log("mwFormPageBuilder ctrl.pageElement",ctrl.pageElement);
                 }else if(ctrl.pageElement.type=='image'){
                     if(!ctrl.pageElement.image){
                         ctrl.pageElement.image={
@@ -1031,10 +1041,8 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
                     }
                 }
             };
-
-            // $rootScope.$on('mwForm.pageEvents.addPage', function(event,data){
-            //     ctrl.addPage();
-            // });
+            
+            ctrl.rowLimit = $rootScope.defaultRowNumber+1;
 
             ctrl.updateDefaultRow = function(currentRow){
                 $rootScope.defaultRowNumber = currentRow++;
@@ -1145,6 +1153,8 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
                 };
 
                 ctrl.activeElement = null;
+
+                console.log("mwFormBuilder ctrl.formPage",ctrl.formPage);
             };
 
             ctrl.unfold = function(){
@@ -1181,7 +1191,6 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
                 var element = createEmptyElement(type, ctrl.formPage.elements.length + 1, $rootScope.defaultRowNumber);
                 ctrl.activeElement=element;
                 ctrl.formPage.elements.push(element);
-                // $rootScope.$broadcast('newElementAdded', ctrl.formPage);
             };
 
             ctrl.cloneElement = function(pageElement, setActive){
@@ -1197,6 +1206,7 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
             ctrl.removeElement = function(pageElement){
                 var index = ctrl.formPage.elements.indexOf(pageElement);
                 ctrl.formPage.elements.splice(index,1);
+                $rootScope.defaultRowNumber = $rootScope.defaultRowNumber-1;
             };
 
             ctrl.moveDownElement= function(pageElement){
@@ -1486,7 +1496,7 @@ angular.module('mwFormBuilder').directive('mwFormBuilder', ["$rootScope", functi
                         ctrl.formData.pages.length=0;
                         ctrl.formData.pages.push(createEmptyPage(1));
                         $rootScope.defaultRowNumber=0;
-                    }
+                    };
                 }
             };
             
@@ -1571,6 +1581,7 @@ angular.module('mwFormBuilder').directive('mwFormBuilder', ["$rootScope", functi
             ctrl.removePage=function(page){
                 var index = ctrl.formData.pages.indexOf(page);
                 ctrl.formData.pages.splice(index,1);
+                $rootScope.defaultRowNumber=0;
                 updatePageNumbers();
                 $rootScope.$broadcast("mwForm.pageEvents.pageRemoved");
                 ctrl.onChangePageSize();
@@ -1644,7 +1655,6 @@ angular.module('mwFormBuilder').directive('mwFormBuilder', ["$rootScope", functi
                                     }
                                 });
                             }
-
                         });
                     });
                 });

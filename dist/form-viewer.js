@@ -164,35 +164,38 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 			});
 
 			//watch for required and unrequired linked questions
-      		$rootScope.$on("changeAllData", function(event, data) {
-				console.log("required data", data.requiredQuestionList);
-				console.log("unrequired data", data.unrequiredQuestionList);
+			$rootScope.$on("changeAllData", function(event, data) {
+				$timeout(function() {
+					console.log("required data", data.requiredQuestionList);
+					console.log("unrequired data", data.unrequiredQuestionList);
 
-                angular.forEach(data.requiredQuestionList,function(obj,key){
-                	angular.forEach(ctrl.currentPage.elements,function(item,index) {
-                	 	if (item.question && item.question.id == obj) {
-	                    	item.question.required = true;
-	                    }
-                	});
-                });
-                angular.forEach(data.unrequiredQuestionList,function(obj1,key1){
-                	 angular.forEach(ctrl.currentPage.elements,function(item1,index1) {
-                	 	if (item1.question && item1.question.id == obj1) {
-							var quesType = item1.question.type;
-							angular.forEach(ctrl.responseData, function(object,id) {
-								if (id && id == obj1) {
-									if (id && quesType == "checkbox") {
-										object.selectedAnswers = [];
+					angular.forEach(data.requiredQuestionList,function(obj,key){
+						angular.forEach(ctrl.currentPage.elements,function(item,index) {
+							if (item.question && item.question.id == obj) {
+								item.question.required = true;
+							}
+						});
+					});
+					angular.forEach(data.unrequiredQuestionList,function(obj1,key1){
+						angular.forEach(ctrl.currentPage.elements,function(item1,index1) {
+							if (item1.question && item1.question.id == obj1) {
+								var quesType = item1.question.type;
+								angular.forEach(ctrl.responseData, function(object,id) {
+									if (id && id == obj1) {
+										if (id && quesType == "checkbox") {
+											object.selectedAnswers = [];
+										}
+										else {
+											ctrl.responseData[id] = {};
+										}
 									}
-									else {
-										ctrl.responseData[id] = {};
-									}
-								}
-							})
-	                    	item1.question.required = false;
-	                    }
-                	 });
-                });
+								})
+								item1.question.required = false;
+							}
+						});
+					});
+				}, 4000);
+				
 			});
 
       		//getting current stage index form alx-apply-frontend
@@ -203,6 +206,8 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 			// to make sure bindings have been initialized.
 			ctrl.$onInit = function() {
 				// ctrl.currentPage.elements.pra.selecteditem.value
+				console.log("ctrl.responseData",ctrl.responseData);
+				console.log("ctrl.formData",ctrl.formData);
 
 				ctrl.condtionalParaFlag = true;
 				ctrl.defaultOptions = {
@@ -399,7 +404,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 					});
 				});*/
 
-				console.log("ctrl.formData.pages",ctrl.formData.pages);
+				// console.log("ctrl.formData.pages",ctrl.formData.pages);
 
 				for(var i=0; i<ctrl.formData.pages.length; i++){
 					ctrl.formData.pages[i].elements=$filter('orderBy')(ctrl.formData.pages[i].elements, 'rowNumber');
@@ -696,52 +701,19 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                 this.$onInit = function() {
                     ctrl.id = FormQuestionId.next();
 
-                    /*if (ctrl.question.type == 'select') {
-                       console.log("select.........")
-                        
+                    if (ctrl.question.type == 'radio') {    //|| ctrl.question.type == 'select'
+                        /*if (!ctrl.questionResponse.selectedAnswer) {
+                            ctrl.questionResponse.selectedAnswer = null;
+                        }*/
                         if (ctrl.questionResponse.selectedAnswer) {
                             ctrl.selectedAnswerId = ctrl.questionResponse.selectedAnswer.id;
                             angular.forEach(ctrl.question.offeredAnswers, function(obj, key) {
                                 if (ctrl.selectedAnswerId == obj.id) {
-                                    ctrl.questionResponse.selectedAnswer.id = obj.id;
-                                    ctrl.questionResponse.selectedAnswer.linkedquestion = obj.linkedquestion;
-                                    ctrl.questionResponse.selectedAnswer.orderNo = obj.orderNo;
-                                    ctrl.questionResponse.selectedAnswer.pageFlow = obj.pageFlow;
-                                    ctrl.questionResponse.selectedAnswer.value = obj.value;
+                                    ctrl.questionResponse.selectedAnswer = angular.toJson(obj);
                                 }
-                            })
-                            $timeout(function() {
-                                ctrl.questionResponse.selectedAnswer = ctrl.questionResponse.selectedAnswer
-                            }, 1000);
+                            });
                             ctrl.selectedAnswerChanged();
                         }
-
-                        if (ctrl.questionResponse.other) {
-                            ctrl.isOtherAnswer = true;
-                        }
-
-                    }*/
-
-                    if (ctrl.question.type == 'radio') {
-                        /*if (!ctrl.questionResponse.selectedAnswer) {
-                            ctrl.questionResponse.selectedAnswer = null;
-                        }*/
-                        /*if (ctrl.questionResponse.selectedAnswer) {
-                            ctrl.selectedAnswerId = ctrl.questionResponse.selectedAnswer.id;
-                            angular.forEach(ctrl.question.offeredAnswers, function(obj, key) {
-                                if (ctrl.selectedAnswerId == obj.id) {
-                                    ctrl.questionResponse.selectedAnswer.id = obj.id;
-                                    ctrl.questionResponse.selectedAnswer.linkedquestion = obj.linkedquestion;
-                                    ctrl.questionResponse.selectedAnswer.orderNo = obj.orderNo;
-                                    ctrl.questionResponse.selectedAnswer.pageFlow = obj.pageFlow;
-                                    ctrl.questionResponse.selectedAnswer.value = obj.value;
-                                }
-                            })
-                            $timeout(function() {
-                                ctrl.questionResponse.selectedAnswer = JSON.stringify(ctrl.questionResponse.selectedAnswer) 
-                            }, 1000);
-                            ctrl.selectedAnswerChanged();
-                        }*/
 
                         if (ctrl.questionResponse.other) {
                             ctrl.isOtherAnswer = true;
@@ -799,13 +771,12 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                 };
                     
                 ctrl.hideRadioLinkedQuestions = function (qdata) {
-                    console.log("welcome to the hideRadioLinkedQuestions");
                     $timeout(function() {
                         if ($rootScope.linkedquestionList.includes(qdata.id)) {
                             document.getElementById(qdata.id).parentElement.parentElement.parentElement.style.display = "none";
                         }
 
-                        if (qdata.type == "radio" || qdata.type == "select") {
+                        if (qdata.type == "radio") { //|| qdata.type == "select"
                             angular.forEach(qdata.offeredAnswers, function(offans, key1) {
                                 if (offans.linkedquestion != null && offans.linkedquestion != undefined) {
                                     for(var i=0; i<offans.linkedquestion.length; i++){
@@ -872,8 +843,8 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                 }
 
                 ctrl.initQuestionsView = function(qdata) {
-                    console.log("welcome to the initQuestionsView");
-                    //ctrl.hideRadioLinkedQuestions(qdata);
+
+                    ctrl.hideRadioLinkedQuestions(qdata);
                     
                     ctrl.mappingTelephoneQuestion(qdata);
                 };
@@ -890,8 +861,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                 };
 
                 ctrl.selectedAnswerChanged = function() {
-                    console.log("welcome to the selectedAnswerChanged");
-                   /* $timeout(function() {
+                    $timeout(function() {
                         //show default selected and linked question response (string checks)
                         if(typeof ctrl.questionResponse.selectedAnswer === 'string' || ctrl.questionResponse.selectedAnswer instanceof String) {
                             ctrl.selectedQuestionAns = ctrl.questionResponse.selectedAnswer
@@ -916,7 +886,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                                 for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
                                     document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "block";
                                     // filter unrequiredList
-                                    $rootScope.unrequiredQuestionList = $rootScope.unrequiredQuestionList.filter(item => item !== ctrl.selectedLinkQ[i])
+                                    $rootScope.unrequiredQuestionList = $rootScope.unrequiredQuestionList.filter(function(item) {return item !== ctrl.selectedLinkQ[i]});
                                 }
                                 //passing unrequired and required questionvlist to page element
                                 $rootScope.$broadcast('changeAllData', {"requiredQuestionList" : ctrl.selectedLinkQ, "unrequiredQuestionList" : $rootScope.unrequiredQuestionList}); 
@@ -924,7 +894,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
 
                                 for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
                                     document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "none";
-                                    $rootScope.unrequiredQuestionList = $rootScope.unrequiredQuestionList.filter(item => item == ctrl.selectedLinkQ[i])
+                                    $rootScope.unrequiredQuestionList = $rootScope.unrequiredQuestionList.filter(function(item) {return item == ctrl.selectedLinkQ[i]});
                                 }
 
                                 //selected answer object{} string condition checks
@@ -949,13 +919,13 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                                 for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
                                     document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "block";
                                     // filter unrequiredList
-                                    $rootScope.unrequiredQuestionList = $rootScope.unrequiredQuestionList.filter(item => item !== ctrl.selectedLinkQ[i])
+                                    $rootScope.unrequiredQuestionList = $rootScope.unrequiredQuestionList.filter(function(item) {return item !== ctrl.selectedLinkQ[i]});
                                 }
                                 //passing unrequired and required questionvlist to page element
                                 $rootScope.$broadcast('changeAllData', {"requiredQuestionList" : ctrl.selectedLinkQ, "unrequiredQuestionList" : $rootScope.unrequiredQuestionList}); 
                             }
                         }
-                    }, 1000);*/
+                    }, 1000);
                     
                     
                     delete ctrl.questionResponse.other;

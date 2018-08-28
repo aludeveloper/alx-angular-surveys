@@ -6,6 +6,7 @@ angular.module('mwFormBuilder').directive('mwQuestionOfferedAnswerListBuilder', 
 		require: '^mwFormQuestionBuilder',
 		scope: {
 			question: '=',
+			pageNumber: '=',
 			formObject: '=',
 			readOnly: '=?',
 			options: '=?',
@@ -132,9 +133,10 @@ angular.module('mwFormBuilder').directive('mwQuestionOfferedAnswerListBuilder', 
 		}],
 		link: function(scope, ele, attrs, formQuestionBuilderCtrl) {
 			var ctrl = scope.ctrl;
+			var elePageNumber = ctrl.pageNumber -1;
 			ctrl.possiblePageFlow = formQuestionBuilderCtrl.possiblePageFlow;
 
-			ctrl.elements = formQuestionBuilderCtrl.formObject.pages[0].elements;
+			ctrl.elements = formQuestionBuilderCtrl.formObject.pages[elePageNumber].elements;
 			//file uploads
 			ele.bind("change", function(changeEvent) {
 				var files = changeEvent.target.files;

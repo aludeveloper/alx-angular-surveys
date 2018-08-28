@@ -15,6 +15,7 @@ angular.module('mwFormBuilder').factory("FormQuestionBuilderId", function(){
         require: '^mwFormPageElementBuilder',
         scope: {
             question: '=',
+            pageNumber: '=',
             formObject: '=',
             onReady: '&',
             isPreview: '=?',

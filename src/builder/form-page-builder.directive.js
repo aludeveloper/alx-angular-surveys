@@ -69,7 +69,8 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
                 if(!type){
                     type=mwFormBuilderOptions.elementTypes[0];
                 }
-                var element = createEmptyElement(type, ctrl.formPage.elements.length + 1);
+                $rootScope.defaultRowNumber++;
+                var element = createEmptyElement(type, ctrl.formPage.elements.length + 1, $rootScope.defaultRowNumber);
                 ctrl.activeElement=element;
                 ctrl.formPage.elements.push(element);
             };
@@ -87,6 +88,7 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
             ctrl.removeElement = function(pageElement){
                 var index = ctrl.formPage.elements.indexOf(pageElement);
                 ctrl.formPage.elements.splice(index,1);
+                $rootScope.defaultRowNumber = $rootScope.defaultRowNumber-1;
             };
 
             ctrl.moveDownElement= function(pageElement){
@@ -155,11 +157,12 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
                 });
             };
 
-            function createEmptyElement(type,orderNo){
+            function createEmptyElement(type,orderNo,rowNumber){
                 return {
                     id: mwFormUuid.get(),
                     orderNo: orderNo,
-                    type: type
+                    type: type,
+                    rowNumber: rowNumber
                 };
             }
 

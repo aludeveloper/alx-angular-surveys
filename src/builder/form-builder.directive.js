@@ -38,7 +38,8 @@ angular.module('mwFormBuilder').directive('mwFormBuilder', ["$rootScope", functi
 
                         ctrl.formData.pages.length=0;
                         ctrl.formData.pages.push(createEmptyPage(1));
-                    }
+                        $rootScope.defaultRowNumber=0;
+                    };
                 }
             };
             
@@ -123,6 +124,7 @@ angular.module('mwFormBuilder').directive('mwFormBuilder', ["$rootScope", functi
             ctrl.removePage=function(page){
                 var index = ctrl.formData.pages.indexOf(page);
                 ctrl.formData.pages.splice(index,1);
+                $rootScope.defaultRowNumber=0;
                 updatePageNumbers();
                 $rootScope.$broadcast("mwForm.pageEvents.pageRemoved");
                 ctrl.onChangePageSize();
@@ -196,7 +198,6 @@ angular.module('mwFormBuilder').directive('mwFormBuilder', ["$rootScope", functi
                                     }
                                 });
                             }
-
                         });
                     });
                 });

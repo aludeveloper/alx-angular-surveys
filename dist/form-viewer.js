@@ -478,7 +478,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 			ctrl.initResponsesForCurrentPage = function() {
 				ctrl.currentPage.elements.forEach(function(element) {
 					var question = element.question;
-					if (question && !ctrl.responseData[question.id]) {
+					if (ctrl.responseData && question && !ctrl.responseData[question.id]) {
 						ctrl.responseData[question.id] = {};
 					}
 				});
@@ -496,7 +496,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 				var counts = {};
 				array_elements.forEach(function(x) { counts[x] = (counts[x] || 0)+1; });
 				angular.forEach(counts, function(item,index) {
-					console.log("item,index",item,index);
+					//console.log("item,index",item,index);
 					ctrl.elementWidth.push(100/item);
 				});
 			};
@@ -695,6 +695,10 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                 
                 this.$onInit = function() {
                     ctrl.id = FormQuestionId.next();
+                    
+                    if(ctrl.questionResponse == undefined){
+                        return;
+                    }
 
                     if (ctrl.question.type == 'radio') {    //|| ctrl.question.type == 'select'
                         /*if (!ctrl.questionResponse.selectedAnswer) {
@@ -846,8 +850,9 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
 
                 $timeout(function() {
                     $("#phone").on("countrychange", function(e, countryData) {
-                        console.log(countryData);
-                        ctrl.questionResponse.countryCode = countryData.dialCode;
+                        if(ctrl.questionResponse){
+                            ctrl.questionResponse.countryCode = countryData.dialCode;
+                        }
                     });
                 }, 500);
 

@@ -20,7 +20,7 @@ angular.module('mwFormBuilder').directive('mwFormBuilder', ["$rootScope", functi
             // to make sure bindings have been initialized.
             ctrl.$onInit = function() {
                 ctrl.currentPage = 0;
-
+                $rootScope.defaultRowNumber=0;
                 if(!ctrl.formData.pages || !ctrl.formData.pages.length){
                     ctrl.formData.pages = [];
                     ctrl.formData.pages.push(createEmptyPage(1));
@@ -52,6 +52,7 @@ angular.module('mwFormBuilder').directive('mwFormBuilder', ["$rootScope", functi
             };
             ctrl.addPage = function(){
                 ctrl.formData.pages.push(createEmptyPage(ctrl.formData.pages.length+1));
+                $rootScope.defaultRowNumber=0;
                 ctrl.lastPage();
                 $rootScope.$broadcast("mwForm.pageEvents.pageAdded");
             };

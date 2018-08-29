@@ -206,8 +206,6 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 			// to make sure bindings have been initialized.
 			ctrl.$onInit = function() {
 				// ctrl.currentPage.elements.pra.selecteditem.value
-				console.log("ctrl.responseData",ctrl.responseData);
-				console.log("ctrl.formData",ctrl.formData);
 
 				ctrl.condtionalParaFlag = true;
 				ctrl.defaultOptions = {
@@ -404,7 +402,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 					});
 				});*/
 
-				// console.log("ctrl.formData.pages",ctrl.formData.pages);
+				console.log("ctrl.formData.pages",ctrl.formData.pages);
 
 				for(var i=0; i<ctrl.formData.pages.length; i++){
 					ctrl.formData.pages[i].elements=$filter('orderBy')(ctrl.formData.pages[i].elements, 'rowNumber');
@@ -480,7 +478,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 			ctrl.initResponsesForCurrentPage = function() {
 				ctrl.currentPage.elements.forEach(function(element) {
 					var question = element.question;
-					if (question && !ctrl.responseData[question.id]) {
+					if (ctrl.responseData && question && !ctrl.responseData[question.id]) {
 						ctrl.responseData[question.id] = {};
 					}
 				});
@@ -494,16 +492,13 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 				var array_elements = arr.sort();
 				var current = null;
 				var cnt = 0;
-				console.log("array_elements",array_elements);
+
 				var counts = {};
 				array_elements.forEach(function(x) { counts[x] = (counts[x] || 0)+1; });
-				console.log("counts",counts);
-
 				angular.forEach(counts, function(item,index) {
-					console.log("item,index",item,index);
+					//console.log("item,index",item,index);
 					ctrl.elementWidth.push(100/item);
 				});
-				console.log("ctrl.elementWidth",ctrl.elementWidth);
 			};
 
 			ctrl.getWidth = function(rowNumber){
@@ -700,6 +695,10 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                 
                 this.$onInit = function() {
                     ctrl.id = FormQuestionId.next();
+                    
+                    if(ctrl.questionResponse == undefined){
+                        return;
+                    }
 
                     if (ctrl.question.type == 'radio') {    //|| ctrl.question.type == 'select'
                         /*if (!ctrl.questionResponse.selectedAnswer) {
@@ -851,8 +850,9 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
 
                 $timeout(function() {
                     $("#phone").on("countrychange", function(e, countryData) {
-                        console.log(countryData);
-                        ctrl.questionResponse.countryCode = countryData.dialCode;
+                        if(ctrl.questionResponse){
+                            ctrl.questionResponse.countryCode = countryData.dialCode;
+                        }
                     });
                 }, 500);
 

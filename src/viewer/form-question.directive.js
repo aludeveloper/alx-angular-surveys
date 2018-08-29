@@ -49,6 +49,10 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                 
                 this.$onInit = function() {
                     ctrl.id = FormQuestionId.next();
+                    
+                    if(ctrl.questionResponse == undefined){
+                        return;
+                    }
 
                     if (ctrl.question.type == 'radio') {    //|| ctrl.question.type == 'select'
                         /*if (!ctrl.questionResponse.selectedAnswer) {
@@ -200,8 +204,9 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
 
                 $timeout(function() {
                     $("#phone").on("countrychange", function(e, countryData) {
-                        console.log(countryData);
-                        ctrl.questionResponse.countryCode = countryData.dialCode;
+                        if(ctrl.questionResponse){
+                            ctrl.questionResponse.countryCode = countryData.dialCode;
+                        }
                     });
                 }, 500);
 

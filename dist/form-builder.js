@@ -227,7 +227,6 @@ angular.module('mwFormBuilder').directive('mwQuestionOfferedAnswerListBuilder', 
 						updateAnswersOrderNo();
 					}
 				};
-				console.log("mwQuestionOfferedAnswerListBuilder ctrl.pageNumber",ctrl.pageNumber);
 			};
 
 
@@ -323,11 +322,7 @@ angular.module('mwFormBuilder').directive('mwQuestionOfferedAnswerListBuilder', 
 			var ctrl = scope.ctrl;
 			var elePageNumber = ctrl.pageNumber -1;
 			ctrl.possiblePageFlow = formQuestionBuilderCtrl.possiblePageFlow;
-			// console.log("formQuestionBuilderCtrl.formObject.pages",formQuestionBuilderCtrl.formObject.pages);
-			console.log("mwQuestionOfferedAnswerListBuilder elePageNumber",elePageNumber);
-			// for(var i=0; i<formQuestionBuilderCtrl.formObject.pages.length; i++){
 
-			// }
 			ctrl.elements = formQuestionBuilderCtrl.formObject.pages[elePageNumber].elements;
 			//file uploads
 			ele.bind("change", function(changeEvent) {
@@ -698,7 +693,7 @@ angular.module('mwFormBuilder').factory("FormQuestionBuilderId", function(){
         bindToController: true,
         controller: ["$timeout", "FormQuestionBuilderId", "mwFormBuilderOptions", function($timeout,FormQuestionBuilderId, mwFormBuilderOptions){
             var ctrl = this;
-            console.log("mwFormQuestionBuilder ctrl.question",ctrl.question);
+
 
             // Put initialization logic inside `$onInit()`
             // to make sure bindings have been initialized.
@@ -991,7 +986,6 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
                             required:true
                         };
                     }
-                    console.log("mwFormPageBuilder ctrl.pageElement",ctrl.pageElement);
                 }else if(ctrl.pageElement.type=='image'){
                     if(!ctrl.pageElement.image){
                         ctrl.pageElement.image={
@@ -1153,8 +1147,6 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
                 };
 
                 ctrl.activeElement = null;
-
-                console.log("mwFormBuilder ctrl.formPage",ctrl.formPage);
             };
 
             ctrl.unfold = function(){
@@ -1477,7 +1469,7 @@ angular.module('mwFormBuilder').directive('mwFormBuilder', ["$rootScope", functi
             // to make sure bindings have been initialized.
             ctrl.$onInit = function() {
                 ctrl.currentPage = 0;
-
+                $rootScope.defaultRowNumber=0;
                 if(!ctrl.formData.pages || !ctrl.formData.pages.length){
                     ctrl.formData.pages = [];
                     ctrl.formData.pages.push(createEmptyPage(1));
@@ -1509,6 +1501,7 @@ angular.module('mwFormBuilder').directive('mwFormBuilder', ["$rootScope", functi
             };
             ctrl.addPage = function(){
                 ctrl.formData.pages.push(createEmptyPage(ctrl.formData.pages.length+1));
+                $rootScope.defaultRowNumber=0;
                 ctrl.lastPage();
                 $rootScope.$broadcast("mwForm.pageEvents.pageAdded");
             };

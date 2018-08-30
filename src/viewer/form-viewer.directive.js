@@ -69,12 +69,12 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 											ctrl.responseData[id] = {};
 										}
 									}
-								})
+								});
 								item1.question.required = false;
 							}
 						});
 					});
-				}, 4000);
+				}, 1000);
 				
 			});
 

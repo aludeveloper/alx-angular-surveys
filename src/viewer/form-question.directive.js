@@ -224,9 +224,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                             ctrl.resSelectedAnsLinkedQues = ctrl.questionResponse.selectedAnswer.linkedquestion;
                         }
 
-                        console.log("ctrl.resSelectedAnsLinkedQues",ctrl.resSelectedAnsLinkedQues);
-                        //assigning selectd answer linked question
-                        
+                        //assigning selectd answer linked question                        
                         if(ctrl.resSelectedAnsLinkedQues == null){
                             if(ctrl.selectedLinkQ){
                                 for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
@@ -234,13 +232,11 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                                 }
                             }
                             var emptyArray = [];
-                            console.log(ctrl.selectedLinkQ);
                             $rootScope.$broadcast('changeAllData', {"requiredQuestionList" : emptyArray, "unrequiredQuestionList" : ctrl.selectedLinkQ}); 
                         }else                        
                         if (ctrl.resSelectedAnsLinkedQues != null && ctrl.resSelectedAnsLinkedQues != undefined) {
                             if(ctrl.selectedLinkQ === undefined) {
                                 ctrl.selectedLinkQ = ctrl.resSelectedAnsLinkedQues;
-                                console.log("ctrl.selectedLinkQ", ctrl.selectedLinkQ);
 
                                 // getting unrequired question list
                                 $rootScope.unrequiredQuestionList = [];
@@ -291,12 +287,9 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                             }
                         }
                     }, 1000);
-                    
-                    
                     delete ctrl.questionResponse.other;
                     ctrl.isOtherAnswer = false;
                     ctrl.answerChanged();
-
                 };
                 
                 ctrl.otherAnswerRadioChanged = function() {

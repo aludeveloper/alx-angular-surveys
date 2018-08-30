@@ -189,12 +189,12 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 											ctrl.responseData[id] = {};
 										}
 									}
-								})
+								});
 								item1.question.required = false;
 							}
 						});
 					});
-				}, 4000);
+				}, 1000);
 				
 			});
 
@@ -877,8 +877,11 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                                     document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "none";
                                 }
                             }
-                            var emptyArray = [];
-                            $rootScope.$broadcast('changeAllData', {"requiredQuestionList" : emptyArray, "unrequiredQuestionList" : ctrl.selectedLinkQ}); 
+                            if(ctrl.selectedLinkQ == undefined){
+                                $rootScope.$broadcast('changeAllData', {"requiredQuestionList" : [], "unrequiredQuestionList" : $rootScope.linkedquestionList}); 
+                            }else{
+                                $rootScope.$broadcast('changeAllData', {"requiredQuestionList" : emptyArray, "unrequiredQuestionList" : ctrl.selectedLinkQ}); 
+                            }
                         }else                        
                         if (ctrl.resSelectedAnsLinkedQues != null && ctrl.resSelectedAnsLinkedQues != undefined) {
                             if(ctrl.selectedLinkQ === undefined) {

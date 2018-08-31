@@ -850,9 +850,39 @@ angular.module('mwFormBuilder').factory("FormParagraphConditionBuilderId", funct
 
             ctrl.save=function(){
                 // debugger;
-                ctrl.formSubmitted=true;
+                //ctrl.formSubmitted=true;
                 // if(ctrl.form.$valid){
-                    ctrl.onReady();
+                    //ctrl.onReady();
+                // }
+
+                
+                var textData = $('.summernote');
+                // console.log(textData);
+                // var temp1 = [textData[0]];
+                // var temp2 = [textData[1]];
+                // var temp3 = [textData[2]];
+                // var temp4 = [textData[3]];
+
+                // console.log($(temp1).summernote('code'));
+                for(var i=0; i<textData.length; i++){
+                    if(textData[i].id == "pc-true"){
+                        ctrl.paragraphcondition.html = $(textData[i]).summernote('code');
+                    }else if(textData[i].id == "pc-false"){
+                        ctrl.paragraphconditionfalse.html = $(textData[i]).summernote('code');
+                    }else if(textData[i].id == "pc-unset"){
+                        ctrl.paragraphconditionunset.html = $(textData[i]).summernote('code');
+                    }else if(textData[i].id == "pc-subtext"){
+                        ctrl.paragraphconditionsubtext.html = $(textData[i]).summernote('code');
+                    }
+                }
+                console.log("DATA",ctrl.paragraphcondition.html,ctrl.paragraphconditionfalse.html,
+                    ctrl.paragraphconditionunset.html,ctrl.paragraphconditionsubtext.html);
+                ctrl.formSubmitted=true;
+                // if (!$('#paragraphConditionTrue').summernote('isEmpty')) {
+                //     ctrl.requiredPara = false;
+                ctrl.onReady();
+                // } else {
+                //     ctrl.requiredPara = true;
                 // }
             };
 
@@ -1242,6 +1272,10 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
 
             ctrl.addParagraphCondition= function(){
                 ctrl.addElement('paragraphcondition');
+                $(document).ready(function() {
+                    console.log("HERE");
+                    $('.summernote').summernote({focus: false});
+                });
             };
 
             ctrl.addVideoLink= function(){
@@ -1254,9 +1288,9 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
 
             ctrl.selectElement = function(element){
                 ctrl.activeElement=element;
-                if (ctrl.activeElement.type == 'paragraph') {
+                if (ctrl.activeElement.type == 'paragraph' || ctrl.activeElement.type == 'paragraphcondition') {
                     $timeout(function() {
-                        $('.summernote').summernote({focus: true});
+                        $('.summernote').summernote({focus: false});
                     }, 1000);
                 }
             };

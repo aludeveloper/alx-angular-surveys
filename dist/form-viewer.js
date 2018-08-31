@@ -263,6 +263,10 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 			};
 
 			ctrl.sfKeyValue = "";
+
+			ctrl.parseConditionalPara = function(htmlString){
+				return $sce.trustAsHtml(htmlString);
+			};
 			
 			//returning paragraph as html			
 			ctrl.getParseParaHtml = function(paragrphData) {

@@ -132,6 +132,10 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
 
             ctrl.addParagraphCondition= function(){
                 ctrl.addElement('paragraphcondition');
+                $(document).ready(function() {
+                    console.log("HERE");
+                    $('.summernote').summernote({focus: false});
+                });
             };
 
             ctrl.addVideoLink= function(){
@@ -144,9 +148,9 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
 
             ctrl.selectElement = function(element){
                 ctrl.activeElement=element;
-                if (ctrl.activeElement.type == 'paragraph') {
+                if (ctrl.activeElement.type == 'paragraph' || ctrl.activeElement.type == 'paragraphcondition') {
                     $timeout(function() {
-                        $('.summernote').summernote({focus: true});
+                        $('.summernote').summernote({focus: false});
                     }, 1000);
                 }
             };

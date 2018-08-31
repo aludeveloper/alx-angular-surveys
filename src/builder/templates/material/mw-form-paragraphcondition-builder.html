@@ -2,7 +2,7 @@
     <div class="mw-form-paragraphcondition-builder" ng-class="{'ng-submitted':ctrl.formSubmitted}">
         <div class="paragraphConditionTrue-editor" ng-form="ctrl.form" ng-if="!ctrl.isPreview">
 
-            <md-input-container class="md-block">
+            <!-- <md-input-container class="md-block">
                 <mw-label label-for="paragraphConditionTrue-textarea-{{ctrl.id}}" label-key="Enter text for true condition"></mw-label>
                 <textarea msd-elastic class="form-control mw-form-paragraphConditionTrue-textarea"  ng-model="ctrl.paragraphcondition.html" required ng-attr-id="paragraphConditionTrue-textarea-{{ctrl.id}}" ng-readonly="ctrl.readOnly"></textarea>
             </md-input-container>
@@ -17,7 +17,45 @@
             <md-input-container class="md-block">
                 <mw-label label-for="paragraphConditionSubtext-textarea-{{ctrl.id}}" label-key="Enter subtext to show on false condition"></mw-label>
                 <textarea msd-elastic class="form-control mw-form-paragraphConditionSubtext-textarea" ng-model="ctrl.paragraphconditionsubtext.html" required ng-attr-id="paragraphConditionSubtext-textarea-{{ctrl.id}}" ng-readonly="ctrl.readOnly"></textarea>
+            </md-input-container> -->
+
+
+            <md-input-container class="md-block" style="z-index: 10">
+                <textarea class="summernote form-control" ng-attr-id="pc-true"  ng-readonly="ctrl.readOnly" ng-model="ctrl.paragraphcondition.html">
+                    {{ctrl.paragraphcondition.html}}
+                </textarea> 
             </md-input-container>
+            <md-input-container class="md-block" style="z-index: 9">
+                <textarea class="summernote form-control" ng-attr-id="pc-false"  ng-readonly="ctrl.readOnly" ng-model="ctrl.paragraphconditionfalse.html">
+                    {{ctrl.paragraphconditionfalse.html}}
+                </textarea> 
+            </md-input-container>
+            <md-input-container class="md-block" style="z-index: 8">
+                <textarea class="summernote form-control" ng-attr-id="pc-unset"  ng-readonly="ctrl.readOnly" ng-model="ctrl.paragraphconditionunset.html">
+                    {{ctrl.paragraphconditionunset.html}}
+                </textarea> 
+            </md-input-container>
+            <md-input-container class="md-block" style="z-index: 7">
+                <textarea class="summernote form-control" ng-attr-id="pc-subtext"  ng-readonly="ctrl.readOnly" ng-model="ctrl.paragraphconditionsubtext.html">
+                    {{ctrl.paragraphconditionsubtext.html}}
+                </textarea> 
+            </md-input-container>
+
+            <!-- <div class="summernote" ng-attr-id="paragraphConditionTrue-textarea-{{ctrl.id}}">
+                summernote 1
+            </div>
+        
+            <div class="summernote" ng-attr-id="paragraphConditionFalse-textarea-{{ctrl.id}}">
+                summernote 2
+            </div> 
+        
+            <div class="summernote" ng-attr-id="paragraphConditionUnset-textarea-{{ctrl.id}}">
+                summernote 3
+            </div> 
+        
+            <div class="summernote" ng-attr-id="paragraphConditionSubtext-textarea-{{ctrl.id}}">
+                summernote 4
+            </div> -->
 
             <div class="form-group mw-question-type" ng-repeat="select in ctrl.options.customQuestionSelects">
                 <mw-label label-for="question-{{select.key}}-{{ctrl.id}}" label-class="control-label"  label-key="{{select.label}}"></mw-label>
@@ -41,10 +79,10 @@
             </div>
         </div>
         <div class="mw-preview" ng-if="ctrl.isPreview">
-            <p ng-bind-html="ctrl.paragraphcondition.html"></p>
-            <p ng-bind-html="ctrl.paragraphconditionfalse.html"></p>
-            <p ng-bind-html="ctrl.paragraphconditionunset.html"></p>
-            <p ng-bind-html="ctrl.paragraphconditionsubtext.html"></p>
+            <p ng-bind-html="ctrl.paragraphcondition.html | trustAsHtml"></p>
+            <p ng-bind-html="ctrl.paragraphconditionfalse.html | trustAsHtml"></p>
+            <p ng-bind-html="ctrl.paragraphconditionunset.html | trustAsHtml"></p>
+            <p ng-bind-html="ctrl.paragraphconditionsubtext.html | trustAsHtml"></p>
         </div>
     </div>
 </div>

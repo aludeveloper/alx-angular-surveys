@@ -1,21 +1,25 @@
 <div class="mw-form-paragraphcondition-builder-wrapper">
     <div class="mw-form-paragraphcondition-builder" ng-class="{'ng-submitted':ctrl.formSubmitted}">
         <div class="paragraphConditionTrue-editor" ng-form="ctrl.form" ng-if="!ctrl.isPreview">
+            <label class="paraConditionLabel">Enter text for true condition *</label>
             <md-input-container class="md-block" style="z-index: 10">
                 <textarea class="summernote form-control" ng-attr-id="pc-true-{{ctrl.id}}"  ng-readonly="ctrl.readOnly" ng-model="ctrl.paragraphcondition.html">
                     {{ctrl.paragraphcondition.html}}
                 </textarea> 
             </md-input-container>
+            <label class="paraConditionLabel">Enter text for false condition *</label>
             <md-input-container class="md-block" style="z-index: 9">
                 <textarea class="summernote form-control" ng-attr-id="pc-false-{{ctrl.id}}"  ng-readonly="ctrl.readOnly" ng-model="ctrl.paragraphconditionfalse.html">
                     {{ctrl.paragraphconditionfalse.html}}
                 </textarea> 
             </md-input-container>
+            <label class="paraConditionLabel">Enter text for unset condition *</label>
             <md-input-container class="md-block" style="z-index: 8">
                 <textarea class="summernote form-control" ng-attr-id="pc-unset-{{ctrl.id}}"  ng-readonly="ctrl.readOnly" ng-model="ctrl.paragraphconditionunset.html">
                     {{ctrl.paragraphconditionunset.html}}
                 </textarea> 
             </md-input-container>
+            <label class="paraConditionLabel">Enter subtext to show on false condition *</label>
             <md-input-container class="md-block" style="z-index: 7">
                 <textarea class="summernote form-control" ng-attr-id="pc-subtext-{{ctrl.id}}"  ng-readonly="ctrl.readOnly" ng-model="ctrl.paragraphconditionsubtext.html">
                     {{ctrl.paragraphconditionsubtext.html}}

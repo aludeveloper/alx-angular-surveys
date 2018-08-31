@@ -40,7 +40,6 @@ angular.module('mwFormBuilder').factory("FormParagraphBuilderId", function(){
 
             ctrl.save=function() {
                 ctrl.paragraph.html = $('.summernote').summernote('code');
-                console.log("summernote",$('.summernote'));
                 ctrl.formSubmitted=true;
                 if (!$('.summernote').summernote('isEmpty')) {
                     ctrl.requiredPara = false;

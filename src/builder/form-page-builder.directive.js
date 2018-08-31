@@ -133,7 +133,6 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
             ctrl.addParagraphCondition= function(){
                 ctrl.addElement('paragraphcondition');
                 $(document).ready(function() {
-                    console.log("HERE");
                     $('.summernote').summernote({focus: false});
                 });
             };

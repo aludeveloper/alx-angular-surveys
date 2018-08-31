@@ -21,43 +21,27 @@
 
 
             <md-input-container class="md-block" style="z-index: 10">
-                <textarea class="summernote form-control" ng-attr-id="pc-true"  ng-readonly="ctrl.readOnly" ng-model="ctrl.paragraphcondition.html">
+                <textarea class="summernote form-control" ng-attr-id="pc-true-{{ctrl.id}}"  ng-readonly="ctrl.readOnly" ng-model="ctrl.paragraphcondition.html">
                     {{ctrl.paragraphcondition.html}}
                 </textarea> 
             </md-input-container>
             <md-input-container class="md-block" style="z-index: 9">
-                <textarea class="summernote form-control" ng-attr-id="pc-false"  ng-readonly="ctrl.readOnly" ng-model="ctrl.paragraphconditionfalse.html">
+                <textarea class="summernote form-control" ng-attr-id="pc-false-{{ctrl.id}}"  ng-readonly="ctrl.readOnly" ng-model="ctrl.paragraphconditionfalse.html">
                     {{ctrl.paragraphconditionfalse.html}}
                 </textarea> 
             </md-input-container>
             <md-input-container class="md-block" style="z-index: 8">
-                <textarea class="summernote form-control" ng-attr-id="pc-unset"  ng-readonly="ctrl.readOnly" ng-model="ctrl.paragraphconditionunset.html">
+                <textarea class="summernote form-control" ng-attr-id="pc-unset-{{ctrl.id}}"  ng-readonly="ctrl.readOnly" ng-model="ctrl.paragraphconditionunset.html">
                     {{ctrl.paragraphconditionunset.html}}
                 </textarea> 
             </md-input-container>
             <md-input-container class="md-block" style="z-index: 7">
-                <textarea class="summernote form-control" ng-attr-id="pc-subtext"  ng-readonly="ctrl.readOnly" ng-model="ctrl.paragraphconditionsubtext.html">
+                <textarea class="summernote form-control" ng-attr-id="pc-subtext-{{ctrl.id}}"  ng-readonly="ctrl.readOnly" ng-model="ctrl.paragraphconditionsubtext.html">
                     {{ctrl.paragraphconditionsubtext.html}}
                 </textarea> 
             </md-input-container>
 
-            <!-- <div class="summernote" ng-attr-id="paragraphConditionTrue-textarea-{{ctrl.id}}">
-                summernote 1
-            </div>
-        
-            <div class="summernote" ng-attr-id="paragraphConditionFalse-textarea-{{ctrl.id}}">
-                summernote 2
-            </div> 
-        
-            <div class="summernote" ng-attr-id="paragraphConditionUnset-textarea-{{ctrl.id}}">
-                summernote 3
-            </div> 
-        
-            <div class="summernote" ng-attr-id="paragraphConditionSubtext-textarea-{{ctrl.id}}">
-                summernote 4
-            </div> -->
-
-            <div class="form-group mw-question-type" ng-repeat="select in ctrl.options.customQuestionSelects">
+            <!-- <div class="form-group mw-question-type" ng-repeat="select in ctrl.options.customQuestionSelects">
                 <mw-label label-for="question-{{select.key}}-{{ctrl.id}}" label-class="control-label"  label-key="{{select.label}}"></mw-label>
                 <div class="form-inline">
                     <select 
@@ -70,7 +54,19 @@
                         ng-change="ctrl.saveKey(ctrl.question[select.key])">
                     </select>
                 </div>
+            </div> -->
+
+            <div class="form-group mw-question-type" ng-repeat="select in ctrl.options.customQuestionSelects">
+                <md-input-container flex="100">
+                    <label>Salesforce Field</label>
+                    <md-select  style="min-width: 200px;" ng-model="ctrl.selecteditem.sfkey" ng-change="ctrl.saveKey(ctrl.selecteditem.sfkey)">
+                        <md-option ng-repeat="opt in select.options track by opt.key" value="{{opt.key}}">
+                            {{opt.label}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
             </div>
+
             <div layout="row">
                 <br/>
                 <md-button class="md-primary md-raised" type="button" role="button" ng-click="ctrl.save()" translate="mwForm.buttons.questionReady">

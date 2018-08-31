@@ -54,21 +54,23 @@ angular.module('mwFormBuilder').factory("FormParagraphConditionBuilderId", funct
                 // var temp3 = [textData[2]];
                 // var temp4 = [textData[3]];
 
-                // console.log($(temp1).summernote('code'));
+                console.log("textData",textData);
                 for(var i=0; i<textData.length; i++){
-                    if(textData[i].id == "pc-true"){
+                    if(textData[i].id == "pc-true-1"){
                         ctrl.paragraphcondition.html = $(textData[i]).summernote('code');
-                    }else if(textData[i].id == "pc-false"){
+                        console.log("ctrl.paragraphcondition.html",ctrl.paragraphcondition.html);
+                    }else if(textData[i].id == "pc-false-1"){
                         ctrl.paragraphconditionfalse.html = $(textData[i]).summernote('code');
-                    }else if(textData[i].id == "pc-unset"){
+                    }else if(textData[i].id == "pc-unset-1"){
                         ctrl.paragraphconditionunset.html = $(textData[i]).summernote('code');
-                    }else if(textData[i].id == "pc-subtext"){
+                    }else if(textData[i].id == "pc-subtext-1"){
                         ctrl.paragraphconditionsubtext.html = $(textData[i]).summernote('code');
                     }
                 }
                 console.log("DATA",ctrl.paragraphcondition.html,ctrl.paragraphconditionfalse.html,
                     ctrl.paragraphconditionunset.html,ctrl.paragraphconditionsubtext.html);
                 ctrl.formSubmitted=true;
+                
                 // if (!$('#paragraphConditionTrue').summernote('isEmpty')) {
                 //     ctrl.requiredPara = false;
                 ctrl.onReady();

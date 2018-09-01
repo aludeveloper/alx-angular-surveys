@@ -273,7 +273,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 				var paragraphSFKey = paragrphData.SFKey;
 				if (paragraphSFKey) {
 					var auth_token = localStorage.getItem('auth_token');
-					var baseURL = __env.apiUrl
+					var baseURL = __env.apiUrl;
 					var userInfo = JSON.parse($cookies.get("userInfo"));
 					
 					var applicationData = userInfo.applicationIdMap;
@@ -317,14 +317,16 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 				angular.forEach(ctrl.formData.pages, function(obj, key) {
 					angular.forEach(obj.elements, function(obj1, key1) {
 						if (obj1.selecteditem && obj1.selecteditem.sfkey && obj1.type == "paragraphcondition") {
-							conditionalParaSfKey = obj1.selecteditem.sfkey.key;
+							conditionalParaSfKey = obj1.selecteditem.sfkey;
 						}
 					});
 				});
-
+				if(angular.isObject(conditionalParaSfKey)){
+					conditionalParaSfKey = conditionalParaSfKey.key;
+				}
 				var response;
 				var auth_token = localStorage.getItem('auth_token');
-				var baseURL = __env.apiUrl
+				var baseURL = __env.apiUrl;
 				var userInfo = JSON.parse($cookies.get("userInfo"));
 				var applicationData = userInfo.applicationIdMap;
 				var sfAppId;

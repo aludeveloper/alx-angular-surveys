@@ -848,8 +848,7 @@ angular.module('mwFormBuilder').factory("FormParagraphConditionBuilderId", funct
                 ctrl.formSubmitted=false;
             };
 
-            ctrl.save=function(){
-                // debugger;                
+            ctrl.save=function(){          
                 var textData = $('.summernote');
                 for(var i=0; i<textData.length; i++){
                     if(textData[i].id == "pc-true-1"){
@@ -1051,8 +1050,6 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
                     }
                 }
             };
-            
-            ctrl.rowLimit = $rootScope.defaultRowNumber+1;
 
             ctrl.updateDefaultRow = function(currentRow){
                 $rootScope.defaultRowNumber = currentRow++;
@@ -1195,7 +1192,11 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
                 if(!type){
                     type=mwFormBuilderOptions.elementTypes[0];
                 }
-                $rootScope.defaultRowNumber++;
+                if($rootScope.defaultRowNumber == undefined){
+                    $rootScope.defaultRowNumber = 1;
+                }else{
+                    $rootScope.defaultRowNumber++;
+                }
                 var element = createEmptyElement(type, ctrl.formPage.elements.length + 1, $rootScope.defaultRowNumber);
                 ctrl.activeElement=element;
                 ctrl.formPage.elements.push(element);

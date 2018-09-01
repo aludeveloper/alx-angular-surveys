@@ -39,8 +39,7 @@ angular.module('mwFormBuilder').factory("FormParagraphConditionBuilderId", funct
                 ctrl.formSubmitted=false;
             };
 
-            ctrl.save=function(){
-                // debugger;                
+            ctrl.save=function(){          
                 var textData = $('.summernote');
                 for(var i=0; i<textData.length; i++){
                     if(textData[i].id == "pc-true-1"){

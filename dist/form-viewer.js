@@ -189,12 +189,12 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 											ctrl.responseData[id] = {};
 										}
 									}
-								})
+								});
 								item1.question.required = false;
 							}
 						});
 					});
-				}, 4000);
+				}, 1000);
 				
 			});
 
@@ -785,11 +785,10 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                                     }
                                 }
                             }); 
-                            console.log("Linked question array list",$rootScope.linkedquestionList)
+                            console.log("Linked question array list",$rootScope.linkedquestionList);
                         }
-
                     }, 300);
-                }
+                };
 
                 ctrl.mappingTelephoneQuestion = function(qdata) {
                     $timeout(function() {
@@ -864,25 +863,37 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                     $timeout(function() {
                         //show default selected and linked question response (string checks)
                         if(typeof ctrl.questionResponse.selectedAnswer === 'string' || ctrl.questionResponse.selectedAnswer instanceof String) {
-                            ctrl.selectedQuestionAns = ctrl.questionResponse.selectedAnswer
-                            ctrl.selectedQuestionAns = JSON.parse(ctrl.selectedQuestionAns)
+                            ctrl.selectedQuestionAns = ctrl.questionResponse.selectedAnswer;
+                            ctrl.selectedQuestionAns = JSON.parse(ctrl.selectedQuestionAns);
                             ctrl.resSelectedAnsLinkedQues = ctrl.selectedQuestionAns.linkedquestion;
                         } else {
                             ctrl.resSelectedAnsLinkedQues = ctrl.questionResponse.selectedAnswer.linkedquestion;
                         }
-                        //assigning selectd answer linked question
+
+                        //assigning selectd answer linked question                        
+                        if(ctrl.resSelectedAnsLinkedQues == null){
+                            if(ctrl.selectedLinkQ){
+                                for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
+                                    document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "none";
+                                }
+                            }
+                            if(ctrl.selectedLinkQ == undefined){
+                                $rootScope.$broadcast('changeAllData', {"requiredQuestionList" : [], "unrequiredQuestionList" : $rootScope.linkedquestionList}); 
+                            }else{
+                                $rootScope.$broadcast('changeAllData', {"requiredQuestionList" : emptyArray, "unrequiredQuestionList" : ctrl.selectedLinkQ}); 
+                            }
+                        }else                        
                         if (ctrl.resSelectedAnsLinkedQues != null && ctrl.resSelectedAnsLinkedQues != undefined) {
                             if(ctrl.selectedLinkQ === undefined) {
                                 ctrl.selectedLinkQ = ctrl.resSelectedAnsLinkedQues;
-                                console.log("ctrl.selectedLinkQ", ctrl.selectedLinkQ);
+
                                 // getting unrequired question list
                                 $rootScope.unrequiredQuestionList = [];
                                 angular.forEach(ctrl.question.offeredAnswers, function(obj,key){
                                     angular.forEach(obj.linkedquestion, function(obj1,key1){
                                         $rootScope.unrequiredQuestionList.push(obj1);
-                                    
-                                    })
-                                })
+                                    });
+                                });
                                 for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
                                     document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "block";
                                     // filter unrequiredList
@@ -891,7 +902,6 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                                 //passing unrequired and required questionvlist to page element
                                 $rootScope.$broadcast('changeAllData', {"requiredQuestionList" : ctrl.selectedLinkQ, "unrequiredQuestionList" : $rootScope.unrequiredQuestionList}); 
                             } else {
-
                                 for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
                                     document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "none";
                                     $rootScope.unrequiredQuestionList = $rootScope.unrequiredQuestionList.filter(function(item) {return item == ctrl.selectedLinkQ[i]});
@@ -899,8 +909,8 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
 
                                 //selected answer object{} string condition checks
                                 if(typeof ctrl.questionResponse.selectedAnswer === 'string' || ctrl.questionResponse.selectedAnswer instanceof String) {
-                                    ctrl.selectedQuestionAns = ctrl.questionResponse.selectedAnswer
-                                    ctrl.selectedQuestionAns = JSON.parse(ctrl.selectedQuestionAns)
+                                    ctrl.selectedQuestionAns = ctrl.questionResponse.selectedAnswer;
+                                    ctrl.selectedQuestionAns = JSON.parse(ctrl.selectedQuestionAns);
                                     ctrl.resSelectedAnsLinkedQues = ctrl.selectedQuestionAns.linkedquestion;
                                 } else {
                                     ctrl.resSelectedAnsLinkedQues = ctrl.questionResponse.selectedAnswer.linkedquestion;
@@ -913,8 +923,8 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                                     angular.forEach(obj2.linkedquestion, function(obj3,key3){
                                         $rootScope.unrequiredQuestionList.push(obj3);
                                     
-                                    })
-                                })
+                                    });
+                                });
 
                                 for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
                                     document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "block";
@@ -926,12 +936,9 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                             }
                         }
                     }, 1000);
-                    
-                    
                     delete ctrl.questionResponse.other;
                     ctrl.isOtherAnswer = false;
                     ctrl.answerChanged();
-
                 };
                 
                 ctrl.otherAnswerRadioChanged = function() {

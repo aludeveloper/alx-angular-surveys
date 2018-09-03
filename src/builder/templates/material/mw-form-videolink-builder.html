@@ -12,7 +12,7 @@
 			</div>
 		</div>
 		<div class="mw-preview" ng-if="ctrl.isPreview">
-			<p ng-bind-html="ctrl.videolink.html"></p>
+			<div ng-bind-html="ctrl.videolink.html | trustAsHtml"></div>
 		</div>
 	</div>
 </div>

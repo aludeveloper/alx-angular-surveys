@@ -69,7 +69,11 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
                 if(!type){
                     type=mwFormBuilderOptions.elementTypes[0];
                 }
-                $rootScope.defaultRowNumber++;
+                if($rootScope.defaultRowNumber == undefined){
+                    $rootScope.defaultRowNumber = 1;
+                }else{
+                    $rootScope.defaultRowNumber++;
+                }
                 var element = createEmptyElement(type, ctrl.formPage.elements.length + 1, $rootScope.defaultRowNumber);
                 ctrl.activeElement=element;
                 ctrl.formPage.elements.push(element);
@@ -132,6 +136,9 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
 
             ctrl.addParagraphCondition= function(){
                 ctrl.addElement('paragraphcondition');
+                $(document).ready(function() {
+                    $('.summernote').summernote({focus: false});
+                });
             };
 
             ctrl.addVideoLink= function(){
@@ -144,9 +151,9 @@ angular.module('mwFormBuilder').directive('mwFormPageBuilder', ["$rootScope", fu
 
             ctrl.selectElement = function(element){
                 ctrl.activeElement=element;
-                if (ctrl.activeElement.type == 'paragraph') {
+                if (ctrl.activeElement.type == 'paragraph' || ctrl.activeElement.type == 'paragraphcondition') {
                     $timeout(function() {
-                        $('.summernote').summernote({focus: true});
+                        $('.summernote').summernote({focus: false});
                     }, 1000);
                 }
             };

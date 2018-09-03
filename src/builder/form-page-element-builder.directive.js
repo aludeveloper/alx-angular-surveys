@@ -84,8 +84,6 @@ angular.module('mwFormBuilder').directive('mwFormPageElementBuilder', function (
                     }
                 }
             };
-            
-            ctrl.rowLimit = $rootScope.defaultRowNumber+1;
 
             ctrl.updateDefaultRow = function(currentRow){
                 $rootScope.defaultRowNumber = currentRow++;

@@ -39,18 +39,33 @@ angular.module('mwFormBuilder').factory("FormParagraphConditionBuilderId", funct
                 ctrl.formSubmitted=false;
             };
 
-            ctrl.save=function(){
-                // debugger;
+            ctrl.save=function(){          
+                var textData = $('.summernote');
+                for(var i=0; i<textData.length; i++){
+                    if(textData[i].id == "pc-true-1"){
+                        ctrl.paragraphcondition.html = $(textData[i]).summernote('code');
+                    }else if(textData[i].id == "pc-false-1"){
+                        ctrl.paragraphconditionfalse.html = $(textData[i]).summernote('code');
+                    }else if(textData[i].id == "pc-unset-1"){
+                        ctrl.paragraphconditionunset.html = $(textData[i]).summernote('code');
+                    }else if(textData[i].id == "pc-subtext-1"){
+                        ctrl.paragraphconditionsubtext.html = $(textData[i]).summernote('code');
+                    }
+                }
                 ctrl.formSubmitted=true;
-                // if(ctrl.form.$valid){
-                    ctrl.onReady();
+                
+                // if (!$('#paragraphConditionTrue').summernote('isEmpty')) {
+                //     ctrl.requiredPara = false;
+                ctrl.onReady();
+                // } else {
+                //     ctrl.requiredPara = true;
                 // }
             };
 
             ctrl.saveKey = function(SfData){
                 console.log("SELECTED KEY",SfData);
                 $rootScope.selectedSfKey = SfData.key;
-            }
+            };
 
             ctrl.test=function()
             {

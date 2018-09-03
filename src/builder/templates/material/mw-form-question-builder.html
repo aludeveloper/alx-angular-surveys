@@ -44,7 +44,7 @@
                         </md-input-container>
                         <md-input-container>
                             <label>Character Limit</label>
-                            <input type="number" ng-model="ctrl.question.chrLimit" min="1" max="127" ng-required="ctrl.question.required" onKeyUp="if(this.value>127){this.value='127';}else if(this.value<1){this.value='1';}">
+                            <input type="number" ng-model="ctrl.question.chrLimit" min="1" max="127" onKeyUp="if(this.value>127){this.value='127';}else if(this.value<1){this.value='1';}" required>
                         </md-input-container>
                     </div>
 
@@ -54,7 +54,7 @@
                         </md-input-container>
                         <md-input-container>
                             <label>Character Limit</label>
-                            <input type="number" ng-model="ctrl.question.charLimit" min="1" max="131072" ng-required="ctrl.question.required" onKeyUp="if(this.value>131072){this.value='131072';}else if(this.value<1){this.value='1';}">
+                            <input type="number" ng-model="ctrl.question.charLimit" min="1" max="131072" onKeyUp="if(this.value>131072){this.value='131072';}else if(this.value<1){this.value='1';}" required>
                         </md-input-container>
                     </div>
 

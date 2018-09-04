@@ -48,33 +48,36 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 				$timeout(function() {
 					console.log("required data", data.requiredQuestionList);
 					console.log("unrequired data", data.unrequiredQuestionList);
-
-					angular.forEach(data.requiredQuestionList,function(obj,key){
-						angular.forEach(ctrl.currentPage.elements,function(item,index) {
-							if (item.question && item.question.id == obj) {
-								item.question.required = true;
-							}
+					if (data.requiredQuestionList.length > 0 ) {
+						angular.forEach(data.requiredQuestionList,function(obj,key){
+							angular.forEach(ctrl.currentPage.elements,function(item,index) {
+								if (item.question && item.question.id == obj) {
+									item.question.required = true;
+								}
+							});
 						});
-					});
-					angular.forEach(data.unrequiredQuestionList,function(obj1,key1){
-						angular.forEach(ctrl.currentPage.elements,function(item1,index1) {
-							if (item1.question && item1.question.id == obj1) {
-								var quesType = item1.question.type;
-								angular.forEach(ctrl.responseData, function(object,id) {
-									if (id && id == obj1) {
-										if (id && quesType == "checkbox") {
-											object.selectedAnswers = [];
+					}
+					if (data.unrequiredQuestionList.length > 0) {
+						angular.forEach(data.unrequiredQuestionList,function(obj1,key1){
+							angular.forEach(ctrl.currentPage.elements,function(item1,index1) {
+								if (item1.question && item1.question.id == obj1) {
+									var quesType = item1.question.type;
+									angular.forEach(ctrl.responseData, function(object,id) {
+										if (id && id == obj1) {
+											if (id && quesType == "checkbox") {
+												object.selectedAnswers = [];
+											}
+											else {
+												ctrl.responseData[id] = {};
+											}
 										}
-										else {
-											ctrl.responseData[id] = {};
-										}
-									}
-								});
-								item1.question.required = false;
-							}
+									});
+									item1.question.required = false;
+								}
+							});
 						});
-					});
-				}, 1000);
+					}
+				}, 2000);
 				
 			});
 

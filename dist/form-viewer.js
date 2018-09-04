@@ -290,7 +290,7 @@ angular.module('mwFormViewer').directive('mwFormViewer', ["$rootScope", function
 							'X-AUTH-TOKEN': auth_token,
 							'content-Type': 'Application/Json'
 						},
-						url: baseURL + "salesforce/paragraph/" + paragraphSFKey + "/" + appName + "/" + userInfo.email,	
+						url: baseURL + "/" + "salesforce/paragraph/" + paragraphSFKey + "/" + appName + "/" + userInfo.email,	
 						success: function(result) {
 							ctrl.sfKeyValue = result;
 						}

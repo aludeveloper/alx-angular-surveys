@@ -224,8 +224,10 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                             ctrl.resSelectedAnsLinkedQues = ctrl.questionResponse.selectedAnswer.linkedquestion;
                         }
 
-                        //assigning selectd answer linked question                        
-                        if(ctrl.resSelectedAnsLinkedQues == null){
+                        //assigning selectd answer linked question 
+                        if (ctrl.resSelectedAnsLinkedQues == null && ctrl.selectedLinkQ == undefined) {
+
+                        } else if(ctrl.resSelectedAnsLinkedQues == null){
                             if(ctrl.selectedLinkQ){
                                 for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
                                     document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "none";
@@ -234,10 +236,9 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                             if(ctrl.selectedLinkQ == undefined){
                                 $rootScope.$broadcast('changeAllData', {"requiredQuestionList" : [], "unrequiredQuestionList" : $rootScope.linkedquestionList}); 
                             }else{
-                                $rootScope.$broadcast('changeAllData', {"requiredQuestionList" : emptyArray, "unrequiredQuestionList" : ctrl.selectedLinkQ}); 
+                                $rootScope.$broadcast('changeAllData', {"requiredQuestionList" : [], "unrequiredQuestionList" : ctrl.selectedLinkQ}); 
                             }
-                        }else                        
-                        if (ctrl.resSelectedAnsLinkedQues != null && ctrl.resSelectedAnsLinkedQues != undefined) {
+                        } else if (ctrl.resSelectedAnsLinkedQues != null && ctrl.resSelectedAnsLinkedQues != undefined) {
                             if(ctrl.selectedLinkQ === undefined) {
                                 ctrl.selectedLinkQ = ctrl.resSelectedAnsLinkedQues;
 

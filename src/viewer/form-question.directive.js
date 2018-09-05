@@ -129,7 +129,28 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                             document.getElementById(qdata.id).parentElement.parentElement.parentElement.style.display = "none";
                         }
 
-                        if (qdata.type == "radio") { //|| qdata.type == "select"
+                        if (qdata.type == "radio" || qdata.type == "select" ) {
+                            angular.forEach(qdata.offeredAnswers, function(offans, key1) {
+                                if (offans.linkedquestion != null && offans.linkedquestion != undefined) {
+                                    for(var i=0; i<offans.linkedquestion.length; i++){
+                                        if(!$rootScope.linkedquestionList.includes(offans.linkedquestion[i])){
+                                            $rootScope.linkedquestionList.push(offans.linkedquestion[i]);
+                                        }                                    
+                                    }
+                                }
+                            }); 
+                            console.log("Linked question array list",$rootScope.linkedquestionList);
+                        }
+                    }, 300);
+                };
+
+                ctrl.hideSelectLinkedQuestions = function (qdata) {
+                    $timeout(function() {
+                        if ($rootScope.linkedquestionList.includes(qdata.id)) {
+                            document.getElementById(qdata.id).parentElement.parentElement.parentElement.style.display = "none";
+                        }
+
+                        if (qdata.type == "select" ) {
                             angular.forEach(qdata.offeredAnswers, function(offans, key1) {
                                 if (offans.linkedquestion != null && offans.linkedquestion != undefined) {
                                     for(var i=0; i<offans.linkedquestion.length; i++){
@@ -197,6 +218,8 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                 ctrl.initQuestionsView = function(qdata) {
 
                     ctrl.hideRadioLinkedQuestions(qdata);
+
+                    ctrl.hideSelectLinkedQuestions(qdata);
                     
                     ctrl.mappingTelephoneQuestion(qdata);
                 };
@@ -218,7 +241,8 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                         //show default selected and linked question response (string checks)
                         if(typeof ctrl.questionResponse.selectedAnswer === 'string' || ctrl.questionResponse.selectedAnswer instanceof String) {
                             ctrl.selectedQuestionAns = ctrl.questionResponse.selectedAnswer;
-                            ctrl.selectedQuestionAns = JSON.parse(ctrl.selectedQuestionAns);
+                            console.log("44444",ctrl.selectedQuestionAns);
+                            //ctrl.selectedQuestionAns = JSON.parse(ctrl.selectedQuestionAns);
                             ctrl.resSelectedAnsLinkedQues = ctrl.selectedQuestionAns.linkedquestion;
                         } else {
                             ctrl.resSelectedAnsLinkedQues = ctrl.questionResponse.selectedAnswer.linkedquestion;

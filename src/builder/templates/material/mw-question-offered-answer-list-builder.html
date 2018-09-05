@@ -28,6 +28,15 @@
 						</md-optgroup>
 					</md-select>
 				</md-input-container>
+
+				<md-input-container style="width:220px" ng-if="ctrl.question.type == 'select'" >
+					<label>Select linked question</label>
+					<md-select ng-model="answer.linkedquestion" md-on-close="clearSearchTerm()" data-md-container-class="selectdemoSelectHeader" multiple>						
+						<md-optgroup label="questions">
+							<md-option ng-value="question.question.id" ng-repeat="question in ctrl.elements | filter:searchTerm">{{question.question.text}}</md-option>
+						</md-optgroup>
+					</md-select>
+				</md-input-container>
 				
 				<span ng-if="ctrl.question.pageFlowModifier" class="form-inline">
 					<md-input-container >

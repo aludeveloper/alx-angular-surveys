@@ -241,8 +241,7 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                         //show default selected and linked question response (string checks)
                         if(typeof ctrl.questionResponse.selectedAnswer === 'string' || ctrl.questionResponse.selectedAnswer instanceof String) {
                             ctrl.selectedQuestionAns = ctrl.questionResponse.selectedAnswer;
-                            console.log("44444",ctrl.selectedQuestionAns);
-                            //ctrl.selectedQuestionAns = JSON.parse(ctrl.selectedQuestionAns);
+                            ctrl.selectedQuestionAns = JSON.parse(ctrl.selectedQuestionAns);
                             ctrl.resSelectedAnsLinkedQues = ctrl.selectedQuestionAns.linkedquestion;
                         } else {
                             ctrl.resSelectedAnsLinkedQues = ctrl.questionResponse.selectedAnswer.linkedquestion;
@@ -273,6 +272,93 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                                         $rootScope.unrequiredQuestionList.push(obj1);
                                     });
                                 });
+                                for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
+                                    document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "block";
+                                    // filter unrequiredList
+                                    $rootScope.unrequiredQuestionList = $rootScope.unrequiredQuestionList.filter(function(item) {return item !== ctrl.selectedLinkQ[i]});
+                                }
+                                //passing unrequired and required questionvlist to page element
+                                $rootScope.$broadcast('changeAllData', {"requiredQuestionList" : ctrl.selectedLinkQ, "unrequiredQuestionList" : $rootScope.unrequiredQuestionList}); 
+                            } else {
+                                for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
+                                    document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "none";
+                                    $rootScope.unrequiredQuestionList = $rootScope.unrequiredQuestionList.filter(function(item) {return item == ctrl.selectedLinkQ[i]});
+                                }
+
+                                //selected answer object{} string condition checks
+                                if(typeof ctrl.questionResponse.selectedAnswer === 'string' || ctrl.questionResponse.selectedAnswer instanceof String) {
+                                    ctrl.selectedQuestionAns = ctrl.questionResponse.selectedAnswer;
+                                    ctrl.selectedQuestionAns = JSON.parse(ctrl.selectedQuestionAns);
+                                    ctrl.resSelectedAnsLinkedQues = ctrl.selectedQuestionAns.linkedquestion;
+                                } else {
+                                    ctrl.resSelectedAnsLinkedQues = ctrl.questionResponse.selectedAnswer.linkedquestion;
+                                }
+
+                                ctrl.selectedLinkQ = ctrl.resSelectedAnsLinkedQues;
+                                // getting unrequired question list
+                                $rootScope.unrequiredQuestionList = [];
+                                angular.forEach(ctrl.question.offeredAnswers, function(obj2,key2){
+                                    angular.forEach(obj2.linkedquestion, function(obj3,key3){
+                                        $rootScope.unrequiredQuestionList.push(obj3);
+                                    
+                                    });
+                                });
+
+                                for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
+                                    document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "block";
+                                    // filter unrequiredList
+                                    $rootScope.unrequiredQuestionList = $rootScope.unrequiredQuestionList.filter(function(item) {return item !== ctrl.selectedLinkQ[i]});
+                                }
+                                //passing unrequired and required questionvlist to page element
+                                $rootScope.$broadcast('changeAllData', {"requiredQuestionList" : ctrl.selectedLinkQ, "unrequiredQuestionList" : $rootScope.unrequiredQuestionList}); 
+                            }
+                        }
+                    }, 1000);
+                    delete ctrl.questionResponse.other;
+                    ctrl.isOtherAnswer = false;
+                    ctrl.answerChanged();
+                };
+
+                ctrl.selectedAnswerChanged1 = function() {
+                    $timeout(function() {
+                        //show default selected and linked question response (string checks)
+                        if(typeof ctrl.questionResponse.selectedAnswer === 'string' || ctrl.questionResponse.selectedAnswer instanceof String) {
+                            ctrl.selectedQuestionAns = ctrl.questionResponse.selectedAnswer;
+                            console.log("44444",ctrl.selectedQuestionAns);
+                            ctrl.resSelectedAnsLinkedQues = ctrl.selectedQuestionAns.linkedquestion;
+                        } else {
+                            ctrl.resSelectedAnsLinkedQues = ctrl.questionResponse.selectedAnswer.linkedquestion;
+                        }
+
+                        //assigning selectd answer linked question 
+                        console.log("44444",ctrl.selectedLinkQ);
+                        console.log("55555",ctrl.resSelectedAnsLinkedQues);
+                        if (ctrl.resSelectedAnsLinkedQues == null && ctrl.selectedLinkQ == undefined) {
+
+                        } else if(ctrl.resSelectedAnsLinkedQues == null){
+                            if(ctrl.selectedLinkQ){
+                                for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
+                                    document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "none";
+                                }
+                            }
+                            if(ctrl.selectedLinkQ == undefined){
+                                $rootScope.$broadcast('changeAllData', {"requiredQuestionList" : [], "unrequiredQuestionList" : $rootScope.linkedquestionList}); 
+                            }else{
+                                $rootScope.$broadcast('changeAllData', {"requiredQuestionList" : [], "unrequiredQuestionList" : ctrl.selectedLinkQ}); 
+                            }
+                        } else if (ctrl.resSelectedAnsLinkedQues != null && ctrl.resSelectedAnsLinkedQues != undefined) {
+                            if(ctrl.selectedLinkQ === undefined) {
+                                ctrl.selectedLinkQ = ctrl.resSelectedAnsLinkedQues;
+
+                                // getting unrequired question list
+                                $rootScope.unrequiredQuestionList = [];
+                                angular.forEach(ctrl.question.offeredAnswers, function(obj,key){
+                                    angular.forEach(obj.linkedquestion, function(obj1,key1){
+                                        $rootScope.unrequiredQuestionList.push(obj1);
+                                    });
+                                });
+
+                                console.log("5555",ctrl.selectedLinkQ);
                                 for (var i = 0; i < ctrl.selectedLinkQ.length; i++) {
                                     document.getElementById(ctrl.selectedLinkQ[i]).parentElement.parentElement.parentElement.style.display = "block";
                                     // filter unrequiredList

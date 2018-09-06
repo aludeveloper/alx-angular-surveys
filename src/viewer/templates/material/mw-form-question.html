@@ -69,8 +69,8 @@
         <div ng-switch-when="select" id="{{ctrl.question.id}}">
             <label class="input-select-label">{{ctrl.question.text}}<span ng-if="ctrl.question.required"> *</span></label></br>
             <md-input-container flex="100">
-                <md-select ng-disabled="ctrl.readOnly" ng-required="ctrl.question.required" md-no-asterisk ng-model="ctrl.questionResponse.selectedAnswer" style="min-width: 200px;">
-                    <md-option ng-repeat="answer in ctrl.question.offeredAnswers" ng-value="answer.id">
+                <md-select ng-disabled="ctrl.readOnly" ng-required="ctrl.question.required" md-no-asterisk ng-model="ctrl.questionResponse.selectedAnswer" ng-change="ctrl.selectedAnswerChanged1()" style="min-width: 200px;">
+                    <md-option ng-repeat="answer in ctrl.question.offeredAnswers" ng-value="answer">
                         {{::ctrl.print(answer.value)}}
                     </md-option>
                 </md-select>

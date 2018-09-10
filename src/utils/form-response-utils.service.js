@@ -125,7 +125,7 @@ angular.module('mwFormUtils.responseUtils', [])
                 return result;
             }
 
-            if (question.grid.cellInputType == 'radio') {
+            if (question.grid.cellInputType == 'radio' || question.grid.cellInputType == 'select') {
                 return service.$extractResponseForRadioGridQuestion(question, questionResponse);
             }
             var result = [];

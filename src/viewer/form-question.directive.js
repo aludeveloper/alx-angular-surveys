@@ -216,10 +216,13 @@ angular.module('mwFormViewer').factory("FormQuestionId", function() {
                 }
 
                 ctrl.initQuestionsView = function(qdata) {
+                    //if (qdata.type == "radio") {
+                        ctrl.hideRadioLinkedQuestions(qdata);
+                    //}
 
-                    ctrl.hideRadioLinkedQuestions(qdata);
-
-                    ctrl.hideSelectLinkedQuestions(qdata);
+                    //if (qdata.type == "select") {
+                        ctrl.hideSelectLinkedQuestions(qdata);
+                    //}
                     
                     ctrl.mappingTelephoneQuestion(qdata);
                 };
